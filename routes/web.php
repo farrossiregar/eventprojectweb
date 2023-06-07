@@ -151,4 +151,11 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
     // Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 });
+
+
+// Koperasi
+Route::group(['middleware' => ['auth','access:8']], function(){
+    Route::get('catalog',App\Http\Livewire\Catalog\Index::class)->name('catalog.index');
+    
+});
  

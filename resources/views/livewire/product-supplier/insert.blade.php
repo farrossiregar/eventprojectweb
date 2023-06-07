@@ -50,6 +50,26 @@
                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
                     </div>
+                    <div class="form-group">
+                        <label>{{ __('Foto') }}</label>
+                        <input type="file" class="form-control"  >
+                        @error('foto')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
+
+                    <div class="form-group">
+                        <label>{{ __('Kota') }}</label>
+                        <select name="" id=""  class="form-control">
+                            <option value="">-- Pilih Kota --</option>
+                            <option value="">Tangerang Selatan</option>
+                            <option value="">Palmerah</option>
+                            <option value="">Ciputat</option>
+                        </select>
+                        @error('image')
+                            <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
+                        @enderror
+                    </div>
                    
                     <hr>
                     <a href="javascript:void(0)" onclick="history.back();"><i class="fa fa-arrow-left"></i> {{ __('Kembali') }}</a>
