@@ -11,7 +11,7 @@
                         <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                             <a class="dropdown-item" href="javascript:void(0);" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
-                            <a href="{{route('product-supplier.insert')}}" class="dropdown-item"><i class="fa fa-plus"></i> Tambah</a>
+                            <a href="{{route('product-supplier.insert')}}" class="dropdown-item"><i class="fa fa-plus"></i> Tambah Produk</a>
                             <a href="javascript:void(0)" class="dropdown-item" data-toggle="modal" data-target="#modal_upload"><i class="fa fa-upload"></i> Upload</a>
                         </div>
                     </div>
