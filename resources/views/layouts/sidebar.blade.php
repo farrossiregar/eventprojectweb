@@ -32,14 +32,22 @@
             </ul> --}}
         </div>
         <!-- Nav tabs -->
+        
+        @if(\Auth::user()->user_access_id!=8)
         <ul class="nav nav-tabs">
             <li class="nav-item"><a class="nav-link {{(in_array(Request::segment(1),['setting','user', 'product-supplier', 'purchase-order-supplier']) ? 'active':'')}}" data-toggle="tab" href="#menu">Data</a></li>
             <li class="nav-item"><a class="nav-link {{(in_array(Request::segment(1),['user-member']) ? 'active':'')}}" data-toggle="tab" href="#tab_anggota">Anggota</a></li>
             <li class="nav-item"><a class="nav-link {{(in_array(Request::segment(1),['transaksi','product','invoice-transaksi','purchase-order']) ? 'active':'')}}" data-toggle="tab" href="#tab_toko">Toko</a></li>
         </ul>
+        @endif
+
+        <!-- if(Request::segment(1) == 'catalog')
+            
+        endif -->
         <!-- Tab panes -->
         <div class="tab-content p-l-0 p-r-0">
-            <div class="tab-pane {{in_array(Request::segment(1),['user-member','pinjaman','shu','simpanan']) ? 'active':''}}" id="tab_anggota">
+            
+            <!-- <div class="tab-pane {{in_array(Request::segment(1),['user-member','pinjaman','shu','simpanan']) ? 'active':''}}" id="tab_anggota">
                 <nav id="left-sidebar-nav" class="sidebar-nav">
                     <ul id="main-menu" class="metismenu">    
                         <li class="{{ Request::segment(1) === 'user-member' ? 'active' : null }}">
@@ -87,7 +95,7 @@
                         </li>
                     </ul>
                 </nav>
-            </div>
+            </div> -->
             <div class="tab-pane {{(in_array(Request::segment(1),['setting','user']) ? 'active':'')}}"" id="menu">
                 <nav id="left-sidebar-nav" class="sidebar-nav">
                     <ul id="main-menu" class="metismenu">    
@@ -114,7 +122,8 @@
             </div>    
             
             
-            <div class="tab-pane {{(in_array(Request::segment(1),['product-supplier','purchase-order-supplier']) ? 'active':'')}}" id="menu">
+            <!-- <div class="tab-pane {{(in_array(Request::segment(1),['product-supplier','purchase-order-supplier']) ? 'active':'')}}" id="menu"> -->
+            <div class="tab-pane active" id="menu">
                 <nav id="left-sidebar-nav" class="sidebar-nav">
                     <ul id="main-menu" class="metismenu">    
 
@@ -127,9 +136,24 @@
                                 <a href="{{route('purchase-order-supplier.index')}}"><i class="fa fa-gear"></i>Purchase Order</a>
                             </li>
                         @endif
+
+                        @if(\Auth::user()->user_access_id==8)<!--Koperasi-->                   
+                         
+                         <li class="{{ (Request::segment(1) === 'catalog') ? 'active' : null }}">
+                             <a href="{{route('product-supplier.index')}}"><i class="fa fa-bank"></i>Catalog</a>
+                         </li>
+                         <li class="{{ (Request::segment(1) === 'purchase-order-supplier') ? 'active' : null }}">
+                             <a href="{{route('purchase-order-supplier.index')}}"><i class="fa fa-gear"></i>Purchase Order</a>
+                         </li>
+                         <li class="{{ (Request::segment(1) === 'cart') ? 'active' : null }}">
+                             <a href="{{route('purchase-order-supplier.index')}}"><i class="fa fa-gear"></i>Cart</a>
+                         </li>
+                     @endif
                     </ul>
                 </nav>
             </div>    
+
+           
         </div>          
     </div>
 </div>

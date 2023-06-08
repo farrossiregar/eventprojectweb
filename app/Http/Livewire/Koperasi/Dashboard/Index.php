@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Catalog;
+namespace App\Http\Livewire\Koperasi\Dashboard;
 
 use Livewire\Component;
 use App\Models\SupplierProduct;
@@ -15,13 +15,13 @@ class Index extends Component
     public function render()
     {
         $user = Auth::user();
-        $data = SupplierProduct::where('id_supplier', $user->id)->orderBy('id','DESC');
+        $data = SupplierProduct::orderBy('id','DESC');
 
         if($this->keyword){
             $data->where('nama_product','LIKE',"%{$this->keyword}%")
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
 
-        return view('livewire.catalog.index')->with(['data'=>$data->paginate(200)]);
+        return view('livewire.koperasi.dashboard.index')->with(['data'=>$data->paginate(200)]);
     }
 }
