@@ -13,7 +13,7 @@ use App\Http\Livewire\Home;
 |
 */
 
-// Route::get('/', Home::class)->name('home')->middleware('auth');
+Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('privacy', App\Http\Livewire\Privacy::class)->name('privacy');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 Route::get('register', App\Http\Livewire\Register::class)->name('register');
@@ -150,12 +150,14 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     // Route::get('purchase-order-supplier/insert',App\Http\Livewire\PurchaseOrderSupplier\Insert::class)->name('purchase-order-supplier.insert');
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
     // Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
+
+    Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
 });
 
 
 // Koperasi
 Route::group(['middleware' => ['auth','access:8']], function(){
-    Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
+    // Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
     
 });
