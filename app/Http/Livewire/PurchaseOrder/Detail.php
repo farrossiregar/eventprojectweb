@@ -8,6 +8,7 @@ use App\Models\PurchaseOrderDetail;
 use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\SupplierProduct;
+use App\Models\SettingHarga;
 
 class Detail extends Component
 {
@@ -53,6 +54,31 @@ class Detail extends Component
         if($this->id_supplier){
             $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
             $this->supplier = Supplier::find($this->id_supplier);
+        }
+
+        if($this->qty){
+            $qty_abv = SettingHarga::where('supplier_id', $this->id_supplier)->where('qty', '>', $this->qty)->first();
+            if($qty_abv){
+                $price_level_disc = SettingHarga::where('supplier_id', $this->id_supplier)->where('qty', $qty_abv->qty)->first()->disc;
+                
+            }else{
+                $max_qty            = SettingHarga::where('supplier_id', $this->id_supplier)->orderBy('disc', 'asc')->first();
+                $price_level_disc   = SettingHarga::where('supplier_id', $this->id_supplier)->orderBy('disc', 'desc')->first()->disc;
+                
+            }
+            
+            // dd($price_level_disc);
+            // dd($this->id_supplier.' = '.$this->qty);
+            // if($this->qty < 10){
+            //     $this->disc = 0;
+            // }elseif($this->qty < 50){
+            //     $this->disc = 10;
+            // }else{
+            //     $this->disc = 20;
+            // }
+            $this->price = $this->price - (($this->price*$price_level_disc)/100);
+
+            
         }
 
         foreach($this->data->details as $item){
