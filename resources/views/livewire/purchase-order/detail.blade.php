@@ -97,6 +97,7 @@
                                 <th>Produk</th>
                                 <th class="text-center">UOM</th>
                                 <th class="text-center">QTY</th>
+                                <th class="text-center">Diskon (%)</th>
                                 <th class="text-center">Diskon (Rp)</th>
                                 <th class="text-right">Harga</th>
                                 <th class="text-right">Total</th>
@@ -116,12 +117,14 @@
                                         @error('product_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
-                                        <select class="form-control" wire:model="product_uom_id">
+                                        {{ $product_uom_id }}
+                                        <!-- <input type="text" wire:model="product_uom_id"> -->
+                                        <!-- <select class="form-control" wire:model="product_uom_id">
                                             <option value=""> --- UOM --- </option>
                                             @foreach(\App\Models\ProductUom::get() as $item)
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
                                             @endforeach 
-                                        </select>
+                                        </select> -->
                                         @error('product_uom_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
@@ -129,11 +132,16 @@
                                         @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
+                                        <input type="number" class="form-control" wire:model="disc_p" min="0" />
+                                        @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td>
                                         <input type="number" class="form-control" wire:model="disc" min="0" />
                                         @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control text-right" min="0" wire:model="price" />
+                                        {{ format_idr($price) }}
+                                        <!-- <input type="number" class="form-control text-right" min="0" wire:model="price" /> -->
                                         @error('price') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>{{(($price && $qty) ? format_idr($price*$qty) : '')}}</td>

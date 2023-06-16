@@ -9,12 +9,13 @@ use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\SupplierProduct;
 use App\Models\SettingHarga;
+use App\Models\ProductUom;
 
 class Detail extends Component
 {
     public $data,$pembelian = [],$no_po,$id_supplier,$supplier=[],$suppliers=[],$product_supplier=[],$product_po=[];
     public $data_product = [],$price,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
-    public $alamat_penagihan,$purchase_order_date,$delivery_order_number,$delivery_order_date,$disc=0,$pajak=0,$catatan;
+    public $alamat_penagihan,$purchase_order_date,$delivery_order_number,$delivery_order_date,$disc=0,$disc_p=0,$pajak=0,$catatan;
     protected $listeners = ['reload'=>'$refresh'];
     public $nama_product;
     public function render()
@@ -37,10 +38,14 @@ class Detail extends Component
         $this->delivery_order_date = $data->delivery_order_date;
         $this->suppliers = Supplier::orderBy('id','DESC')->get(); 
         $data_product = [];
-        foreach(Product::get() as $k => $item){
+        foreach(SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get() as $k => $item){
+        // foreach(Product::get() as $k => $item){
             $data_product[$k]['id'] = $item->id;
-            $data_product[$k]['text'] = $item->kode_produksi;
-            $data_product[$k]['text'] .= $item->kode_produksi ? ' / '.$item->keterangan : $item->keterangan;
+            // $data_product[$k]['text'] = $item->kode_produksi;
+            // $data_product[$k]['text'] .= $item->kode_produksi ? ' / '.$item->keterangan : $item->keterangan;
+
+            $data_product[$k]['text'] = $item->barcode;
+            $data_product[$k]['text'] .= $item->barcode ? ' / '.$item->nama_product : $item->nama_product;
         }
         $this->data_product = $data_product;// Product::select('id',\DB::raw("CONCAT(kode_produksi,' - ', keterangan) as text"))->get()->toArray();
     }
@@ -56,16 +61,32 @@ class Detail extends Component
             $this->supplier = Supplier::find($this->id_supplier);
         }
 
-        if($this->qty){
-            $qty_abv = SettingHarga::where('supplier_id', $this->id_supplier)->where('qty', '>', $this->qty)->first();
-            if($qty_abv){
-                $price_level_disc = SettingHarga::where('supplier_id', $this->id_supplier)->where('qty', $qty_abv->qty)->first()->disc;
-                
+        if($this->product_id){
+            $this->product_uom_id = @ProductUom::where('id', @SupplierProduct::where('id', $this->product_id)->first()->product_uom_id)->first()->name;
+        }
+
+        if($this->qty && $this->product_id){
+            if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->get()){
+                $qty_max = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->qty;
+                if($this->qty > $qty_max){
+                    // $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
+                    $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->disc;
+                    
+                }else{
+                    // $max_qty            = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('disc', 'asc')->first();
+                    $price_level_disc   = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', '>', $this->qty)->first()->disc;
+                    
+                }
+
+                $this->disc_p = $price_level_disc; 
+                $this->disc     = ($this->price*$price_level_disc)/100; 
+                $this->price = ceil($this->price - (($this->price*$price_level_disc)/100));
             }else{
-                $max_qty            = SettingHarga::where('supplier_id', $this->id_supplier)->orderBy('disc', 'asc')->first();
-                $price_level_disc   = SettingHarga::where('supplier_id', $this->id_supplier)->orderBy('disc', 'desc')->first()->disc;
-                
+                $this->disc_p = 0; 
+                $this->disc   = 0; 
+                $this->price  = $this->price;
             }
+            
             
             // dd($price_level_disc);
             // dd($this->id_supplier.' = '.$this->qty);
@@ -76,9 +97,15 @@ class Detail extends Component
             // }else{
             //     $this->disc = 20;
             // }
-            $this->price = $this->price - (($this->price*$price_level_disc)/100);
-
-            
+             
+        }elseif($this->product_id){
+            $this->price    = @SupplierProduct::where('id', $this->product_id)->first()->price;
+            $this->disc     = 0;
+            $this->disc_p   = 0; 
+        }else{
+            $this->price    = 0;
+            $this->disc     = 0;
+            $this->disc_p   = 0; 
         }
 
         foreach($this->data->details as $item){
