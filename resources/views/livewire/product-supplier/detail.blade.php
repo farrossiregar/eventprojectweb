@@ -7,15 +7,15 @@
                 <h6>Detail Produk</h6>
                 <hr />
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <table class="table">
                             <tr>
                                 <th style="border:0">Kode Produksi</th>
                                 <td style="border:0"> : </td>
-                                <td style="border:0">{{$data->barcode}}</td>
+                                <td style="border:0">@livewire('product-supplier.editable',['field'=>'barcode','data'=>$data->barcode,'id'=>$data->id],key('barcode'.$data->id))</td>
                             </tr>
                             <tr>
-                                <th>Nama Produk</th>
+                                <th>Produk</th>
                                 <td> : </td>
                                 <td>@livewire('product-supplier.editable',['field'=>'nama_product','data'=>$data->nama_product,'id'=>$data->id],key('nama_product'.$data->id))</td>
                             </tr>
@@ -34,7 +34,26 @@
                                 <td> : </td>
                                 <td>{{isset($data->uom->name) ? $data->uom->name : '-'}}</td>
                             </tr>
-                            
+                            <tr>
+                                <th>Kategori Produk</th>
+                                <td> : </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <th>Stok</th>
+                                <td style="width:10px;"> : </td>
+                                <td>{{$data->qty}}</td>
+                            </tr>
+                            <tr>
+                                <th>Stok Terjual</th>
+                                <td style="width:10px;"> : </td>
+                                <td>{{$data->qty_moving}}</td>
+                            </tr>
+                            <tr>
+                                <th>Minimum Stok</th>
+                                <td style="width:10px;"> : </td>
+                                <td>@livewire('product.editable',['field'=>'minimum_stok','data'=>$data->minimum_stok,'id'=>$data->id],key('minimum_stok'.$data->id))</td>
+                            </tr>
                             <tr>
                                 <th>Last Update</th>
                                 <td style="width:10px;"> : </td>
@@ -43,11 +62,11 @@
                         </table>
                     </div>
                     <div class="col-md-6">
-                        @if(strlen($data->kode_produksi)>10 and is_numeric($data->kode_produksi))
+                        @if(strlen($data->barcode)>10 and is_numeric($data->barcode))
                             <div>
                                 <label>Barcode</label>
-                                <a href="{{route('transaksi.cetak-barcode',$data->kode_produksi)}}" class="ml-3" target="_blank"><i class="fa fa-print"></i> Cetak</a>
-                                {!! DNS1D::getBarcodeHTML($data->kode_produksi, 'EAN13')!!}
+                                <a href="" class="ml-3" target="_blank"><i class="fa fa-print"></i> Cetak</a>
+                                {!! DNS1D::getBarcodeHTML($data->barcode, 'EAN13')!!}
                                 <label>
                                     070222456789
                                 </label>
@@ -58,52 +77,112 @@
             </div>
         </div>
     </div>
-    <div class="col-md-6 pr-0 mx-0">
-        <div class="card mb-2">
-            <div class="body">  
-                <h6>Kalkulator Harga</h6>
-                <hr />
-                <form id="basic-form" method="post" wire:submit.prevent="update">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Harga</label>
-                                <input type="number" class="form-control" wire:model="price" />
-                                <!-- <small class="text-info">*harga jual sebelum pajak</small> -->
+    <div class="col-md-6 pr-0 mx-0"  style="height: 290px;">
+        <div class="row">
+            <div class="card col-md-6">
+                <div class="body">  
+                    <h6>Kalkulator Harga</h6>
+                    <hr />
+                    <form id="basic-form" method="post" wire:submit.prevent="update">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Harga</label>
+                                    <input type="number" class="form-control" wire:model="price" />
+                                    <!-- <small class="text-info">*harga jual sebelum pajak</small> -->
+                                </div>
+                                <!-- <div class="form-group mb-0">
+                                    <label class="fancy-checkbox">
+                                        <input type="checkbox" wire:model="is_ppn" value="1">
+                                        <span>Pajak {{$ppn ? "(" .format_idr($ppn) .")" : ''}}</span>
+                                    </label>
+                                </div> -->
+                                <!-- <div class="form-group">
+                                    <label class="mb-0">Harga Produksi : {{format_idr($harga_produksi)}}</label><br />
+                                    <small class="text-info">*Harga Jual Dasar + Pajak)</small>
+                                </div> -->
                             </div>
-                            <!-- <div class="form-group mb-0">
-                                <label class="fancy-checkbox">
-                                    <input type="checkbox" wire:model="is_ppn" value="1">
-                                    <span>Pajak {{$ppn ? "(" .format_idr($ppn) .")" : ''}}</span>
-                                </label>
+                            <!-- <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Harga Jual (Rp)</label>
+                                    <input type="number" class="form-control" wire:model="harga_jual" />
+                                </div>
+                                <div class="form-group">
+                                    <label>Diskon (Rp)</label>
+                                    <input type="number" class="form-control" wire:model="diskon" />
+                                </div>
                             </div> -->
-                            <div class="form-group">
-                                <label class="mb-0">Harga Produksi : {{format_idr($harga_produksi)}}</label><br />
-                                <small class="text-info">*Harga Jual Dasar + Pajak)</small>
+                            <div class="col-md-8">
+                                <label>Harga Jual</label>
+                                <!-- <h2 class="text-info">Rp. {{@format_idr($harga_jual - $diskon)}}</h2> -->
+                                <h5 class="text-info">Rp. </h5><h2 class="text-info">{{@format_idr($price)}}</h2>
+                            </div>
+                            <div class="col-md-12">
+                                <hr />
+                                <button type="submit" wire:loading.remove wire:target="update" class="btn btn-sm btn-info"><i class="fa fa-save"></i> Simpan Perubahan</button>
                             </div>
                         </div>
-                        <!-- <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Harga Jual (Rp)</label>
-                                <input type="number" class="form-control" wire:model="harga_jual" />
-                            </div>
-                            <div class="form-group">
-                                <label>Diskon (Rp)</label>
-                                <input type="number" class="form-control" wire:model="diskon" />
-                            </div>
-                        </div> -->
-                        <div class="col-md-4">
-                            <label>Harga Jual</label>
-                            <h2 class="text-info">Rp. {{@format_idr($harga_jual - $diskon)}}</h2>
-                        </div>
-                        <div class="col-md-12">
-                            <hr />
-                            <button type="submit" wire:loading.remove wire:target="update" class="btn btn-sm btn-info"><i class="fa fa-save"></i> Simpan Perubahan</button>
-                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card col-md-6">
+                <div class="body">  
+                    <h6>Kelipatan Harga</h6>
+                    <hr />
+
+                    <div class="table-responsive">
+                        <table class="table table-striped m-b-0 c_list">
+                            <thead>
+                                <tr>
+                                    <th>Jumlah (<)</th>   
+                                    <th>Diskon (%)</th>                              
+                                    <th>Diskon (Rp)</th>
+                                    <th>
+                                        <a href="javascript:void(0)" wire:click="$set('insert',true)" class="btn btn-info"><i class="fa fa-plus"></i></a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if($insert)
+                                    <tr>
+                                        <td>
+                                            <input type="text" class="form-control" wire:model="qty" />
+                                            @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </td>
+                                        <td>
+                                            <input type="text" class="form-control" wire:model="disc_p" />
+                                            @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </td>
+                                        <td>
+                                            {{ $disc }}
+                                            <!-- <input type="text" class="form-control" wire:model="disc" readonly/> -->
+                                            @error('disc') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </td>
+                                        <td>
+                                            <a href="javascript:void(0)" wire:click="updateSettingHarga" class="btn btn-info"><i class="fa fa-save"></i></a>
+                                            <a href="javascript:void(0)" wire:click="$set('insert',false)" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                        </td>
+                                    </tr>
+                                @endif
+                                @foreach($setting_harga as $k => $item)
+                                    <tr>
+                                        <td>{{$item->qty}}</td>
+                                        <td>{{ $item->disc }}</td>
+                                        <td>
+                                            Rp. {{ @format_idr($price - ceil(($price*$item->disc)/100)) }}
+                                        </td>
+                                        <td>
+                                            <a class="dropdown-item text-danger" href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i> </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
+        
     </div>
     <div class="col-12 px-0 mx-0">
         <div class="card mb-2">

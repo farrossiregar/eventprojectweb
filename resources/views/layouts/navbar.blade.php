@@ -12,7 +12,7 @@
                     <ul class="nav navbar-nav">
                         <!---Administrator-->
                         @if(\Auth::user()->user_access_id==1)
-                            <li class="dropdown">
+                            <!-- <li class="dropdown">
                                 <a href="#" class="text-info dropdown-toggle icon-menu px-1" data-toggle="dropdown">Data Master</a>
                                 <ul class="dropdown-menu user-menu menu-icon">
                                     <li><a href="{{ route('jenis-simpanan.index') }}">Jenis Simpanan</a></li>
@@ -25,7 +25,7 @@
                             </li>
                             <li><a href="{{route('user-member.index')}}" class="text-info icon-menu px-1">Keanggotaan</a></li>
                             <li><a href="{{route('transaksi.index')}}" class="text-info icon-menu px-1">Transaksi</a></li>           
-                            <li><a href="{{route('product.index')}}" class="text-info icon-menu px-1">Produk</a></li>           
+                            <li><a href="{{route('product.index')}}" class="text-info icon-menu px-1">Produk</a></li>            -->
                             <li><a href="{{route('invoice-transaksi.index')}}" class="text-info icon-menu px-1">Invoice</a></li>           
                             <li><a href="{{route('user-supplier.index')}}" class="text-info icon-menu px-1">Supplier</a></li>
                             <li><a href="{{route('purchase-order.index')}}" class="text-info icon-menu px-1">Purchase Order</a></li>

@@ -28,13 +28,19 @@
                     <div class="form-group col-md-3">   
                         @if($data->status==0)
                             <small>Supplier</small> 
-                            <select class="form-control" wire:model="id_supplier">
-                                <option value=""> -- Pilih -- </option>
-                                @foreach($suppliers as $item)
-                                    <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
-                                @endforeach
-                            </select>
-                            @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+                            @if(!$data->id_supplier)
+                                <select class="form-control" wire:model="id_supplier">
+                                    <option value=""> -- Pilih -- </option>
+                                    @foreach($suppliers as $item)
+                                        <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
+                                    @endforeach
+                                </select>
+                                @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+                            @else
+                                <small>Supplier</small><br />
+                                <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
+                                <hr class="py-0 my-0" />
+                            @endif
                         @else
                             <small>Supplier</small><br />
                             <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
@@ -44,8 +50,14 @@
                     <div class="form-group col-md-3">
                         @if($data->status==0)
                             <small>Alamat Pengiriman</small>
-                            <input type="text" class="form-control" wire:model="alamat_penagihan" />
-                            @error('alamat_penagihan') <span class="text-danger">{{ $message }}</span> @enderror
+                            @if(!$data->id_supplier)
+                                <input type="text" class="form-control" wire:model="alamat_penagihan" />
+                                @error('alamat_penagihan') <span class="text-danger">{{ $message }}</span> @enderror
+                            @else
+                                <small>Alamat Pengiriman</small><br />
+                                <label>{{$alamat_penagihan}}</label>
+                                <hr class="py-0 my-0" />
+                            @endif
                         @else
                             <small>Alamat Pengiriman</small><br />
                             <label>{{$data->alamat_penagihan}}</label>
@@ -55,7 +67,7 @@
                     <div class="form-group col-md-2">
                         @if($data->status==0)
                             <small>Purchase Date</small>
-                            <input type="date" class="form-control" wire:model="purchase_order_date" />
+                            <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>"/>
                             @error('purchase_order_date') <span class="text-danger">{{ $message }}</span> @enderror
                         @else
                             <small>Purchase Date</small><br />
