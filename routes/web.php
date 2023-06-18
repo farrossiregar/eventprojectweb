@@ -151,14 +151,19 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
     // Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
-    Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
+    // Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
+    Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
 });
 
 
 // Koperasi
 Route::group(['middleware' => ['auth','access:8']], function(){
     // Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
+    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
+    Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
+    Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
+    Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
     
 });
  

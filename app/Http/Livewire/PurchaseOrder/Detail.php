@@ -26,6 +26,8 @@ class Detail extends Component
     public function mount(PurchaseOrder $data)
     {
         $this->data = $data;
+        
+        
         $this->id_supplier = $data->id_supplier;
         if($this->id_supplier) $this->supplier = Supplier::find($this->id_supplier);
         $this->no_po = $data->no_po;
@@ -127,7 +129,7 @@ class Detail extends Component
             $detail->id_po = $this->data->id;
             $detail->item = $this->nama_product;
             $detail->product_id = $data->product_id;
-            $detail->product_uom_id = $data->product_uom_id;
+            $detail->product_uom_id = \App\Models\ProductUom::where('name', $data->product_uom_id)->first()->id;
             $detail->price = $data->price;
             $detail->save();
         }else{
@@ -159,7 +161,7 @@ class Detail extends Component
             $detail = new PurchaseOrderDetail();
             $detail->id_po = $this->data->id;
             $detail->product_id = $this->product_id;
-            $detail->product_uom_id = $this->product_uom_id;
+            $detail->product_uom_id = \App\Models\ProductUom::where('name', $this->product_uom_id)->first()->id;
             $detail->qty = $this->qty;
             $detail->price = $this->price;
             $detail->disc = $this->disc;

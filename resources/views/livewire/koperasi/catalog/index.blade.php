@@ -103,27 +103,22 @@
                     </div>
                     <div class="body pt-0">
 
-                        @if($viewscatalog == 'card')
+                        <!-- if($viewscatalog == 'card') -->
                         <div class="row" id="card-view-catalog">
-                            <?php for($i = 0; $i<6; $i++){ ?>
-                                <div class="card" style="width: 18rem; border: 1px solid lightgrey;">
+                            @foreach($data as $k => $item)
+                                <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
                                     <img class="card-img-top" src="https://pict.sindonews.net/dyn/850/pena/news/2022/02/02/700/674121/11-rahasia-avengers-endgame-yang-diungkapkan-marvel-ebh.jpg" alt="Card image cap">
                                     <div class="card-body">
-                                        <h5 class="card-title">Nama Produk</h5>
-                                        <p class="card-text">PT Tiara Amira</p>
+                                        <h5 class="card-title">{{ $item->nama_product }}</h5>
+                                        <p class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</p>
+                                        <br>
+                                        <a style="position: absolute; bottom: 6px;" href="{{route('product-supplier.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
                                     </div>
-                                    <ul class="list-group list-group-flush">
-                                        <li class="list-group-item">Rp, 15.000</li>
-                                        <li class="list-group-item">Dapibus ac facilisis in</li>
-                                    </ul>
-                                    <div class="card-body">
-                                        <a href="#" class="btn btn-primary">Beli</a>
-                                        <a href="#" class="btn btn-primary">Suka</a>
-                                    </div>
+                                    
                                 </div>
-                            <?php } ?>
+                            @endforeach
                         </div>
-                        @endif
+                        <!-- endif -->
                         
 
                         @if($viewscatalog == 'list')

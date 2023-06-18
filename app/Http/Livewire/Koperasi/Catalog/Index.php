@@ -25,7 +25,7 @@ class Index extends Component
             $data->where('nama_product','LIKE',"%{$this->keyword}%")
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
-
+        
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
     }
 

@@ -43,11 +43,20 @@
                             <li><a href="{{route('kasir.index')}}" class="text-info icon-menu px-1">Kasir</a></li>
                         @endif
 
+                        <!-- Supplier -->
                         @if(\Auth::user()->user_access_id==7)
                             <li><a href="{{route('kasir.index')}}" class="text-info icon-menu px-1">Dashboard</a></li>
                             <li><a href="{{ route('product-supplier.index') }}" class="text-info icon-menu px-1">Produk</a></li>
                             <li><a href="{{ route('purchase-order-supplier.index') }}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('setting-harga.index') }}" class="text-info icon-menu px-1">Setting Harga</a></li>
+                          
+                            <!-- <li><a href="{{route('kasir.index')}}" class="text-info icon-menu px-1">Kasir</a></li> -->
+                        @endif
+
+                        <!-- Koperasi -->
+                        @if(\Auth::user()->user_access_id==8)
+                            <li><a href="" class="text-info icon-menu px-1">Dashboard</a></li>
+                            <li><a href="{{ route('user-supplier.index') }}" class="text-info icon-menu px-1">Supplier List</a></li>
+                            <li><a href="{{ route('purchase-order-supplier.index') }}" class="text-info icon-menu px-1">Purchase Order</a></li>
                           
                             <!-- <li><a href="{{route('kasir.index')}}" class="text-info icon-menu px-1">Kasir</a></li> -->
                         @endif

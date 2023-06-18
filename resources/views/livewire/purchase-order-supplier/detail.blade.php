@@ -160,8 +160,8 @@
                             @foreach($data->details as $k => $item)
                                 <tr>
                                     <td>{{$k+1}}</td>
-                                    <td>{{isset($item->product->kode_produksi) ? $item->product->kode_produksi : '-'}}</td>
-                                    <td>{{isset($item->product->keterangan) ? $item->product->keterangan : '-'}}</td>
+                                    <td>{{isset($item->product->barcode) ? $item->product->barcode : '-'}}</td>
+                                    <td>{{isset($item->product->nama_product) ? $item->product->nama_product : '-'}}</td>
                                     <td class="text-center">
                                         @if($data->status==0)
                                             @livewire('purchase-order.editable',['field'=>'product_uom_id','data'=>(isset($item->uom->name) ? $item->uom->name : ''),'id'=>$item->id],key('product_uom_id'.$item->id))

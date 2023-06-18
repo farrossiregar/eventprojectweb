@@ -37,9 +37,18 @@
                                 </select>
                                 @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                             @else
-                                <small>Supplier</small><br />
-                                <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
-                                <hr class="py-0 my-0" />
+                                @if(\App\Models\PurchaseOrderDetail::where('id_po', $data->id)->first())
+                                    <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
+                                    <hr class="py-0 my-0" />
+                                @else   
+                                    <select class="form-control" wire:model="id_supplier">
+                                        <option value=""> -- Pilih -- </option>
+                                        @foreach($suppliers as $item)
+                                            <option value="{{$item->id}}">{{$item->nama_supplier}}</option>
+                                        @endforeach
+                                    </select>
+                                    @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+                                @endif
                             @endif
                         @else
                             <small>Supplier</small><br />
@@ -112,8 +121,10 @@
                                 <th class="text-center">Diskon (%)</th>
                                 <th class="text-center">Diskon (Rp)</th>
                                 <th class="text-right">Harga</th>
-                                <th class="text-right">Total</th>
+                                <th class="text-right"></th>
+                                @if($data->status==0)
                                 <th></th>
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -172,8 +183,8 @@
                             @foreach($data->details as $k => $item)
                                 <tr>
                                     <td>{{$k+1}}</td>
-                                    <td>{{isset($item->product->kode_produksi) ? $item->product->kode_produksi : '-'}}</td>
-                                    <td>{{isset($item->product->keterangan) ? $item->product->keterangan : '-'}}</td>
+                                    <td>{{isset($item->product->barcode) ? $item->product->barcode : '-'}}</td>
+                                    <td>{{isset($item->product->nama_product) ? $item->product->nama_product : '-'}}</td>
                                     <td class="text-center">
                                         @if($data->status==0)
                                             @livewire('purchase-order.editable',['field'=>'product_uom_id','data'=>(isset($item->uom->name) ? $item->uom->name : ''),'id'=>$item->id],key('product_uom_id'.$item->id))
@@ -225,7 +236,7 @@
                                 <th class="text-right">{{format_idr($sub_total)}}</th>
                                 <th></th>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th colspan="7" class="text-right">Biaya Pengiriman</th>
                                 <th class="text-right">
                                     @if($data->status==0)
@@ -246,7 +257,7 @@
                                     @endif
                                 </th>
                                 <th></th>
-                            </tr>
+                            </tr> -->
                             <tr>
                                 <th colspan="7" class="text-right">Total</th>
                                 <th class="text-right">{{format_idr($sub_total+$biaya_pengiriman+$pajak)}}</th>
