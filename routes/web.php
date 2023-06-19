@@ -146,10 +146,10 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
     Route::get('product-supplier/detail/{data}',App\Http\Livewire\ProductSupplier\Detail::class)->name('product-supplier.detail');
 
-    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
+    Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
     // Route::get('purchase-order-supplier/insert',App\Http\Livewire\PurchaseOrderSupplier\Insert::class)->name('purchase-order-supplier.insert');
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
-    // Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
+    Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
     // Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
     // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
