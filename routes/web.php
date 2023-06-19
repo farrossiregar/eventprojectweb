@@ -152,7 +152,7 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     // Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
     // Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
-    Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
+    // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
 });
 
 
