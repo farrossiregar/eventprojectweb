@@ -47,13 +47,15 @@ class Login extends Component
 
                 if (Auth::attempt($credentials,$this->remember_me)) {
                     // Authentication passed...
-                    return redirect('/user-member');
+                    // return redirect('/user-member');
+                    return redirect('');
                 }else $this->message = __('Email / Password incorrect please try again');
             }   
         }else{
             if (Auth::attempt($credentials,$this->remember_me)) {
                 // Authentication passed...
-                return redirect('/user-member');
+                // return redirect('/user-member');
+                return redirect('');
             }else $this->message = __('Email / Password incorrect please try again');
         }
     }

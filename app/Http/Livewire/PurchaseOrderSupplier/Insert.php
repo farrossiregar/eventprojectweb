@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\PurchaseOrderSupplier;
 
 use Livewire\Component;
-use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderSupplier;
 use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\SupplierProduct;
@@ -14,12 +14,12 @@ class Insert extends Component
     public $data_product = [],$price,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier';
     public function render()
     {
-        return view('livewire.purchase-order.insert');
+        return view('livewire.purchase-order-supplier.insert');
     }
 
     public function mount()
     {
-        $this->no_po = "PO/".date('ym')."/".str_pad((PurchaseOrder::count()+1),4, '0', STR_PAD_LEFT);
+        $this->no_po = "PO/".date('ym')."/".str_pad((PurchaseOrderSupplier::count()+1),4, '0', STR_PAD_LEFT);
         $this->suppliers = Supplier::orderBy('id','DESC')->get(); 
         $this->data_product = Product::select('id',\DB::raw("CONCAT(kode_produksi,' / ', keterangan) as text"))->get()->toArray();
     }

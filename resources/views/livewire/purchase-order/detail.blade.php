@@ -37,10 +37,10 @@
                                 </select>
                                 @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                             @else
-                                @if(\App\Models\PurchaseOrderDetail::where('id_po', $data->id)->first())
-                                    <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
-                                    <hr class="py-0 my-0" />
-                                @else   
+                                <!-- if(\App\Models\PurchaseOrderDetail::where('id_po', $data->id)->first()) -->
+                                    <!-- <label>{{isset($data->supplier->nama_supplier) ? $data->supplier->nama_supplier : ''}}</label>
+                                    <hr class="py-0 my-0" /> -->
+                                <!-- else    -->
                                     <select class="form-control" wire:model="id_supplier">
                                         <option value=""> -- Pilih -- </option>
                                         @foreach($suppliers as $item)
@@ -48,7 +48,7 @@
                                         @endforeach
                                     </select>
                                     @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
-                                @endif
+                                <!-- endif -->
                             @endif
                         @else
                             <small>Supplier</small><br />
@@ -118,9 +118,10 @@
                                 <th>Produk</th>
                                 <th class="text-center">UOM</th>
                                 <th class="text-center">QTY</th>
+                                <th class="text-center">Harga Awal</th>
                                 <th class="text-center">Diskon (%)</th>
                                 <th class="text-center">Diskon (Rp)</th>
-                                <th class="text-right">Harga</th>
+                                <th class="text-right">Harga Akhir</th>
                                 <th class="text-right"></th>
                                 @if($data->status==0)
                                 <th></th>
@@ -155,19 +156,25 @@
                                         @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control text-right" wire:model="disc_p" min="0" />
-                                        @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </td>
-                                    <td>
-                                        <input type="number" class="form-control text-right" wire:model="disc" min="0" />
-                                        @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
-                                    </td>
-                                    <td>
                                         {{ format_idr($price) }}
+                                        @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td>
+                                        <b>{{ $disc_p }}%</b>
+                                        <!-- <input type="number" class="form-control text-right" wire:model="disc_p" min="0" /> -->
+                                        @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td>
+                                        <b>Rp. {{ format_idr($disc) }}</b>
+                                        <!-- <input type="number" class="form-control text-right" wire:model="disc" min="0" /> -->
+                                        @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
+                                    </td>
+                                    <td>
+                                        Rp. {{ format_idr($price_akhir) }}
                                         <!-- <input type="number" class="form-control text-right" min="0" wire:model="price" /> -->
                                         @error('price') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
-                                    <td>{{(($price && $qty) ? format_idr($price*$qty) : '')}}</td>
+                                    <td>{{(($price_akhir && $qty) ? format_idr($price_akhir*$qty) : '')}}</td>
                                     <td>
                                         <span wire:loading wire:target="addProduct">
                                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -200,6 +207,9 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
+                                        {{$item->price}}
+                                    </td>
+                                    <td class="text-center">
                                         @if($data->status==0)
                                             @livewire('purchase-order.editable',['field'=>'disc','data'=>$item->disc,'id'=>$item->id],key('disc'.$item->id))
                                         @else
@@ -210,7 +220,7 @@
                                         @if($data->status==0)
                                             @livewire('purchase-order.editable',['field'=>'price','data'=>$item->price,'id'=>$item->id],key('price'.$item->id))
                                         @else
-                                            {{format_idr($item->price)}}
+                                            {{format_idr($item->price_akhir)}}
                                         @endif
                                     </td>
                                     <td class="text-right">{{format_idr($item->price*$item->qty)}}</td>
@@ -232,7 +242,7 @@
                         @endif
                         <tfoot style="background: #eee;">
                             <tr>
-                                <th colspan="7" class="text-right">Sub Total</th>
+                                <th colspan="8" class="text-right">Sub Total</th>
                                 <th class="text-right">{{format_idr($sub_total)}}</th>
                                 <th></th>
                             </tr>
@@ -259,7 +269,7 @@
                                 <th></th>
                             </tr> -->
                             <tr>
-                                <th colspan="7" class="text-right">Total</th>
+                                <th colspan="8" class="text-right">Total</th>
                                 <th class="text-right">{{format_idr($sub_total+$biaya_pengiriman+$pajak)}}</th>
                                 <th></th>
                             </tr>

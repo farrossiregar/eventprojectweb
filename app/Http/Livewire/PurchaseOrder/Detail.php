@@ -18,7 +18,7 @@ class Detail extends Component
     use WithFileUploads;
 
     public $data,$pembelian = [],$no_po,$id_supplier,$supplier=[],$suppliers=[],$product_supplier=[],$product_po=[];
-    public $data_product = [],$price,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
+    public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
     public $alamat_penagihan,$purchase_order_date,$delivery_order_number,$delivery_order_date,$disc=0,$disc_p=0,$pajak=0,$catatan;
     protected $listeners = ['reload'=>'$refresh'];
     public $nama_product;
@@ -33,7 +33,7 @@ class Detail extends Component
 
     public function mount(PurchaseOrder $data)
     {
-
+        
 
         $this->data = $data;        
         $this->id_supplier = $data->id_supplier;
@@ -68,13 +68,21 @@ class Detail extends Component
 
     public function updated($propertyName)
     {
+
+        if($this->id_supplier != $this->data->id_supplier){
+            $delete_po_detail = PurchaseOrderDetail::where('id_po', $this->data->id)->delete();
+            $this->emit('reload');
+        }
+
         if($propertyName=='id_supplier'){
             $this->data->id_supplier = $this->id_supplier;
             $this->data->save();
         }
         if($this->id_supplier){
+           
             $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
             $this->supplier = Supplier::find($this->id_supplier);
+            $this->emit('reload');
         }
 
         if($this->product_id){
@@ -94,13 +102,15 @@ class Detail extends Component
                     
                 }
 
-                $this->disc_p = $price_level_disc; 
-                $this->disc     = ($this->price*$price_level_disc)/100; 
-                $this->price = ceil($this->price - (($this->price*$price_level_disc)/100));
+                $this->disc_p       = $price_level_disc; 
+                $this->disc         = ($this->price*$price_level_disc)/100; 
+                $this->price        = $this->price;
+                $this->price_akhir  = ceil($this->price - (($this->price*$price_level_disc)/100));
             }else{
-                $this->disc_p = 0; 
-                $this->disc   = 0; 
-                $this->price  = $this->price;
+                $this->disc_p       = 0; 
+                $this->disc         = 0; 
+                $this->price        = $this->price;
+                $this->price_akhir  = $this->price;
             }
             
             
@@ -116,23 +126,29 @@ class Detail extends Component
              
         }elseif($this->product_id){
             
-            $this->price    = @SupplierProduct::where('id', $this->product_id)->first()->price;
+            $this->price        = @SupplierProduct::where('id', $this->product_id)->first()->price;
+            $this->price_akhir  = @SupplierProduct::where('id', $this->product_id)->first()->price;
             // dd(SupplierProduct::where('id', $this->product_id)->first());
-            $this->disc     = 0;
-            $this->disc_p   = 0; 
+            $this->disc         = 0;
+            $this->disc_p       = 0; 
         }else{
-            $this->price    = 0;
-            $this->disc     = 0;
-            $this->disc_p   = 0; 
+            $this->price        = 0;
+            $this->price_akhir  = 0;
+            $this->disc         = 0;
+            $this->disc_p       = 0; 
         }
 
         foreach($this->data->details as $item){
-            $this->total_pembayaran += $item->price * $item->qty;
+            $this->total_pembayaran += $this->price_akhir * $item->qty;
         }
 
         if($propertyName=='product_id'){
             $product = SupplierProduct::where(['id_supplier'=>$this->id_supplier,'product_id'=>$this->product_id])->first();
-            if($product) $this->price = $product->price;
+            if($product){
+                $this->price        = $product->price;
+                $this->price_akhir  = $product->price;
+            }
+                
         }
     }
 
