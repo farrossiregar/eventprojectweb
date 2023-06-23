@@ -7,20 +7,42 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <small>No Purchase Order</small> 
-                        @if($data->status==0)
-                            <span class="badge badge-warning mr-0">Draft</span>
-                        @endif
-                        @if($data->status==1)
-                            <span class="badge badge-success mr-0">Submitted</span>
-                        @endif<br />
-                        @if($data->status==2)
-                            <span class="badge badge-warning mr-0">Waiting for Payment</span>
-                        @endif<br />
-                        @if($data->status==3)
-                            <span class="badge badge-info mr-0">Payment Sent</span>
-                        @endif<br />
-                        @if($data->status==4)
-                            <span class="badge badge-success mr-0">Payment Confirmed</span>
+                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 7)
+                            @if($data->status==0)
+                                <span class="badge badge-warning mr-0">Draft</span>
+                            @endif
+                            @if($data->status==1)
+                                <span class="badge badge-success mr-0">Submitted</span>
+                            @endif<br />
+                            @if($data->status==2)
+                                <span class="badge badge-warning mr-0">Waiting for Payment</span>
+                            @endif<br />
+                            @if($data->status==3)
+                                <span class="badge badge-info mr-0">Payment Sent</span>
+                            @endif<br />
+                            @if($data->status==4)
+                                <span class="badge badge-success mr-0">Payment Confirmed</span>
+                            @endif
+                        @else
+                            @if($data->status==0)
+                                <span class="badge badge-warning mr-0">Draft</span>
+                            @endif
+
+                            @if($data->status==1)
+                                <span class="badge badge-warning mr-0">Waiting for Invoice</span>
+                            @endif<br />
+
+                            @if($data->status==2)
+                                <span class="badge badge-warning mr-0">Invoice Sent</span>
+                            @endif<br />
+
+                            @if($data->status==3)
+                                <span class="badge badge-warning mr-0">Waiting for Payment</span>
+                            @endif<br />
+
+                            @if($data->status==4)
+                                <span class="badge badge-success mr-0">Paid</span>
+                            @endif<br />
                         @endif
                         <br /><label>{{$data->no_po}}</label>
                         <hr class="py-0 my-0" />
@@ -76,7 +98,8 @@
                     <div class="form-group col-md-2">
                         @if($data->status==0)
                             <small>Purchase Date</small>
-                            <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>"/>
+                            <!-- <input type="text" class="form-control" value="<?php echo date('d/m/Y'); ?>"/> -->
+                            <input type="date" class="form-control" wire:model="purchase_order_date" />
                             @error('purchase_order_date') <span class="text-danger">{{ $message }}</span> @enderror
                         @else
                             <small>Purchase Date</small><br />
@@ -246,10 +269,11 @@
                                 <th class="text-right">{{format_idr($sub_total)}}</th>
                                 <th></th>
                             </tr>
-                            <!-- <tr>
-                                <th colspan="7" class="text-right">Biaya Pengiriman</th>
+                            @if(Auth::user()->user_access_id == 7 && $data->status == 1)
+                            <tr>
+                                <th colspan="8" class="text-right">Biaya Pengiriman</th>
                                 <th class="text-right">
-                                    @if($data->status==0)
+                                    @if($data->status==1)
                                         <input type="text" class="form-control text-right" wire:model="biaya_pengiriman" /> 
                                     @else
                                         {{format_idr($data->biaya_pengiriman)}}
@@ -257,7 +281,8 @@
                                 </th>
                                 <th></th>
                             </tr>
-                            <tr>
+                            @endif
+                            <!-- <tr>
                                 <th colspan="7" class="text-right">Pajak</th>
                                 <th class="text-right">
                                     @if($data->status==0)
@@ -267,8 +292,8 @@
                                     @endif
                                 </th>
                                 <th></th>
-                            </tr> -->
-                            <tr>
+                            </tr>
+                            <tr> -->
                                 <th colspan="8" class="text-right">Total</th>
                                 <th class="text-right">{{format_idr($sub_total+$biaya_pengiriman+$pajak)}}</th>
                                 <th></th>
@@ -287,22 +312,37 @@
                     @endif
                 </div>
                 <hr />
-                <div class="form-group">
-                    <a href="{{route('purchase-order.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Kembali</a>
-                    @if($data->status==0)
-                        <button type="button" class="btn btn-warning" wire:click="saveAsDraft"><i class="fa fa-save"></i> Save as Draft</button>
-                        <button type="button" class="btn btn-info" wire:click="submit"><i class="fa fa-check-circle"></i> Issued</button>
-                    @endif
-                    @if($data->status==2)
-                        <!-- <button type="button" class="btn btn-info" wire:click="sendpayment"><i class="fa fa-send-o"></i> Confirm Payment</button> -->
-                            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload_bukti_pembayaran"><i class="fa fa-upload"></i> Pay</a>
-                        <!-- <button type="button" class="btn btn-info" wire:click="sendpayment"><i class="fa fa-send-o"></i> Bayar</button> -->
-                    @endif
+                @if(Auth::user()->user_access_id == 8)
+                    <div class="form-group">
+                        <a href="{{route('purchase-order.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Kembali</a>
+                        @if($data->status==0)
+                            <button type="button" class="btn btn-warning" wire:click="saveAsDraft"><i class="fa fa-save"></i> Save as Draft</button>
+                            <button type="button" class="btn btn-info" wire:click="submit"><i class="fa fa-check-circle"></i> Issued</button>
+                        @endif
+                        @if($data->status==2)
+                            <!-- <button type="button" class="btn btn-info" wire:click="sendpayment"><i class="fa fa-send-o"></i> Confirm Payment</button> -->
+                                <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload_bukti_pembayaran"><i class="fa fa-upload"></i> Pay</a>
+                            <!-- <button type="button" class="btn btn-info" wire:click="sendpayment"><i class="fa fa-send-o"></i> Bayar</button> -->
+                        @endif
 
-                    @if($data->status==3 || $data->status==4 || $data->status==5)
-                        <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload_bukti_pembayaran"><i class="fa fa-eye"></i> Detail Invoice</a>
-                    @endif
-                </div>
+                        @if($data->status==3 || $data->status==4 || $data->status==5)
+                            <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload_bukti_pembayaran"><i class="fa fa-eye"></i> Detail Invoice</a>
+                        @endif
+                    </div>
+                @endif
+
+                @if(Auth::user()->user_access_id == 7)
+                    <div class="form-group">
+                        @if($data->status==1)
+                            <button type="button" class="btn btn-info" wire:click="sendinvoice"><i class="fa fa-send-o"></i> Send Invoice</button>
+                        @endif
+
+                        @if($data->status==1)
+                            <button type="button" class="btn btn-info" wire:click="updateaspaid"><i class="fa fa-dollar"></i> Update as Paid</button>
+                        @endif
+                        <!-- <button type="button" class="btn btn-info" wire:click="submit"><i class="fa fa-check-circle"></i> Issued</button> -->
+                    </div>
+                @endif
             </div>
         </div>
     </div>

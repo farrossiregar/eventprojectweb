@@ -5,6 +5,7 @@ namespace App\Http\Livewire\PurchaseOrder;
 use Livewire\Component;
 use App\Models\PurchaseOrder;
 use Livewire\WithPagination;
+use Auth;
 
 class Index extends Component
 {
@@ -30,7 +31,14 @@ class Index extends Component
 
     public function getData()
     {
-        $data = PurchaseOrder::orderBy('id','DESC');
+        $user = Auth::user();
+        if($user->user_access_id == 8){ // Buyer
+            $data = PurchaseOrder::where('id_buyer', $user->id)->orderBy('id','DESC');
+        }elseif($user->user_access_id == 7){ // Supplier
+            $data = PurchaseOrder::where('id_supplier', $user->id)->where('status', '<>', '0')->orderBy('id','DESC');
+        }else{
+            $data = PurchaseOrder::orderBy('id','DESC');
+        }
         
         return $data;
     }

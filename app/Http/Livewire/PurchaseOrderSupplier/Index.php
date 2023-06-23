@@ -25,13 +25,20 @@ class Index extends Component
         $this->total_po = PurchaseOrder::whereMonth('created_at',date('m'))->sum('total_pembayaran');
         $this->total_belum_lunas = PurchaseOrder::whereMonth('created_at',date('m'))->where('status_invoice',0)->sum('total_pembayaran');
         $this->total_lunas = PurchaseOrder::whereMonth('created_at',date('m'))->where('status_invoice',1)->sum('total_pembayaran');
+        
+        \LogActivity::add('Purchase Order');
     }
 
     public function getData()
     {
         $user = Auth::user();
-        // dd($user);
-        $data = PurchaseOrder::where('id_supplier', $user->id)->orderBy('id','DESC');
+        if($user->user_access_id == 8){ // Buyer
+            $data = PurchaseOrder::where('id_buyer', $user->id)->orderBy('id','DESC');
+        }elseif($user->user_access_id == 7){ // Supplier
+            $data = PurchaseOrder::where('id_supplier', $user->id)->orderBy('id','DESC');
+        }else{
+            $data = PurchaseOrder::orderBy('id','DESC');
+        }
         
         return $data;
     }
@@ -42,6 +49,8 @@ class Index extends Component
         $data->no_po = "PO/".date('ymd')."/".str_pad((PurchaseOrder::count()+1),4, '0', STR_PAD_LEFT);
         $data->status = 0;
         $data->save();
+
+        \LogActivity::add('Purchase Order Insert');
 
         return redirect()->route('purchase-order.detail',$data->id);
     }

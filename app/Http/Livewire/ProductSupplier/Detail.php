@@ -60,6 +60,16 @@ class Detail extends Component
         }else{
             $this->ppn = 0;
         }
+
+        if($this->qty){
+            if($this->disc_p){
+                $this->disc = $this->price - ceil(((int)$this->price*(int)$this->disc_p)/100);
+            }
+
+            if($this->disc){
+                $this->disc_p = ceil(((int)$this->disc/(int)$this->price)*100);
+            }
+        }
         // Harga Produksi
         if($this->harga>0) $this->harga_produksi = $this->harga + $this->ppn;
         // Margin
@@ -98,6 +108,12 @@ class Detail extends Component
         $this->reset(['qty','disc_p','disc']);
         $this->insert = false;
 
-        $this->emit('message-success','Data berhasil disimpan.');
+        $this->emit('message-success','Data berhasil diupdate.');
+    }
+
+    public function delete($id)
+    {
+        SettingHarga::find($id)->delete();
+        $this->emit('message-success','Data berhasil dihapus.');
     }
 }

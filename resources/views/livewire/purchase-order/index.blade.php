@@ -112,12 +112,14 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Status</th>
                                 <th>No Purchase Order</th>
+                                @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
                                 <th>Supplier</th>
+                                @endif
                                 <th>Tanggal Transaksi</th>
                                 <th>Total Produk</th>
                                 <th>Total Qty</th>
                                 <th class="text-right">Biaya Pengiriman</th>
-                                <th class="text-right">Pajak</th>
+                                <!-- <th class="text-right">Pajak</th> -->
                                 <th class="text-right">Total Nominal</th>
                                 <th></th>
                            </tr>
@@ -126,7 +128,7 @@
                             @php($number= $data->total() - (($data->currentPage() -1) * $data->perPage()) )
                             @foreach($data as $k => $item)
                                 <tr>
-                                    <td style="width: 50px;" class="text-center">{{$number}}</td>
+                                    <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
                                         @if($item->status==0)
                                             <span class="badge badge-warning">Draft</span>
@@ -142,18 +144,20 @@
                                         @endif
                                     </td>
                                     <td><a href="{{route('purchase-order.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
                                     <td>
                                         {{isset($item->supplier->nama_supplier) ? $item->supplier->nama_supplier : '-'}}
                                         @if(isset($item->supplier->nama_supplier))
                                             <a href="javascript:void(0)" title="{!!$item->supplier->nama_supplier .'&#013;'. $item->supplier->alamat_supplier!!}"><i class="fa fa-info-circle"></i></a>
                                         @endif
                                     </td>
-                                    <td>{{date('d-M-Y H:i',strtotime($item->created_at))}}</td>
+                                    @endif
+                                    <td>{{date('d M Y H:i',strtotime($item->created_at))}}</td>
                                     <td class="text-center">{{$item->total_product}}</td>
                                     <td class="text-center">{{$item->total_qty}}</td>
                                     <td class="text-right">{{format_idr($item->biaya_pengiriman)}}</td>
-                                    <td class="text-right">{{format_idr($item->ppn)}}</td>
-                                    <td class="text-right">{{format_idr($item->total_pembayaran)}}</td>
+                                    <!-- <td class="text-right">{{format_idr($item->ppn)}}</td> -->
+                                    <td class="text-right">Rp. {{format_idr($item->total_pembayaran)}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i></a>

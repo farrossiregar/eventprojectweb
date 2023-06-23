@@ -9,6 +9,10 @@ use App\Models\Supplier;
 use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\SupplierProduct;
+use App\Models\SettingHarga;
+use App\Models\ProductUom;
+use App\Models\InvoicePoItem;
+use Livewire\WithFileUploads;
 
 class Detail extends Component
 {
@@ -24,6 +28,8 @@ class Detail extends Component
 
     public function mount(PurchaseOrder $data)
     {
+
+
         $this->data = $data;
         $this->id_supplier = $data->id_supplier;
         if($this->id_supplier) $this->supplier = Supplier::find($this->id_supplier);
@@ -55,6 +61,7 @@ class Detail extends Component
         if($this->id_supplier){
             $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
             $this->supplier = Supplier::find($this->id_supplier);
+            $this->emit('reload');
         }
 
         foreach($this->data->details as $item){

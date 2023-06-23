@@ -108,7 +108,7 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     // Produk
     Route::get('vendor/index',App\Http\Livewire\Vendor\Index::class)->name('vendor.index');
     Route::get('purchase-request/index',App\Http\Livewire\PurchaseRequest\Index::class)->name('purchase-request.index');
-    Route::get('purchase-order/index',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
+    Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
     Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');
     Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
     Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
@@ -142,31 +142,35 @@ Route::group(['middleware' => ['auth','access:1,6']], function(){
 
 // Supplier
 Route::group(['middleware' => ['auth','access:7']], function(){
+    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
+    Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
+
     Route::get('product-supplier/index',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
     Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
     Route::get('product-supplier/detail/{data}',App\Http\Livewire\ProductSupplier\Detail::class)->name('product-supplier.detail');
 
-    Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
+    // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
     // Route::get('purchase-order-supplier/insert',App\Http\Livewire\PurchaseOrderSupplier\Insert::class)->name('purchase-order-supplier.insert');
-    Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
+    // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
+    
     Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
-    // Route::get('setting-harga',App\Http\Livewire\Supplier\SettingHarga\Index::class)->name('setting-harga.index');
     // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
+    Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
 });
 
 
 // Koperasi
 Route::group(['middleware' => ['auth','access:8']], function(){
     // Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
-    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
-    // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
-    // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
 
-
-    Route::get('purchase-order/index',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
+    Route::get('purchase-order',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
     Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');
     Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
+
+    // Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
+    // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
+    // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
 
 
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');

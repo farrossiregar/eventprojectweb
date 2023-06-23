@@ -4,7 +4,7 @@
     <div class="col-md-6 px-0 mx-0">
         <div class="card mb-2">
             <div class="body">
-                <h6>Detail Produk</h6>
+                <h6><b>Detail Produk</b></h6>
                 <hr />
                 <div class="row">
                     <div class="col-md-6">
@@ -79,13 +79,13 @@
     </div>
     <div class="col-md-6 pr-0 mx-0"  style="height: 290px;">
         <div class="row">
-            <div class="card col-md-6">
+            <div class="card col-md-12">
                 <div class="body">  
-                    <h6>Kalkulator Harga</h6>
+                    <h6><b>Kalkulator Harga</b></h6>
                     <hr />
                     <form id="basic-form" method="post" wire:submit.prevent="update">
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Harga</label>
                                     <input type="number" class="form-control" wire:model="price" />
@@ -112,10 +112,10 @@
                                     <input type="number" class="form-control" wire:model="diskon" />
                                 </div>
                             </div> -->
-                            <div class="col-md-8">
+                            <div class="col-md-9">
                                 <label>Harga Jual</label>
                                 <!-- <h2 class="text-info">Rp. {{@format_idr($harga_jual - $diskon)}}</h2> -->
-                                <h5 class="text-info">Rp. </h5><h2 class="text-info">{{@format_idr($price)}}</h2>
+                                <span><h2 class="text-info">Rp. {{@format_idr($price)}}</h2></span>
                             </div>
                             <div class="col-md-12">
                                 <hr />
@@ -124,10 +124,9 @@
                         </div>
                     </form>
                 </div>
-            </div>
-            <div class="card col-md-6">
+
                 <div class="body">  
-                    <h6>Kelipatan Harga</h6>
+                    <h6><b>Kelipatan Harga</b></h6>
                     <hr />
 
                     <div class="table-responsive">
@@ -154,8 +153,8 @@
                                             @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
-                                            {{ $disc }}
-                                            <!-- <input type="text" class="form-control" wire:model="disc" readonly/> -->
+                                            <!-- {{$disc}} -->
+                                            <input type="text" class="form-control" wire:model="disc"/>
                                             @error('disc') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
@@ -181,6 +180,9 @@
                     </div>
                 </div>
             </div>
+            <!-- <div class="card col-md-6">
+                
+            </div> -->
         </div>
         
     </div>
@@ -211,7 +213,7 @@
                                         <td>{{$k+1}}</td>
                                         <td>
                                             @if(isset($item->id_po))
-                                                <a href="{{route('purchase-order-supplier.detail',$item->id_po)}}" target="_blank">{{$item->id_po}}</a>
+                                                <a href="{{route('purchase-order.detail',$item->id_po)}}" target="_blank">{{$item->id_po}}</a>
                                             @endif
                                         </td>
                                         <td>{{format_idr($item->price)}}</td>

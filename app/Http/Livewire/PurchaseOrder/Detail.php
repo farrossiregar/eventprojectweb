@@ -7,6 +7,7 @@ use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\Supplier;
 use App\Models\Product;
+use App\Models\ProductStock;
 use App\Models\SupplierProduct;
 use App\Models\SettingHarga;
 use App\Models\ProductUom;
@@ -79,7 +80,6 @@ class Detail extends Component
             $this->data->save();
         }
         if($this->id_supplier){
-           
             $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
             $this->supplier = Supplier::find($this->id_supplier);
             $this->emit('reload');
