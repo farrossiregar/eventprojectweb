@@ -230,23 +230,22 @@
                                         @endif
                                     </td>
                                     <td class="text-center">
-                                        {{$item->price}}
+                                        Rp. {{format_idr($item->price)}}
                                     </td>
                                     <td class="text-center">
                                         @if($data->status==0)
                                             @livewire('purchase-order.editable',['field'=>'disc','data'=>$item->disc,'id'=>$item->id],key('disc'.$item->id))
                                         @else
-                                            {{$item->diskon}}
+                                            {{$item->disc}}%
                                         @endif
                                     </td>
                                     <td class="text-right">
-                                        @if($data->status==0)
-                                            @livewire('purchase-order.editable',['field'=>'price','data'=>$item->price,'id'=>$item->id],key('price'.$item->id))
-                                        @else
-                                            {{format_idr($item->price_akhir)}}
-                                        @endif
+                                        Rp. {{format_idr($item->disc_harga)}}
                                     </td>
-                                    <td class="text-right">{{format_idr($item->price*$item->qty)}}</td>
+                                    <td class="text-right">
+                                        <!-- {{format_idr($item->price*$item->qty)}} -->
+                                        Rp. {{format_idr($item->total_price)}}
+                                    </td>
                                     <td class="text-center">
                                         @if($data->status==0)
                                             <a href="javascript:void(0)" class="text-danger" wire:click="deleteProduct({{$item->id}})"><i class="fa fa-close"></i></a>

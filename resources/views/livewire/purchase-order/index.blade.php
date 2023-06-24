@@ -143,7 +143,14 @@
                                             <span class="badge badge-success">Paid</span>
                                         @endif
                                     </td>
-                                    <td><a href="{{route('purchase-order.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @if(Auth::user()->user_access_id == 1)
+                                        <td><a href="{{route('purchase-order-administration.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @elseif(Auth::user()->user_access_id == 7)
+                                        <td><a href="{{route('purchase-order-supplier.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @else
+                                        <td><a href="{{route('purchase-order.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @endif
+
                                     @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
                                     <td>
                                         {{isset($item->supplier->nama_supplier) ? $item->supplier->nama_supplier : '-'}}

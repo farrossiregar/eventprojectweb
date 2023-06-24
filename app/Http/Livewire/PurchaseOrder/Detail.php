@@ -90,18 +90,31 @@ class Detail extends Component
         }
 
         if($this->qty && $this->product_id){
+            // dd(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first(), $this->qty, $this->product_id);
+            sleep(1);
             if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->get()){
                 $qty_max = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->qty;
                 if($this->qty > $qty_max){
+                    dd('max');
                     // $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
                     $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->disc;
                     
                 }else{
                     // $max_qty            = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('disc', 'asc')->first();
-                    $price_level_disc   = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', '>', $this->qty)->first()->disc;
+                    $qty_min = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'asc')->first()->qty;
+                    if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->get()){
+                        // dd($this->qty);
+                        $price_level_disc = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
+                    }else{
+                        $price_level_disc   = @SettingHarga::where('supplier_id', $this->id_supplier)
+                                                        ->where('product_id', $this->product_id)
+                                                        ->where('qty', '>=', $this->qty)
+                                                        ->orderBy('qty', 'asc')->first()->disc;
+                    }
                     
+                    dd($qty_max, $price_level_disc, $this->product_id, $this->qty);
                 }
-
+ 
                 $this->disc_p       = $price_level_disc; 
                 $this->disc         = ($this->price*$price_level_disc)/100; 
                 $this->price        = $this->price;

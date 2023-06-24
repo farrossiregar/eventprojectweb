@@ -108,9 +108,9 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     // Produk
     Route::get('vendor/index',App\Http\Livewire\Vendor\Index::class)->name('vendor.index');
     Route::get('purchase-request/index',App\Http\Livewire\PurchaseRequest\Index::class)->name('purchase-request.index');
-    Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
-    Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');
-    Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
+    Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-administration.index');
+    Route::get('purchase-order-administration/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order-administration.insert');
+    Route::get('purchase-order-administration/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-administration.detail');
     Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
     
     Route::get('transaksi/cetak-struk-admin/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-admin');
@@ -142,8 +142,8 @@ Route::group(['middleware' => ['auth','access:1,6']], function(){
 
 // Supplier
 Route::group(['middleware' => ['auth','access:7']], function(){
-    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
-    Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
+    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-supplier.index');
+    Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
 
     Route::get('product-supplier/index',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
     Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
