@@ -4,6 +4,8 @@ namespace App\Http\Livewire\Koperasi\Catalog;
 
 use Livewire\Component;
 use App\Models\SupplierProduct;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 use Livewire\WithPagination;
 use Auth;
 
@@ -38,6 +40,16 @@ class Index extends Component
             dd($this->viewscatalog);
         }
 
+    }
+
+    public function addproductpo($id)
+    {
+        // $check = PurchaseOrder::where('id_buyer', Auth::user()->id)
+        //                         ->where('status', '0')
+        //                         ->get();
+        // $add = new PurchaseOrderDetail();
+        // $add = new PurchaseOrderDetail();
+        // $this->emit('reload');
     }
 
    

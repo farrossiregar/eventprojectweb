@@ -112,8 +112,8 @@
                                         <h5 class="card-title">{{ $item->nama_product }}</h5>
                                         <p class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</p>
                                         <br>
-                                        <a style="position: absolute; bottom: 6px; left: 65px;" href="{{route('product-supplier-supplier.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
-                                        <a style="position: absolute; bottom: 6px;" href="{{route('purchase-order-supplier.detail',$item->id)}}" class="btn btn-primary"><b>+</b></a>
+                                        <a style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
+                                        <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a>
                                     </div>
                                     
                                 </div>

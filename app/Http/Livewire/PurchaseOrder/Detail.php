@@ -89,32 +89,40 @@ class Detail extends Component
             $this->product_uom_id = @ProductUom::where('id', @SupplierProduct::where('id', $this->product_id)->first()->product_uom_id)->first()->name;
         }
 
-        if($this->qty && $this->product_id){
+        // if($this->qty && $this->product_id){
+        if($this->qty){
+            
             // dd(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first(), $this->qty, $this->product_id);
-            sleep(1);
+            // sleep(1);
             if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->get()){
-                $qty_max = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->qty;
+                $qty_max = SettingHarga::where('product_id', $this->product_id)->max('qty');
                 if($this->qty > $qty_max){
-                    dd('max');
+                    // dd($this->qty, $qty_max);
                     // $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
                     $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->disc;
                     
                 }else{
+                    // dd($this->qty);
                     // $max_qty            = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('disc', 'asc')->first();
                     $qty_min = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'asc')->first()->qty;
-                    if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->get()){
-                        // dd($this->qty);
-                        $price_level_disc = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
+                    if(SettingHarga::where('product_id', $this->product_id)->where('qty', $this->qty)->first()){
+                        
+                        $price_level_disc = SettingHarga::where('product_id', $this->product_id)
+                                                        ->where('qty', $this->qty)
+                                                        ->first()->disc;
+                                                        // dd($price_level_disc, $this->product_id, $this->qty);
                     }else{
-                        $price_level_disc   = @SettingHarga::where('supplier_id', $this->id_supplier)
-                                                        ->where('product_id', $this->product_id)
-                                                        ->where('qty', '>=', $this->qty)
-                                                        ->orderBy('qty', 'asc')->first()->disc;
+                        $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
+                                                            ->where('qty', '>=', $this->qty)
+                                                            ->orderBy('qty', 'asc')
+                                                            ->first()->disc;
                     }
                     
-                    dd($qty_max, $price_level_disc, $this->product_id, $this->qty);
+                    
                 }
  
+                // dd($qty_max, $price_level_disc, $this->product_id, $this->qty);
+
                 $this->disc_p       = $price_level_disc; 
                 $this->disc         = ($this->price*$price_level_disc)/100; 
                 $this->price        = $this->price;
@@ -169,13 +177,16 @@ class Detail extends Component
     {
         $detail = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_id'=>$data->product_id])->first();
         if(!$detail){
-            $detail = new PurchaseOrderDetail();
-            $detail->qty = 1;
-            $detail->id_po = $this->data->id;
-            $detail->item = $this->nama_product;
-            $detail->product_id = $data->product_id;
+            $detail                 = new PurchaseOrderDetail();
+            $detail->qty            = 1;
+            $detail->id_po          = $this->data->id;
+            $detail->item           = $this->nama_product;
+            $detail->product_id     = $data->product_id;
             $detail->product_uom_id = \App\Models\ProductUom::where('name', $data->product_uom_id)->first()->id;
-            $detail->price = $data->price;
+            $detail->price          = $data->price;
+            $detail->disc           = $this->disc_p;
+            $detail->disc_harga     = $this->disc;
+            $detail->total_harga    = $this->price_akhir;
             $detail->save();
         }else{
             $detailupdate = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_id'=>$data->product_id])->first();
@@ -203,13 +214,16 @@ class Detail extends Component
 
         $detail = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_uom_id'=>$this->product_uom_id,'product_id'=>$this->product_id])->first();
         if(!$detail){
-            $detail = new PurchaseOrderDetail();
-            $detail->id_po = $this->data->id;
-            $detail->product_id = $this->product_id;
+            $detail                 = new PurchaseOrderDetail();
+            $detail->id_po          = $this->data->id;
+            $detail->product_id     = $this->product_id;
             $detail->product_uom_id = \App\Models\ProductUom::where('name', $this->product_uom_id)->first()->id;
-            $detail->qty = $this->qty;
-            $detail->price = $this->price;
-            $detail->disc = $this->disc_p;
+            $detail->qty            = $this->qty;
+            $detail->price          = $this->price;
+            $detail->disc           = $this->disc_p;
+            $detail->disc_harga     = $this->disc;
+            $detail->total_price    = $this->price_akhir;
+
             $detail->save();
         }else{
             $detail->qty = $detail->qty + $this->qty;

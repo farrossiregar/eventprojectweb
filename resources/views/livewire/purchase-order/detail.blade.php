@@ -145,7 +145,7 @@
                                 <th class="text-center">Diskon (%)</th>
                                 <th class="text-center">Diskon (Rp)</th>
                                 <th class="text-right">Harga Akhir</th>
-                                <th class="text-right"></th>
+                                <th class="text-right">Total</th>
                                 @if($data->status==0)
                                 <th></th>
                                 @endif
@@ -175,7 +175,7 @@
                                         @error('product_uom_id') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
-                                        <input type="number" class="form-control text-center" wire:model="qty" min="0" />
+                                        <input type="number" class="form-control text-center" wire:model.debounce.1000ms="qty" min="0" />
                                         @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
@@ -184,20 +184,23 @@
                                     </td>
                                     <td>
                                         <b>{{ $disc_p }}%</b>
-                                        <!-- <input type="number" class="form-control text-right" wire:model="disc_p" min="0" /> -->
+                                        <input type="hidden" class="form-control text-right" wire:model="disc_p" min="0" />
                                         @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
                                         <b>Rp. {{ format_idr($disc) }}</b>
-                                        <!-- <input type="number" class="form-control text-right" wire:model="disc" min="0" /> -->
+                                        <input type="hidden" class="form-control text-right" wire:model="disc" min="0" />
                                         @error('diskon') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
                                     <td>
                                         Rp. {{ format_idr($price_akhir) }}
-                                        <!-- <input type="number" class="form-control text-right" min="0" wire:model="price" /> -->
+                                        <input type="hidden" class="form-control text-right" min="0" wire:model="price_akhir" />
                                         @error('price') <span class="text-danger">{{ $message }}</span> @enderror
                                     </td>
-                                    <td>{{(($price_akhir && $qty) ? format_idr($price_akhir*$qty) : '')}}</td>
+                                    <td>
+                                        {{(($price_akhir && $qty) ? format_idr($price_akhir*$qty) : '')}}
+                                        <input type="hidden" class="form-control text-right" min="0" />
+                                    </td>
                                     <td>
                                         <span wire:loading wire:target="addProduct">
                                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -246,6 +249,10 @@
                                         <!-- {{format_idr($item->price*$item->qty)}} -->
                                         Rp. {{format_idr($item->total_price)}}
                                     </td>
+                                    <td class="text-right">
+                                        {{format_idr($item->total_price*$item->qty)}}
+                                        
+                                    </td>
                                     <td class="text-center">
                                         @if($data->status==0)
                                             <a href="javascript:void(0)" class="text-danger" wire:click="deleteProduct({{$item->id}})"><i class="fa fa-close"></i></a>
@@ -254,7 +261,8 @@
                                 </tr>
                                 @php($total += $item->price)
                                 @php($total_qty += $item->qty)
-                                @php($sub_total += $item->qty * ($item->price-$item->disc))
+                                <!-- @php($sub_total += $item->qty * ($item->price-$item->disc)) -->
+                                @php($sub_total += $item->total_price)
                             @endforeach
                         </tbody>
                         @if($data->details->count()==0)
@@ -264,13 +272,13 @@
                         @endif
                         <tfoot style="background: #eee;">
                             <tr>
-                                <th colspan="8" class="text-right">Sub Total</th>
+                                <th colspan="9" class="text-right">Sub Total</th>
                                 <th class="text-right">{{format_idr($sub_total)}}</th>
                                 <th></th>
                             </tr>
                             @if(Auth::user()->user_access_id == 7 && $data->status == 1)
                             <tr>
-                                <th colspan="8" class="text-right">Biaya Pengiriman</th>
+                                <th colspan="9" class="text-right">Biaya Pengiriman</th>
                                 <th class="text-right">
                                     @if($data->status==1)
                                         <input type="text" class="form-control text-right" wire:model="biaya_pengiriman" /> 
