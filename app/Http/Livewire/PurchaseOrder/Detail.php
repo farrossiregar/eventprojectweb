@@ -41,7 +41,7 @@ class Detail extends Component
         if($this->id_supplier) $this->supplier = Supplier::find($this->id_supplier);
         $this->no_po = $data->no_po;
         $this->catatan = $data->catatan;
-        $this->pajak = $data->ppn;
+        $this->pajak = 0;//$data->ppn;
         $this->biaya_pengiriman = $data->biaya_pengiriman;
         $this->alamat_penagihan = $data->alamat_penagihan?$data->alamat_penagihan:get_setting('address');
         $this->purchase_order_date = $data->purchase_order_date;
@@ -263,14 +263,14 @@ class Detail extends Component
     public function sendpayment()
     {
 
-        $validate = [
-            'payment_date' => 'required',
-            'metode_pembayaran' => 'required'
-        ];
+        // $validate = [
+        //     'payment_date' => 'required',
+        //     'metode_pembayaran' => 'required'
+        // ];
 
         if($this->file_bukti_pembayaran) $validate['file_bukti_pembayaran'] = 'file|mimes:xlsx,csv,xls,doc,docx,pdf,jpg,jpeg,png|max:51200'; //] 50MB Max
         
-        $this->validate($validate);
+        // $this->validate($validate);
 
         if($this->data->status == 2){
             if(\App\Models\InvoicePoItem::where('po_id', $this->data->id)->get()){
@@ -294,7 +294,8 @@ class Detail extends Component
         // $payinvoice->no_invoice          = 'INV/'.$this->data->no_po;
         $payinvoice->po_id                 = $this->data->id;
         $payinvoice->amount                 = $this->payment_amount;
-        $payinvoice->metode_pembayaran      = $this->metode_pembayaran;
+        // $payinvoice->metode_pembayaran      = $this->metode_pembayaran;
+        $payinvoice->metode_pembayaran      = 9;
         if($this->file_bukti_pembayaran!="") {
             $name = $this->data->id.".".$this->file_bukti_pembayaran->extension();
             $this->file_bukti_pembayaran->storePubliclyAs("public/invoice-po-supplier/{$this->data->id}", $name);
@@ -309,6 +310,42 @@ class Detail extends Component
         session()->flash('message-success',"Pembayaran dikirimkan ke Supplier");
 
         return redirect()->route('purchase-order.detail',$this->data->id);
+    }
+
+    public function sendinvoice(){
+        $this->data->status = 2;
+        $this->data->save();
+        session()->flash('message-success',"Invoice berhasil dikirimkan ke Customer");
+
+        return redirect()->route('purchase-order-supplier.detail',$this->data->id);
+    }
+
+    public function updateaspaid(){
+        $this->data->status = 4;
+        $this->data->save();
+
+        // dd($this->data->details);
+        foreach($this->data->details as $item){
+            $cekproduk = Product::where('keterangan', $item->item)->first();
+            // dd($cekproduk);
+            if($cekproduk){
+                $cekproduk->qty = isset($cekproduk->qty) ? $cekproduk->qty + $item->qty : $item->qty;
+                $cekproduk->save();
+                continue;
+            }else{
+                $insertproduk               = new Product();
+                $insertproduk->keterangan   = $item->item;
+                $insertproduk->harga        = $item->price;
+                $insertproduk->qty          = $item->qty;
+                $insertproduk->save();
+                continue;
+            }
+            $this->total_pembayaran += $item->price * $item->qty;
+        }
+
+        session()->flash('message-success',"Pembayaran Purchase Order dikonfirmasi");
+
+        return redirect()->route('purchase-order-supplier.detail',$this->data->id);
     }
 
 

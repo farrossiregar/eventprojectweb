@@ -12,16 +12,17 @@
                                 <span class="badge badge-warning mr-0">Draft</span>
                             @endif
                             @if($data->status==1)
-                                <span class="badge badge-success mr-0">Submitted</span>
+                                <!-- <span class="badge badge-success mr-0">Submitted</span> -->
+                                <span class="badge badge-success mr-0">Incoming PO</span>
                             @endif<br />
                             @if($data->status==2)
                                 <span class="badge badge-warning mr-0">Waiting for Payment</span>
                             @endif<br />
-                            @if($data->status==3)
+                            <!-- @if($data->status==3)
                                 <span class="badge badge-info mr-0">Payment Sent</span>
-                            @endif<br />
-                            @if($data->status==4)
-                                <span class="badge badge-success mr-0">Payment Confirmed</span>
+                            @endif<br /> -->
+                            @if($data->status==3)
+                                <span class="badge badge-success mr-0">Paid</span>
                             @endif
                         @else
                             @if($data->status==0)
@@ -29,18 +30,19 @@
                             @endif
 
                             @if($data->status==1)
-                                <span class="badge badge-warning mr-0">Waiting for Invoice</span>
+                                <!-- <span class="badge badge-warning mr-0">Waiting for Invoice</span> -->
+                                <span class="badge badge-warning mr-0">PO Submitted</span>
                             @endif<br />
 
                             @if($data->status==2)
                                 <span class="badge badge-warning mr-0">Invoice Sent</span>
                             @endif<br />
 
-                            @if($data->status==3)
+                            <!-- @if($data->status==3)
                                 <span class="badge badge-warning mr-0">Waiting for Payment</span>
-                            @endif<br />
+                            @endif<br /> -->
 
-                            @if($data->status==4)
+                            @if($data->status==3)
                                 <span class="badge badge-success mr-0">Paid</span>
                             @endif<br />
                         @endif
@@ -301,7 +303,7 @@
                                 <th></th>
                             </tr>
                             <tr> -->
-                                <th colspan="8" class="text-right">Total</th>
+                                <th colspan="9" class="text-right">Total</th>
                                 <th class="text-right">{{format_idr($sub_total+$biaya_pengiriman+$pajak)}}</th>
                                 <th></th>
                             </tr>
@@ -319,7 +321,7 @@
                     @endif
                 </div>
                 <hr />
-                @if(Auth::user()->user_access_id == 8)
+                @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 7 || Auth::user()->user_access_id == 8)
                     <div class="form-group">
                         <a href="{{route('purchase-order.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Kembali</a>
                         @if($data->status==0)
@@ -357,9 +359,9 @@
     <div wire:ignore.self class="modal fade" id="modal_upload_bukti_pembayaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-            @if($data->status==2)
+                @if($data->status==2)
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <form wire:submit.prevent="sendpayment">
                             <div class="modal-header">
                                 <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Bukti Pembayaran</h5>
@@ -368,44 +370,65 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <div class="form-group">
-                                    <label>Tanggal Pembayaran</label>
-                                    <input type="text" class="form-control" wire:model="payment_date" value="<?php echo date('Y-m-d'); ?>"/>
-                                    @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Tanggal Pembayaran</label>
+                                            <br>
+                                            <b><?php echo date('d M Y'); ?></b>
+                                            
+                                            @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Jumlah Bayar</label> 
+                                            <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
+                                            <h5>Rp. {{ format_idr($sisa_bayar_inv) }}</h5>
+                                            <input type="hidden" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" readonly/>
+                                            @error('payment_amount') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </div>
+                                        <!-- <div class="form-group">
+                                            <label>Bukti Pembayaran</label>
+                                            <input type="file" class="form-control" wire:model="file_bukti_pembayaran" />
+                                            @error('file_bukti_pembayaran') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </div> -->
+                                        <!-- <div class="form-group">
+                                            <label>Metode Pembayaran</label>
+                                            <select class="form-control" wire:model="metode_pembayaran">
+                                                <option value=""> -- Pilih -- </option>
+                                                <option value="4">Tunai</option>
+                                                <option value="9">Transfer</option>
+                                            </select>
+                                            @error('file_bukti_pembayaran') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </div> -->
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <h4>Virtual Account</h4>
+                                            <br>
+                                            <h5>108987654444</h5>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Jumlah Bayar</label> @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif
-                                    <input type="text" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" />
-                                    @error('payment_amount') <span class="text-danger">{{ $message }}</span> @enderror
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span wire:loading wire:target="bayar">
+                                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                            <span class="sr-only">{{ __('Loading...') }}</span>
+                                        </span>
+                                        <button wire:loading.remove wire:target="sendpayment" type="submit" class="btn btn-info"><i class="fa fa-check-circle"></i> Bayar</button>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label>Bukti Pembayaran</label>
-                                    <input type="file" class="form-control" wire:model="file_bukti_pembayaran" />
-                                    @error('file_bukti_pembayaran') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Metode Pembayaran</label>
-                                    <select class="form-control" wire:model="metode_pembayaran">
-                                        <option value=""> -- Pilih -- </option>
-                                        <option value="4">Tunai</option>
-                                        <option value="9">Transfer</option>
-                                    </select>
-                                    @error('file_bukti_pembayaran') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                                
                             </div>
                             <div class="modal-footer">
-                                <span wire:loading wire:target="bayar">
-                                    <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
-                                    <span class="sr-only">{{ __('Loading...') }}</span>
-                                </span>
-                                <button wire:loading.remove wire:target="sendpayment" type="submit" class="btn btn-info"><i class="fa fa-check-circle"></i> Submit</button>
+                                
                             </div>
                         </form>
                     </div>
                 </div>
                 
                 @endif
-                
+
                 <div class="col-md-12">
                     <div class="card">
                         <div class="body">
@@ -415,8 +438,7 @@
                                 <table class="table">
                                     <tr style="background: #eee;">
                                         <th>No</th>
-                                        <th>Status</th>
-                                        <th>Bukti Pembayaran</th>
+                                        <!-- <th>Bukti Pembayaran</th> -->
                                         <th>Jumlah Bayar</th>
                                         <th>Metode Pembayaran</th>
                                         <th>Tanggal Pembayaran</th>
@@ -424,26 +446,6 @@
                                     @foreach($data_invoice as $k => $item)
                                         <tr>
                                             <td>{{$k+1}}</td>
-                                            <td>
-                                                @if($item->status==1)
-                                                    <span class="badge badge-info mr-0">PO Request</span>
-                                                @endif
-                                                @if($item->status==2)
-                                                    <span class="badge badge-warning mr-0">Invoice Sent</span>
-                                                @endif
-                                                @if($item->status==3)
-                                                    <span class="badge badge-warning mr-0">Waiting for Confirmation</span>
-                                                @endif
-                                                @if($item->status==4)
-                                                    <span class="badge badge-success mr-0">Payment Confirm</span>
-                                                @endif
-                                                @if($item->status==5)
-                                                    <span class="badge badge-success mr-0">Deliver</span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="" target="_blank"><i class="fa fa-picture-o"></i></a>
-                                            </td>
                                             <td>Rp,{{format_idr($item->amount)}}</td>
                                             <td>{{ $item->metode_pembayaran == 4 ? "Tunai" : "Transfer" }}</td>
                                             <td >{{ date_format(date_create($item->created_at), 'd M Y') }}</td>
@@ -454,7 +456,6 @@
                         </div>
                     </div>
                 </div>
-            
                 
             </div>
         </div>

@@ -187,6 +187,7 @@ class Detail extends Component
         return redirect()->route('purchase-order-supplier.detail',$this->data->id);
     }
 
+    
     public function saveAsDraft()
     {
         $this->save();
