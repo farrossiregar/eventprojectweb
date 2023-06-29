@@ -84,7 +84,7 @@
                             </select>
                         </div> -->
                     
-                        <div class="col-md-2">
+                        <!-- <div class="col-md-2">
                             <label for="">&nbsp</label><br>
                             <div class="btn-group" role="group">
                                 <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">View</button>
@@ -99,7 +99,7 @@
                                 <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                                 <span class="sr-only">{{ __('Loading...') }}</span>
                             </span>
-                        </div>
+                        </div> -->
                     </div>
                     <div class="body pt-0">
 
@@ -110,10 +110,26 @@
                                     <img class="card-img-top" src="https://pict.sindonews.net/dyn/850/pena/news/2022/02/02/700/674121/11-rahasia-avengers-endgame-yang-diungkapkan-marvel-ebh.jpg" alt="Card image cap">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ $item->nama_product }}</h5>
+                                        <!-- <p style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p> -->
+                                        <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
                                         <p class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</p>
                                         <br>
-                                        <a style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
-                                        <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a>
+                                        @if($insert == 0)
+                                        <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
+                                        <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="$set('insert',{{$item->id}})" class="btn btn-primary"><b>+</b></a>
+                                        @endif
+
+                                        @if($insert == $item->id)
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <input type="text" class="form-control" wire:model="qty" />
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-info"><i class="fa fa-save"></i></a>
+                                                    <a href="javascript:void(0)" wire:click="$set('insert',0)" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                                </div>
+                                            </div>
+                                        @endif
                                     </div>
                                     
                                 </div>
@@ -123,68 +139,7 @@
                         
 
                         @if($viewscatalog == 'list')
-                        <div class="table-responsive" id="list-view-catalog" style="min-height:400px;">
-                        
-                            <table class="table table-hover m-b-0 c_list">
-                                <thead style="background: #eee;">
-                                <tr>
-                                        <th>No</th>
-                                        <th>Barcode</th>
-                                        <th>Nama Produk</th>
-                                        <th>Supplier</th>
-                                        <th>Kategori Produk</th>
-                                        <th>UOM</th>
-                                        <th class="text-center">Stok</th>
-                                        <th class="text-right">Harga</th>
-                                        <th class="text-right">Diskon</th>
-                                        <th class="text-right">Lokasi</th>
-                                        <th class="text-right">Uploaded At</th>
-                                        <th></th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                    @php($number= $data->total() - (($data->currentPage() -1) * $data->perPage()) )
-                                    @foreach($data as $k => $item)
-                                        @php($bg_minimum_stok="transparent")
-                                        
-                                        <tr>
-                                            <td style="width: 50px;">{{$k+1}}</td>
-                                            <!-- <td class="text-center">
-                                                @if($item->status==1)
-                                                    <span class="badge badge-success">Aktif</span>
-                                                @endif
-                                                @if($item->status==0 || $item->status=="")
-                                                    <span class="badge badge-default">Tidak Aktif</span>
-                                                @endif
-                                            </td>
-                                            <td class="text-center">{{$item->type}}</td> -->
-                                            <td>@livewire('product-supplier.editable',['field'=>'barcode','data'=>$item->barcode,'id'=>$item->id],key('barcode'.$item->id))</td>
-                                            <td>@livewire('product-supplier.editable',['field'=>'nama_product','data'=>$item->nama_product,'id'=>$item->id],key('nama_product'.$item->id))</td>
-                                            <td></td>
-                                            <td></td>
-                                            <td>@livewire('product-supplier.editable',['field'=>'product_uom_id','data'=>(isset($item->uom->name) ? $item->uom->name : ''),'id'=>$item->id],key('uom'.$item->id))</td>
-                                            <td class="text-center">@livewire('product-supplier.editable',['field'=>'qty','data'=>$item->qty,'id'=>$item->id],key('qty'.$item->id))</td>
-                                            <td class="text-right">
-                                                @livewire('product-supplier.editable',['field'=>'price','data'=>$item->price,'id'=>$item->id],key('price'.$item->id))
-                                            </td>
-                                            <td class="text-right">{{$item->diskon ? format_idr($item->disc) : '-'}}</td>    
-                                            <td></td>
-                                            <td class="text-right">{{date_format(date_create($item->created_at), 'd M Y')}}</td>    
-                                            <td>
-                                                <div class="btn-group" role="group">
-                                                    <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i></a>
-                                                    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                        <a class="dropdown-item" href="{{route('product-supplier.detail',$item->id)}}"><i class="fa fa-search-plus"></i> Detail</a>
-                                                        <a class="dropdown-item text-danger" href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i> Hapus</a>
-                                                    </div>
-                                                </div>    
-                                            </td>
-                                        </tr>
-                                        @php($number--)
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+                        <!--  -->
                         @endif
                         <br />
                         {{$data->links()}}

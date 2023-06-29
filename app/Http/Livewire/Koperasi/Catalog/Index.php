@@ -13,7 +13,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword;
+    public $keyword,$insert=0,$qty;
     public $viewscatalog = 'list';
     public function render()
     {
@@ -56,13 +56,13 @@ class Index extends Component
             $checkproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
             if($checkproduct){
                 $updateproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
-                $updateproduct->qty = $checkproduct->qty + 1;
+                $updateproduct->qty = $checkproduct->qty + $this->qty;
                 $updateproduct->save();
             }else{
                 $addproduct = new PurchaseOrderDetail();
                 $addproduct->id_po = $check->id;
                 $addproduct->product_id = $id;
-                $addproduct->qty = 1;
+                $addproduct->qty = $this->qty;
                 $addproduct->save();
             }
         }else{
@@ -71,6 +71,8 @@ class Index extends Component
             $addpo->id_buyer = Auth::user()->id;
             $addpo->save();
         }
+
+        $this->insert = 0;
         // $add = new PurchaseOrderDetail();
         // $add = new PurchaseOrderDetail();
         // $this->emit('reload');
