@@ -135,7 +135,8 @@
                                 <tr>
                                     <th>Jumlah (<)</th>   
                                     <th>Diskon (%)</th>                              
-                                    <th>Diskon (Rp)</th>
+                                    <th>Potongan (Rp)</th>
+                                    <th>Harga Jual (Rp)</th>
                                     <th>
                                         <a href="javascript:void(0)" wire:click="$set('insert',true)" class="btn btn-info"><i class="fa fa-plus"></i></a>
                                     </th>
@@ -149,7 +150,13 @@
                                             @error('qty') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
-                                            <input type="text" class="form-control" wire:model="disc_p" />
+                                            {{ $disc_p }}
+                                            <!-- <input type="text" class="form-control" wire:model="disc_p" /> -->
+                                            @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
+                                        </td>
+                                        <td>
+                                            {{ format_idr($price - $disc) }}
+                                            <!-- <input type="text" class="form-control" wire:model="disc_p" /> -->
                                             @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
@@ -168,7 +175,10 @@
                                         <td>{{$item->qty}}</td>
                                         <td>{{ $item->disc }}</td>
                                         <td>
-                                            Rp. {{ @format_idr($price - ceil(($price*$item->disc)/100)) }}
+                                            Rp. {{ @format_idr($price-$item->disc_harga) }}
+                                        </td>
+                                        <td>
+                                            Rp. {{ @format_idr($item->disc_harga) }}
                                         </td>
                                         <td>
                                             <a class="dropdown-item text-danger" href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i> </a>

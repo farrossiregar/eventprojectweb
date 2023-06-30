@@ -62,9 +62,9 @@ class Detail extends Component
         }
 
         if($this->qty){
-            if($this->disc_p){
-                $this->disc = $this->price - ceil(((int)$this->price*(int)$this->disc_p)/100);
-            }
+            // if($this->disc_p){
+            //     $this->disc = $this->price - ceil(((int)$this->price*(int)$this->disc_p)/100);
+            // }
 
             if($this->disc){
                 $this->disc_p = ceil(((int)$this->disc/(int)$this->price)*100);
@@ -99,10 +99,11 @@ class Detail extends Component
     {
         $data = new SettingHarga();
         
-        $data->supplier_id = $this->data->id_supplier;
-        $data->product_id = $this->data->id;
-        $data->qty = $this->qty;
-        $data->disc = $this->disc;
+        $data->supplier_id  = $this->data->id_supplier;
+        $data->product_id   = $this->data->id;
+        $data->qty          = $this->qty;
+        $data->disc         = $this->disc_p;
+        $data->disc_harga   = $this->disc;
         $data->save();
 
         $this->reset(['qty','disc_p','disc']);

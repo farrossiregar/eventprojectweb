@@ -221,11 +221,7 @@
                                     <td>{{isset($item->product->barcode) ? $item->product->barcode : '-'}}</td>
                                     <td>{{isset($item->product->nama_product) ? $item->product->nama_product : '-'}}</td>
                                     <td class="text-center">
-                                        @if($data->status==0)
-                                            @livewire('purchase-order.editable',['field'=>'product_uom_id','data'=>(isset($item->uom->name) ? $item->uom->name : ''),'id'=>$item->id],key('product_uom_id'.$item->id))
-                                        @else
-                                            {{isset($item->uom->name) ? $item->uom->name : '-'}}
-                                        @endif
+                                        {{isset($item->uom->name) ? $item->uom->name : '-'}}
                                     </td>
                                     <td class="text-center">
                                         @if($data->status==0)
@@ -238,11 +234,7 @@
                                         Rp. {{format_idr($item->price)}}
                                     </td>
                                     <td class="text-center">
-                                        @if($data->status==0)
-                                            @livewire('purchase-order.editable',['field'=>'disc','data'=>$item->disc,'id'=>$item->id],key('disc'.$item->id))
-                                        @else
-                                            {{$item->disc}}%
-                                        @endif
+                                        {{$item->disc}}%
                                     </td>
                                     <td class="text-right">
                                         Rp. {{format_idr($item->disc_harga)}}
@@ -278,19 +270,19 @@
                                 <th class="text-right">{{format_idr($sub_total)}}</th>
                                 <th></th>
                             </tr>
-                            @if(Auth::user()->user_access_id == 7 && $data->status == 1)
+                            
                             <tr>
                                 <th colspan="9" class="text-right">Biaya Pengiriman</th>
                                 <th class="text-right">
-                                    @if($data->status==1)
+                                    @if($data->status==1 && Auth::user()->user_access_id == 7)
                                         <input type="text" class="form-control text-right" wire:model="biaya_pengiriman" /> 
                                     @else
-                                        {{format_idr($data->biaya_pengiriman)}}
+                                        {{ isset($data->biaya_pengiriman) ? format_idr($data->biaya_pengiriman) : 0 }}
                                     @endif
                                 </th>
                                 <th></th>
                             </tr>
-                            @endif
+                            
                             <!-- <tr>
                                 <th colspan="7" class="text-right">Pajak</th>
                                 <th class="text-right">

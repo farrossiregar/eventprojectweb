@@ -13,6 +13,7 @@ use App\Models\SettingHarga;
 use App\Models\ProductUom;
 use App\Models\InvoicePoItem;
 use Livewire\WithFileUploads;
+use Auth;
 
 class Detail extends Component
 {
@@ -76,8 +77,17 @@ class Detail extends Component
         }
 
         if($propertyName=='id_supplier'){
-            $this->data->id_supplier = $this->id_supplier;
-            $this->data->save();
+            $check_po_sup = PurchaseOrder::where('id_supplier', $this->id_supplier)->where('status', '0')->where('id_buyer', Auth::user()->id)->first();
+            
+            if($check_po_sup){
+                // return route('purchase-order-administration.detail',$this->data->id);
+                return redirect()->to('purchase-order/detail/'.$check_po_sup->id);
+            }else{
+                $this->data->id_supplier = $this->id_supplier;
+                $this->data->save();
+
+                return redirect(request()->header('Referer'));
+            }
         }
         if($this->id_supplier){
             $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
@@ -91,37 +101,62 @@ class Detail extends Component
 
         // if($this->qty && $this->product_id){
         if($this->qty){
-            
-            // dd(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first(), $this->qty, $this->product_id);
-            // sleep(1);
             if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->get()){
                 $qty_max = SettingHarga::where('product_id', $this->product_id)->max('qty');
                 if($this->qty > $qty_max){
-                    // dd($this->qty, $qty_max);
                     // $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
                     $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->disc;
                     
                 }else{
-                    // dd($this->qty);
-                    // $max_qty            = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('disc', 'asc')->first();
-                    $qty_min = SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'asc')->first()->qty;
+                    $qty_min = SettingHarga::where('product_id', $this->product_id)->orderBy('qty', 'asc')->first()->qty;
                     if(SettingHarga::where('product_id', $this->product_id)->where('qty', $this->qty)->first()){
                         
                         $price_level_disc = SettingHarga::where('product_id', $this->product_id)
                                                         ->where('qty', $this->qty)
                                                         ->first()->disc;
-                                                        // dd($price_level_disc, $this->product_id, $this->qty);
                     }else{
-                        $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
-                                                            ->where('qty', '>=', $this->qty)
-                                                            ->orderBy('qty', 'asc')
-                                                            ->first()->disc;
+
+                        if($this->qty < $qty_min){
+                            $price_level_disc = 0;
+                        }else{
+                            
+                            $qty_abv = SettingHarga::where('product_id', $this->product_id)
+                                                ->where('qty', '>', $this->qty)
+                                                ->first()->qty;
+
+                            $qty_curr = SettingHarga::where('product_id', $this->product_id)
+                                                    ->where('qty', '<', $qty_abv)
+                                                    ->orderBy('qty', 'desc')
+                                                    ->first()->qty;
+
+                            // $qty_blw = SettingHarga::where('product_id', $this->product_id)
+                            //                         ->where('qty', '<', $qty_curr)
+                            //                         ->first();
+
+                            // if($qty_blw){
+                                // dd($qty_abv, $qty_curr, $qty_blw);
+
+                            //     $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
+                            //                                     ->where('qty', '>', $qty_blw->qty)
+                            //                                     ->where('qty', '<', $qty_abv)
+                            //                                     ->orderBy('qty', 'asc')
+                            //                                     ->first()->disc;
+                            // }else{
+                            //     // dd('b', $qty_abv, $qty_curr);
+                            //     $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
+                            //                                     ->where('qty', '=', $qty_curr)
+                            //                                     // ->where('qty', '<', $qty_abv)
+                            //                                     ->orderBy('qty', 'asc')
+                            //                                     ->first()->disc;
+                            // }
+
+                            $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
+                                                                ->where('qty', '=', $qty_curr)
+                                                                ->first()->disc;
+                        }
                     }
-                    
-                    
                 }
  
-                // dd($qty_max, $price_level_disc, $this->product_id, $this->qty);
 
                 $this->disc_p       = $price_level_disc; 
                 $this->disc         = ($this->price*$price_level_disc)/100; 
@@ -133,17 +168,7 @@ class Detail extends Component
                 $this->price        = $this->price;
                 $this->price_akhir  = $this->price;
             }
-            
-            
-            // dd($price_level_disc);
-            // dd($this->id_supplier.' = '.$this->qty);
-            // if($this->qty < 10){
-            //     $this->disc = 0;
-            // }elseif($this->qty < 50){
-            //     $this->disc = 10;
-            // }else{
-            //     $this->disc = 20;
-            // }
+          
              
         }elseif($this->product_id){
             
@@ -230,6 +255,11 @@ class Detail extends Component
             $detail->save();
         }
 
+        $this->disc         = '';
+        $this->disc_p       = '';
+        $this->price        = '';
+        $this->price_akhir  = '';
+        $this->reset(['product_id','qty']);
         $this->emit('reload');
     }
 
