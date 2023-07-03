@@ -14,11 +14,12 @@ class Index extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $keyword,$insert=0,$qty;
+    public $price, $name, $date, $sortetc;
     public $viewscatalog = 'list';
     public function render()
     {
         $user = Auth::user();
-        $data = SupplierProduct::orderBy('id','DESC');
+        $data = SupplierProduct::whereNotNull('id');
 
         // $this->viewscatalog = 'list';
         
@@ -27,6 +28,29 @@ class Index extends Component
             $data->where('nama_product','LIKE',"%{$this->keyword}%")
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
+
+        if($this->price){
+            if($this->price == 'lo'){
+                $dataprice = $data->orderBy('price', 'ASC');    
+            }else{
+                $dataprice = $data->orderBy('price', 'DESC'); 
+            }
+        }else{
+            $dataprice = $data->orderBy('price', 'ASC');    
+        }
+
+        // if($this->date){
+        //     if($this->date == 'old'){
+        //         $datadate = $data->orderBy('id', 'ASC');    
+        //     }else{
+        //         $datadate = $data->orderBy('id', 'DESC');   
+        //     }
+        // }else{
+        //     $datadate = '';   
+        // }
+        
+        // $data->$dataprice;
+        // $data = $data->where('id', 'ASC');
         
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
     }
