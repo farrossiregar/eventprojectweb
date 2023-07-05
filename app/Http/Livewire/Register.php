@@ -15,6 +15,7 @@ class Register extends Component
 	public $dataMember,$selected,$insert=false;
     public $nama_supplier, $error_nama_supplier, $no_telp, $alamat_supplier, $email, $tipe_supplier, $provinsi;
 	public $password, $confirm_password;
+	public $tipeuser, $tipe_user;
 	public $match_pw=true;
 	
 	protected $rules = [

@@ -142,6 +142,7 @@ Route::group(['middleware' => ['auth','access:1,6']], function(){
 
 // Supplier
 Route::group(['middleware' => ['auth','access:7']], function(){
+    Route::get('/', App\Http\Livewire\Supplier\Dashboard\Index::class)->name('/');
     Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-supplier.index');
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
 
@@ -156,13 +157,13 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
     // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
-    Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
+    Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
 });
 
 
 // Koperasi
 Route::group(['middleware' => ['auth','access:8']], function(){
-    // Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
+    Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
 
     Route::get('purchase-order',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
     Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');
@@ -177,7 +178,7 @@ Route::group(['middleware' => ['auth','access:8']], function(){
     Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
     Route::get('catalog-detail',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.detail');
-    Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
+    Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
     
 });
  

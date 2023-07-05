@@ -20,6 +20,7 @@ class Index extends Component
     {
         $user = Auth::user();
         $data = SupplierProduct::whereNotNull('id');
+        // dd($data->get());
 
         // $this->viewscatalog = 'list';
         
