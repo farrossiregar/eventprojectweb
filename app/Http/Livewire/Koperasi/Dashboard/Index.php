@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Koperasi\Dashboard;
 
 use Livewire\Component;
 use App\Models\SupplierProduct;
+use App\Models\PurchaseOrder;
 use Livewire\WithPagination;
 use Auth;
 
@@ -11,17 +12,14 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword;
+    public $keyword, $data;
     public function render()
     {
         $user = Auth::user();
-        $data = SupplierProduct::orderBy('id','DESC');
+        $this->data = PurchaseOrder::where('id_buyer', $user->id)->orderBy('id','DESC')->take(5)->get();
 
-        if($this->keyword){
-            $data->where('nama_product','LIKE',"%{$this->keyword}%")
-                ->orWhere('barcode','LIKE',"%{$this->keyword}%");
-        }
-
-        return view('livewire.koperasi.dashboard.index')->with(['data'=>$data->paginate(200)]);
+        return view('livewire.koperasi.dashboard.index');
     }
+
+
 }

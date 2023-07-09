@@ -128,21 +128,12 @@ Route::group(['middleware' => ['auth','access:1,6']], function(){
     Route::get('product/index',App\Http\Livewire\Product\Index::class)->name('product.index');
     Route::get('product/insert',App\Http\Livewire\Product\Insert::class)->name('product.insert');
     Route::get('product/detail/{data}',App\Http\Livewire\Product\Detail::class)->name('product.detail');
-
-    // Route::get('konsinyasi/index',App\Http\Livewire\Konsinyasi\Index::class)->name('konsinyasi.index');
-    // Route::get('konsinyasi/insert',App\Http\Livewire\Konsinyasi\Insert::class)->name('konsinyasi.insert');
-    // Route::get('konsinyasi/detail/{data}',App\Http\Livewire\Konsinyasi\Detail::class)->name('konsinyasi.detail');
 });
 
-// Kasir
-// Route::group(['middleware' => ['auth','access:6']], function(){
-//     Route::get('kasir/index',App\Http\Livewire\Kasir\Index::class)->name('kasir.index');
-//     Route::get('transaksi/cetak-struk/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk');
-// });
 
 // Supplier
 Route::group(['middleware' => ['auth','access:7']], function(){
-    Route::get('/', App\Http\Livewire\Supplier\Dashboard\Index::class)->name('/');
+    Route::get('supplier/index', App\Http\Livewire\Supplier\Dashboard\Index::class)->name('supplier.index');
     Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-supplier.index');
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
 
@@ -163,7 +154,7 @@ Route::group(['middleware' => ['auth','access:7']], function(){
 
 // Koperasi
 Route::group(['middleware' => ['auth','access:8']], function(){
-    Route::get('/', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('/');
+    Route::get('buyer/index', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('buyer.index');
 
     Route::get('purchase-order',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
     Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');

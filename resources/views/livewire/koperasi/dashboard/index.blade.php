@@ -1,4 +1,4 @@
-@section('title', 'Dashboard Koperasi')
+@section('title', 'Dashboard Buyer')
 @section('sub-title', 'Index')
 <div class="clearfix row">
     <div class="col-lg-3 col-md-6">
@@ -8,7 +8,7 @@
                     <i class="fa fa-shopping-cart text-info"></i>
                 </div>
                 <div class="content">
-                    <div class="text">Total Nominal</div>
+                    <div class="text">Total Transaksi</div>
                     <h5 class="number">Rp. </h5>
                 </div>
             </div>
@@ -53,13 +53,108 @@
             </div>
         </div>
     </div>
+
+
     <div class="col-12 px-0 mx-0">
         <div class="card mb-2">
             <div class="body">
                 <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_pembelian">{{ __('Pembelian') }} </a></li>
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_transaksi">{{ __('Transaksi Terbaru') }} </a></li>
+                </ul>
+                <div class="tab-content px-0">
+                    <div class="tab-pane active show" id="tab_transaksi">
+                        <div class="table-responsive">
+                            <table class="table table-hover m-b-0 c_list table-bordered">
+                                <thead style="background: #eee;">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Status</th>
+                                        <th>No Purchase Order</th>
+                                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                        <th>Supplier</th>
+                                        @endif
+                                        <th>Tanggal Transaksi</th>
+                                        <th>Total Produk</th>
+                                        <th>Total Qty</th>
+                                        <th class="text-right">Biaya Pengiriman</th>
+                                        <th class="text-right">Total Nominal</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data as $k => $item)
+                                    <tr>
+                                    <td style="width: 50px;" class="text-center">{{$k+1}}</td>
+                                    <td class="text-center">
+                                        @if($item->status==0)
+                                            <span class="badge badge-warning">Draft</span>
+                                        @endif
+                                        @if($item->status==1)
+                                            <span class="badge badge-success">PO Submitted</span>
+                                        @endif
+                                        @if($item->status==2)
+                                            <span class="badge badge-default">Invoice</span>
+                                        @endif
+                                        @if($item->status==3)
+                                            <span class="badge badge-success">Paid</span>
+                                        @endif
+                                    </td>
+                                    @if(Auth::user()->user_access_id == 1)
+                                        <td><a href="{{route('purchase-order-administration.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @elseif(Auth::user()->user_access_id == 7)
+                                        <td><a href="{{route('purchase-order-supplier.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @else
+                                        <td><a href="{{route('purchase-order.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    @endif
+
+                                    @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                    <td>
+                                        {{isset($item->supplier->nama_supplier) ? $item->supplier->nama_supplier : '-'}}
+                                        @if(isset($item->supplier->nama_supplier))
+                                            <a href="javascript:void(0)" title="{!!$item->supplier->nama_supplier .'&#013;'. $item->supplier->alamat_supplier!!}"><i class="fa fa-info-circle"></i></a>
+                                        @endif
+                                    </td>
+                                    @endif
+                                    <td>{{date('d M Y H:i',strtotime($item->created_at))}}</td>
+                                    <td class="text-center">{{$item->total_product}}</td>
+                                    <td class="text-center">{{$item->total_qty}}</td>
+                                    <td class="text-right">{{format_idr($item->biaya_pengiriman)}}</td>
+                                    <td class="text-right">Rp. {{format_idr($item->total_pembayaran)}}</td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i></a>
+                                            <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                                                <a href="{{route('purchase-order.detail',$item->id)}}" class="dropdown-item"><i class="fa fa-info"></i> Detail</a>
+                                                @if($item->status==1)
+                                                    <a href="{{route('purchase-order.insert-delivery-order',$item->id)}}" class="dropdown-item"><i class="fa fa-plus"></i> Delivery Order</a>
+                                                @endif
+                                            </div>
+                                        </div>    
+                                    </td>
+                                </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12" style="float: right;">
+                                <a href="javascript:void(0)" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-12 px-0 mx-0">
+        <div class="card mb-2">
+            <div class="body">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_pembelian">{{ __('Produk Terbanyak Dibeli') }} </a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_penjualan">{{ __('Penjualan') }} </a></li>
-                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_supplier">{{ __('Supplier') }} </a></li>
                 </ul>
                 <div class="tab-content px-0">
                     <div class="tab-pane" id="tab_supplier">

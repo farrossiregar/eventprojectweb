@@ -5,6 +5,7 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use App\Models\UserMember;
 use App\Models\Supplier;
+use App\Models\Buyer;
 use App\Models\User;
 use Illuminate\Validation\Rule; 
 use Illuminate\Support\Facades\Hash;
@@ -86,7 +87,12 @@ class Register extends Component
         }
 
         $user                   = new User();
-        $user->user_access_id   = 7; // Supplier
+		if($this->tipe_user == '1'){
+			$user->user_access_id   = 8; // Buyer
+		}else{
+			$user->user_access_id   = 7; // Supplier
+		}
+        
         $user->name             = $this->nama_supplier;
         $user->email            = $this->email;
         $user->telepon          = $this->no_telp;
@@ -94,15 +100,26 @@ class Register extends Component
         $user->password         = Hash::make($this->password);
         $user->save();
 
-        $data                   = new Supplier();
-     	$data->nama_supplier    = $this->nama_supplier;
-     	$data->email            = $this->email;
-     	$data->no_telp          = $this->no_telp;
-     	$data->alamat_supplier  = $this->alamat_supplier;
-     	$data->tipe_supplier  	= $this->tipe_supplier;
-     	$data->provinsi		  	= $this->provinsi;
-        $data->id               = $user->id;
-        $data->save();
+		if($this->tipe_user == '1'){
+			$data                   = new Buyer();
+			$data->nama_buyer    	= $this->nama_supplier;
+			$data->email            = $this->email;
+			$data->no_telp          = $this->no_telp;
+			$data->alamat_buyer  	= $this->alamat_supplier;
+			// $data->provinsi		  	= $this->provinsi;
+			$data->id               = $user->id;
+			$data->save();
+		}else{
+			$data                   = new Supplier();
+			$data->nama_supplier    = $this->nama_supplier;
+			$data->email            = $this->email;
+			$data->no_telp          = $this->no_telp;
+			$data->alamat_supplier  = $this->alamat_supplier;
+			$data->tipe_supplier  	= $this->tipe_supplier;
+			$data->provinsi		  	= $this->provinsi;
+			$data->id               = $user->id;
+			$data->save();
+		}
 
 		// return view('livewire.login')->layout('layouts.auth');
 		session()->flash('message-success',__('Data Berhasil disimpan'));
