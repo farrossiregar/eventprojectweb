@@ -118,6 +118,8 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     Route::get('invoice-transaksi/detail/{data}',App\Http\Livewire\InvoiceTransaksi\Detail::class)->name('invoice-transaksi.detail');
     Route::get('invoice-transaksi/index',App\Http\Livewire\InvoiceTransaksi\Index::class)->name('invoice-transaksi.index');
 
+    Route::get('user-buyer', App\Http\Livewire\Koperasi\UserBuyer\Index::class)->name('user-buyer.index');
+
     Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
     Route::get('user-supplier/insert', App\Http\Livewire\UserSupplier\Insert::class)->name('user-supplier.insert');
     Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
@@ -166,7 +168,7 @@ Route::group(['middleware' => ['auth','access:8']], function(){
 
 
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
-    Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
+    Route::get('supplier', App\Http\Livewire\UserSupplier\Index::class)->name('supplier.index');
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
     Route::get('catalog-detail',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.detail');
     Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');

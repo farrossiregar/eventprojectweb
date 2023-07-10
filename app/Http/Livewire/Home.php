@@ -3,9 +3,14 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use Auth;
+use App\Models\Supplier;
+use App\Models\Buyer;
 
 class Home extends Component
 {
+    public $supplier, $buyer;
+
     public function render()
     { 
         /**
@@ -19,6 +24,13 @@ class Home extends Component
             redirect()->route('buyer.index');
         } 
         
-        return view('livewire.home');
+        if(\Auth::user()->user_access_id==1){
+            $user = Auth::user();
+            $this->supplier = Supplier::orderBy('id','DESC')->take(5)->get();
+            $this->buyer = Buyer::orderBy('id','DESC')->take(5)->get();
+
+            return view('livewire.home');
+        } 
+        
     }
 }
