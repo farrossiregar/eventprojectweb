@@ -24,13 +24,13 @@ class Home extends Component
             redirect()->route('buyer.index');
         } 
         
-        if(\Auth::user()->user_access_id==1){
-            $user = Auth::user();
-            $this->supplier = Supplier::orderBy('id','DESC')->take(5)->get();
-            $this->buyer = Buyer::orderBy('id','DESC')->take(5)->get();
+        // if(\Auth::user()->user_access_id==1){
+        //     $user = Auth::user();
+            // $this->supplier = Supplier::orderBy('id','DESC')->take(5)->get();
+            // $this->buyer = Buyer::orderBy('id','DESC')->take(5)->get();
 
             return view('livewire.home');
-        } 
+        // } 
         
     }
 }

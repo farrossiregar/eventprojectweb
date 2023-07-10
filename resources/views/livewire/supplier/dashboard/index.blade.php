@@ -139,7 +139,7 @@
                         <br>
                         <div class="row">
                             <div class="col-md-12" style="float: right;">
-                                <a href="{{ route('purchase-order-supplier') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
+                                <a href="{{ route('purchase-order-supplier.index') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
                             </div>
                         </div>
                     </div>

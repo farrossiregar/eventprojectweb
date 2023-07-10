@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($supplier as $k => $item)
+                                    @foreach(App\Models\Supplier::orderBy('id','DESC')->take(5)->get() as $k => $item)
                                     <tr>
                                         <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                         <td class="text-center">
@@ -146,7 +146,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach($buyer as $k => $item)
+                                    @foreach(App\Models\Buyer::orderBy('id','DESC')->take(5)->get() as $k => $item)
                                     <tr>
                                         <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                         <td class="text-center">

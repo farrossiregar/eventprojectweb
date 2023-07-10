@@ -91,6 +91,7 @@
                     </div>
                 </div>
                 <div class="col-5">
+                    @if(Auth::user()->user_access_id != 1 && Auth::user()->user_access_id != 7)
                     <div class="btn-group" role="group">
                         <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
@@ -98,6 +99,7 @@
                             <a href="javascript:void(0)" wire:click="insert" class="dropdown-item"><i class="fa fa-plus"></i> Tambah</a>
                         </div>
                     </div>
+                    @endif
                     <span wire:loading>
                         <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                         <span class="sr-only">{{ __('Loading...') }}</span>

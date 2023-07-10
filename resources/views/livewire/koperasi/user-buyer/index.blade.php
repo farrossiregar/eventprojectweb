@@ -1,4 +1,4 @@
-@section('title', 'Supplier')
+@section('title', 'Buyer')
 @section('sub-title', 'Index')
 <div class="clearfix row">
     <div class="col-lg-12">
