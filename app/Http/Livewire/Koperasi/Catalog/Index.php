@@ -15,7 +15,7 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
-    public $viewscatalog = 'list';
+    public $viewscatalog = 'list', $card=FALSE;
     public function render()
     {
         $user = Auth::user();
@@ -30,15 +30,15 @@ class Index extends Component
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
 
-        if($this->price){
-            if($this->price == 'lo'){
-                $dataprice = $data->orderBy('price', 'ASC');    
-            }else{
-                $dataprice = $data->orderBy('price', 'DESC'); 
-            }
-        }else{
-            $dataprice = $data->orderBy('price', 'ASC');    
-        }
+        // if($this->price){
+        //     if($this->price == 'lo'){
+        //         $dataprice = $data->orderBy('price', 'ASC');    
+        //     }else{
+        //         $dataprice = $data->orderBy('price', 'DESC'); 
+        //     }
+        // }else{
+        //     $dataprice = $data->orderBy('price', 'ASC');    
+        // }
 
         // if($this->date){
         //     if($this->date == 'old'){

@@ -7,6 +7,39 @@
                 <div class="col-md-2" style="border-right: 1px solid lightgrey;">
                     <div class="header row">
                         <div class="col-md-12">
+                            <label>Sort By</label>
+                            <select name="" id="" wire:model="date" class="form-control" >
+                                <option value="" selected disabled>-- Sort By --</option>
+                                <option value="date">Tanggal Upload</option>
+                                <option value="price">Harga</option>
+                                <option value="name">Nama Produk</option>
+                                <option value="qty">Stok Tersedia</option>
+                                <option value="popular">Populer</option>
+                            </select>
+                            <br>
+                        </div>
+
+                        <div class="col-md-12">
+                            <select name="" id="" wire:model="sort_val" class="form-control" >
+                                <option value="desc" selected>Z-A</option>
+                                <option value="asc">A-Z</option>
+                            </select>
+                            <br>
+                        </div>
+
+
+                        <div class="col-md-12">
+                            <label>View</label>
+                                @if($card)
+                                    <a href="javascript:void(0)" wire:click="$set('card',false)" class="btn btn-info"><i class="fa fa-list"></i></a>
+                                @else
+                                    <a href="javascript:void(0)" wire:click="$set('card',true)" class="btn btn-info"><i class="fa fa-file-image-o"></i></a>
+                                @endif
+                            <br>
+                        </div>
+
+
+                        <!-- <div class="col-md-12">
                             <label>Tanggal Upload</label>
                             <select name="" id="" wire:model="date" class="form-control" >
                                 <option value="" selected disabled>-- Sort By Date Upload --</option>
@@ -41,7 +74,7 @@
                                 <option value="terdekat">Terdekat</option>
                                 <option value="stok">Stok</option>
                             </select>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-10">
@@ -52,11 +85,49 @@
                                 <input type="text" class="form-control" wire:model="keyword" placeholder="Pencarian Barcode, Nama, Supplier, Lokasi" />
                             </div>
                         </div>
-                     
+                        
                     </div>
                     <div class="body pt-0">
 
-                        <!-- if($viewscatalog == 'card') -->
+                        @if(!$card)
+
+                        <div class="table-responsive">
+                            <table class="table table-hover m-b-0 c_list table-bordered">
+                                <thead style="background: #eee;">
+                                    <tr>
+                                        <th class="text-center">No</th>
+                                        <th class="text-center">Barcode</th>
+                                        <th class="text-center">Nama Produk</th>
+                                        <th class="text-center">Harga</th>
+                                        <th class="text-center">Stok</th>
+                                        <th class="text-center">Nama Supplier</th>
+                                        <th class="text-center">Lokasi Supplier</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($data as $k => $item)
+                                    <tr>
+                                        <td>{{$k+1}}</td>
+                                        <td></td>
+                                        <td>{{ $item->nama_product }}</td>
+                                        <td><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>
+                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
+                                        </td>
+                                    
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        @endif
+
+                        @if($card)
                         <div class="row" id="card-view-catalog">
                             @foreach($data as $k => $item)
                                 <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
@@ -91,7 +162,7 @@
                                 </div>
                             @endforeach
                         </div>
-                        <!-- endif -->
+                        @endif
                         
 
                         @if($viewscatalog == 'list')
@@ -156,7 +227,7 @@
                                         <input type="text" class="form-control" wire:model="qty" />
                                     </div>
                                     <div class="col-md-6">
-                                        <a href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-info"><i class="fa fa-save"></i></a>
+                                        <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><i class="fa fa-save"></i></a>
                                     </div>
                                 </div>
                                 

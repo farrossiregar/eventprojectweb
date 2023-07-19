@@ -93,13 +93,6 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     Route::get('bank-account/edit/{id}',App\Http\Livewire\BankAccount\Edit::class)->name('bank-account.edit');
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
 
-    // Route::get('simpanan',App\Http\Livewire\Simpanan\Index::class)->name('simpanan.index');
-    // Route::get('pinjaman',App\Http\Livewire\Pinjaman\Index::class)->name('pinjaman.index');
-    // Route::get('pinjaman/insert',App\Http\Livewire\Pinjaman\Insert::class)->name('pinjaman.insert');
-    // Route::get('pinjaman/edit/{data}',App\Http\Livewire\Pinjaman\Edit::class)->name('pinjaman.edit');
-    // Route::get('shu',App\Http\Livewire\Shu\Index::class)->name('shu.index');
-    // Route::get('jenis-simpanan',App\Http\Livewire\JenisSimpanan\Index::class)->name('jenis-simpanan.index');
-    // Route::get('jenis-pinjaman',App\Http\Livewire\JenisPinjaman\Index::class)->name('jenis-pinjaman.index');
     Route::get('transaksi',App\Http\Livewire\Transaksi\Index::class)->name('transaksi.index');
     Route::get('transaksi/items/{data}',App\Http\Livewire\Transaksi\Items::class)->name('transaksi.items');
     Route::get('transaksi/cetak-barcode/{no}',[\App\Http\Controllers\TransaksiController::class,'cetakBarcode'])->name('transaksi.cetak-barcode');

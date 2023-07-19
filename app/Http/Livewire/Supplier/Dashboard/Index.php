@@ -12,7 +12,7 @@ class Index extends Component
 {
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
-    public $keyword;
+    public $keyword, $data;
     public function render()
     {
         $user = Auth::user();
