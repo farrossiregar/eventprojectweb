@@ -8,17 +8,19 @@
                     <div class="header row">
                         <div class="col-md-12">
                             <label>Sort By</label>
-                            <select name="" id="" wire:model="date" class="form-control" >
+                            <select name="" id="" wire:model="sort_by" class="form-control" >
                                 <option value="" selected disabled>-- Sort By --</option>
-                                <option value="date">Tanggal Upload</option>
-                                <option value="price">Harga</option>
-                                <option value="name">Nama Produk</option>
-                                <option value="qty">Stok Tersedia</option>
-                                <option value="popular">Populer</option>
+                                <option value="created_at" >Tanggal Upload</option>
+                                <option value="price" >Harga</option>
+                                <option value="nama_product" >Nama Produk</option>
+                                <option value="qty" >Stok Tersedia</option>
+                                <option value="popular" >Populer</option>
                             </select>
                             <br>
                         </div>
 
+                        @if($sort_val_opt == true)
+                        
                         <div class="col-md-12">
                             <select name="" id="" wire:model="sort_val" class="form-control" >
                                 <option value="desc" selected>Z-A</option>
@@ -26,10 +28,17 @@
                             </select>
                             <br>
                         </div>
+                        @endif
 
 
                         <div class="col-md-12">
                             <label>View</label>
+                            
+                            <select name="" id="" wire:model="optview" class="form-control" >
+                                <option value="list"><i class="fa fa-list"></i>List</option>
+                                <option value="card"><i class="fa fa-file-image-o"></i>Card</option>
+                            </select>
+                            
                                 @if($card)
                                     <a href="javascript:void(0)" wire:click="$set('card',false)" class="btn btn-info"><i class="fa fa-list"></i></a>
                                 @else
@@ -109,12 +118,12 @@
                                     @foreach($data as $k => $item)
                                     <tr>
                                         <td>{{$k+1}}</td>
-                                        <td></td>
+                                        <td>{{ $item->barcode }}</td>
                                         <td>{{ $item->nama_product }}</td>
                                         <td><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</td>
                                         <td>{{ $item->qty }}</td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->nama_supplier }}</td>
+                                        <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->provinsi }}</td>
                                         <td>
                                             <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
                                         </td>

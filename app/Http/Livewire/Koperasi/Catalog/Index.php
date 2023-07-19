@@ -15,20 +15,45 @@ class Index extends Component
     protected $paginationTheme = 'bootstrap';
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
-    public $viewscatalog = 'list', $card=FALSE;
+    public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
     {
         $user = Auth::user();
         $data = SupplierProduct::whereNotNull('id');
         // dd($data->get());
 
-        // $this->viewscatalog = 'list';
+        
+        // if($this->optview == 'list'){
+        //     $this->card = false;
+        // }else{
+        //     $this->card = true;
+        // }
         
 
         if($this->keyword){
             $data->where('nama_product','LIKE',"%{$this->keyword}%")
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
+
+        if($this->sort_by){
+            if($this->sort_by != 'popular'){
+                $this->sort_val_opt = true;
+    
+                if($this->sort_val == 'asc'){
+                    $data->orderBy($this->sort_by, 'ASC'); 
+                }else{
+                    $data->orderBy($this->sort_by, 'DESC'); 
+                }
+            }else{
+                $this->sort_val_opt = false;
+                $data->orderBy($this->sort_by, 'DESC'); 
+            }
+        }else{
+            $this->sort_by = 'created_at';
+            $this->sort_val = 'desc';
+            $data->orderBy($this->sort_by, $this->sort_val); 
+        }
+        
 
         // if($this->price){
         //     if($this->price == 'lo'){
@@ -56,16 +81,7 @@ class Index extends Component
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
     }
 
-    // public function viewcatalog($type){
-    //     if($type == '1'){
-    //         $this->viewscatalog = 'list';
-    //         dd($this->viewscatalog);
-    //     }else{
-    //         $this->viewscatalog = 'card';
-    //         dd($this->viewscatalog);
-    //     }
-
-    // }
+  
 
     public function addproductpo($id)
     {
