@@ -4,7 +4,7 @@
 		<div class="auth-box">
 
             <div class="top text-center d-block d-sm-none d-none d-sm-block d-md-none"> 
-                <img src="{{get_setting('logo')}}" alt="{{get_setting('company')}}">
+                <!-- <img src="{{get_setting('logo')}}" alt="{{get_setting('company')}}"> -->
             </div>
 			<div class="card">
                 <div class="header">
@@ -43,13 +43,17 @@
                         @endif
                         <!-- <button wire:loading.remove wire:target="login" type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block mt-1"><i class="fa fa-sign-in mr-2"></i>{{ __('LOGIN') }}</button> -->
                         <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block mt-1"><i class="fa fa-sign-in mr-2"></i>{{ __('LOGIN') }}</button>
+                        <div class="bottom">
+                            <span class="helper-text m-b-10"><i class="fa fa-sign-in"></i> <a href="{{ route('supplier-register') }}">{{ __('Daftar Sebagai Supplier?') }}</a></span>
+                            <span class="helper-text m-b-10"><i class="fa fa-sign-in"></i> <a href="{{ route('buyer-register') }}">{{ __('Daftar Sebagai Buyer?') }}</a></span>
+                        </div>
                     </form>
                 </div>
             </div>
 		</div>
-        <div class="col-md-12" style="position: absolute;bottom:0;">
+        <!-- <div class="col-md-12" style="position: absolute;bottom:0;">
             <p>Address : {{get_setting('address')}} | Phone : {{get_setting('phone')}} | Mobile : {{get_setting('mobile')}}</p>
-        </div>
+        </div> -->
 	</div>
     @if(env('APP_ENV')!=='local')
         <script src="https://www.google.com/recaptcha/api.js" async defer></script>

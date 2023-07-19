@@ -14,17 +14,20 @@ use Auth;
 
 class ListProduk extends Component
 {
-    public $supplier_id,$insert=false,$insert_product=false,$data_product=[], $keyword, $price;
-    protected $listeners = ['reload'=>'$refresh'];
-    // public $product_id,$qty,$desc_product,$price,$product_uom_id, $keyword;
+    // public $supplier_id,$insert_product=false,$data_product=[];
+    // protected $listeners = ['reload'=>'$refresh'];
+    
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
+    public $keyword,$insert=0,$qty;
+    public $price, $name, $date, $sortetc;
+    public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
     {
         $user = Auth::user();
         $data = SupplierProduct::where('id_supplier', $this->data->id);
 
-        dd($data->get());
+        // dd($data->get());
         // $this->viewscatalog = 'list';
         
 
@@ -33,16 +36,25 @@ class ListProduk extends Component
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
         }
 
-        if($this->price){
-            if($this->price == 'lo'){
-                $dataprice = $data->orderBy('price', 'ASC');    
+        if($this->sort_by){
+            if($this->sort_by != 'popular'){
+                $this->sort_val_opt = true;
+    
+                if($this->sort_val == 'asc'){
+                    $data->orderBy($this->sort_by, 'ASC'); 
+                }else{
+                    $data->orderBy($this->sort_by, 'DESC'); 
+                }
             }else{
-                $dataprice = $data->orderBy('price', 'DESC'); 
+                $this->sort_val_opt = false;
+                $data->orderBy($this->sort_by, 'DESC'); 
             }
         }else{
-            $dataprice = $data->orderBy('price', 'ASC');    
+            $this->sort_by = 'created_at';
+            $this->sort_val = 'desc';
+            $data->orderBy($this->sort_by, $this->sort_val); 
         }
-
+        
         // if($this->date){
         //     if($this->date == 'old'){
         //         $datadate = $data->orderBy('id', 'ASC');    
@@ -56,7 +68,7 @@ class ListProduk extends Component
         // $data->$dataprice;
         // $data = $data->where('id', 'ASC');
         
-        return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
+        return view('livewire.user-supplier.list-produk')->with(['data'=>$data->paginate(200)]);
     }
 
     public function updated($propertyName)

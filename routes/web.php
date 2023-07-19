@@ -17,6 +17,8 @@ Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('privacy', App\Http\Livewire\Privacy::class)->name('privacy');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 Route::get('register', App\Http\Livewire\Register::class)->name('register');
+Route::get('supplier-register', App\Http\Livewire\Supplier\Register::class)->name('supplier-register');
+Route::get('buyer-register', App\Http\Livewire\Koperasi\Register::class)->name('buyer-register');
 Route::get('konfirmasi-pembayaran',App\Http\Livewire\KonfirmasiPembayaran::class)->name('konfirmasi-pembayaran');
 Route::get('konfirmasi-pendaftaran',App\Http\Livewire\KonfirmasiPendaftaran::class)->name('konfirmasi-pendaftaran');
 Route::get('transaksi/cetak-struk-kasir/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-kasir');
@@ -162,6 +164,8 @@ Route::group(['middleware' => ['auth','access:8']], function(){
 
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
     Route::get('supplier', App\Http\Livewire\UserSupplier\Index::class)->name('supplier.index');
+    
+
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
     Route::get('catalog-detail',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.detail');
     Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');

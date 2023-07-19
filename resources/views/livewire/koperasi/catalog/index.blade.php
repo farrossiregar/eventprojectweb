@@ -140,13 +140,25 @@
                         <div class="row" id="card-view-catalog">
                             @foreach($data as $k => $item)
                                 <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
-                                    <img class="card-img-top" src="{{ asset('assets/images/'.$item->image_source) }}" alt="Card image cap">
+                                    <div style="height: 180px; overflow: hidden;">
+                                        <img class="card-img-top" src="{{ asset('assets/images/'.$item->image_source) }}" alt="Card image cap">
+                                    </div>
+                                    
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ $item->nama_product }}</h5>
+                                        <a href="{{ route('user-supplier.produk',$item->id_supplier) }}" class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</a>
+                                        <h6 class="card-title">{{ $item->nama_product }}</h6>
                                         <!-- <p style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p> -->
-                                        <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
-                                        <p><b>Stok : {{ $item->qty }}</b></p>
-                                        <p class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</p>
+                                        <div>
+                                            <span style="float: left;">
+                                                <a href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
+                                            </span>
+                                            <span style="float: right;">
+                                                <b>Stok : {{ $item->qty }}</b>
+                                            </span>
+                                        </div>
+                                        <!-- <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
+                                        <p><b>Stok : {{ $item->qty }}</b></p> -->
+                                        
                                         <br>
                                         @if($insert == 0)
                                         <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
