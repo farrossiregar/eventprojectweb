@@ -134,7 +134,7 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-supplier.index');
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
 
-    Route::get('product-supplier/index',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
+    Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
     Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
     Route::get('product-supplier/detail/{data}',App\Http\Livewire\ProductSupplier\Detail::class)->name('product-supplier.detail');
 
@@ -145,7 +145,8 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
 
     // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
-    Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
+    // Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
+    Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
 });
 
 
@@ -163,7 +164,7 @@ Route::group(['middleware' => ['auth','access:8']], function(){
 
 
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
-    Route::get('supplier', App\Http\Livewire\UserSupplier\Index::class)->name('supplier.index');
+    Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
     
 
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');

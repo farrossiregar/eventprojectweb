@@ -11,10 +11,17 @@ use Auth;
 
 class Index extends Component
 {
+    protected $listeners = [
+        'modal_detail_product'=>'modalDetailProduct',
+    ];
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
+
+    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail;
+
     public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
     {
@@ -79,6 +86,20 @@ class Index extends Component
         // $data = $data->where('id', 'ASC');
         
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
+    }
+
+    public function modalDetailProduct($id)
+    {
+        $this->selected_id = $id;
+        
+
+        $data_detail                 = SupplierProduct::where('id', $this->selected_id)->first();
+        $this->title_detail          = $data_detail->nama_product;
+        $this->supplier_detail       = $data_detail->id_supplier;
+        $this->stock_detail          = $data_detail->qty;
+        $this->deskripsi_detail      = $data_detail->desc_product;
+        $this->image_detail          = $data_detail->image_source;
+        $this->price_detail          = $data_detail->price;
     }
 
   

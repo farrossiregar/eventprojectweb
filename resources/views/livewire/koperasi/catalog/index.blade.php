@@ -125,7 +125,8 @@
                                         <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->nama_supplier }}</td>
                                         <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->provinsi }}</td>
                                         <td>
-                                            <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
+                                            <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a> -->
+                                            <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
                                         </td>
                                     
                                     </tr>
@@ -163,7 +164,7 @@
                                         @if($insert == 0)
                                         <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
                                         <a style="position: absolute; bottom: 10px;" href="javascript:void(0)" wire:click="$set('insert',{{$item->id}})" class="btn btn-primary"><b>+</b></a>
-                                        <a style="position: absolute; bottom: 10px; left: 60px;" href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
+                                        <a style="position: absolute; bottom: 10px; left: 60px;" href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
                                         @endif
                                         
 
@@ -217,25 +218,23 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <img class="card-img-top" style="width: 100%;" src="https://pict.sindonews.net/dyn/850/pena/news/2022/02/02/700/674121/11-rahasia-avengers-endgame-yang-diungkapkan-marvel-ebh.jpg" alt="Card image cap">
+                                        <img class="card-img-top" style="width: 90%;" src="{{ asset('assets/images/'.$image_detail) }}" alt="Card image cap">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-">
-                                                <h4 class="card-title">Detail Product</h4>
-                                                <h7><b>Tersedia 20</b></span>
+                                                <h4 class="card-title">{{ $title_detail }}</h4>
+                                                <h7><b>Tersedia {{ $stock_detail }}</b></span>
                                                 <br>
-                                                <h5 class="font-color: red;">Rp. 12000</h5>
+                                                <h5 class="font-color: red;">Rp. {{ $price_detail }}</h5>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
                                             <h5>Deskripsi Produk :</h5>
+                                            <br>
                                             <p>
-                                                Sari Roti Roti BANTAL, ada rasa coklat, coklat keju, srikaya Sari Roti Roti BANTAL, ada rasa coklat, coklat keju, srikaya
-                                            </p>
-                                            <p>
-                                            Sari Roti Roti BANTAL, ada rasa coklat, coklat keju, srikaya    
+                                                {{ $deskripsi_detail }}  
                                             </p>
                                         </div>
                                     </div>
@@ -297,4 +296,18 @@
     </div>
 </div>
 
+
+@push('after-scripts') 
+<script>
+    Livewire.on('modal_detail_product',(data)=>{
+        $("#modal_detail_product").modal('show');
+    });
+    
+    // untuk menangkap Event emit "refresh-page" yang dibuat di Component Edit.php
+    // jika ada event refresh-page maka modal kita hide
+    Livewire.on('refresh-page',()=>{
+        $(".modal").modal("hide");
+    });
+</script>
+@endpush
 
