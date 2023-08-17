@@ -155,14 +155,16 @@
                                             @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
-                                            {{ format_idr($price - $disc) }}
-                                            <!-- <input type="text" class="form-control" wire:model="disc_p" /> -->
-                                            @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
-                                        </td>
-                                        <td>
                                             <!-- {{$disc}} -->
                                             <input type="text" class="form-control" wire:model="disc"/>
                                             @error('disc') <span class="text-danger">{{ $message }}</span> @enderror
+
+                                            
+                                        </td>
+                                        <td>
+                                            {{ format_idr($price - $disc) }}
+                                            <!-- <input type="text" class="form-control" wire:model="disc_p" /> -->
+                                            @error('disc_p') <span class="text-danger">{{ $message }}</span> @enderror
                                         </td>
                                         <td>
                                             <a href="javascript:void(0)" wire:click="updateSettingHarga" class="btn btn-info"><i class="fa fa-save"></i></a>
@@ -175,10 +177,11 @@
                                         <td>{{$item->qty}}</td>
                                         <td>{{ $item->disc }}</td>
                                         <td>
-                                            Rp. {{ @format_idr($price-$item->disc_harga) }}
+                                            Rp. {{ @format_idr($item->disc_harga) }}
+                                            
                                         </td>
                                         <td>
-                                            Rp. {{ @format_idr($item->disc_harga) }}
+                                            Rp. {{ @format_idr($price-$item->disc_harga) }}
                                         </td>
                                         <td>
                                             <a class="dropdown-item text-danger" href="javascript:void(0)" wire:click="delete({{$item->id}})"><i class="fa fa-trash"></i> </a>

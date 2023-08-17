@@ -110,6 +110,7 @@ class Detail extends Component
         $this->insert = false;
 
         $this->emit('message-success','Data berhasil diupdate.');
+        return redirect()->to('product-supplier/detail/'.$this->data->id);
     }
 
     public function delete($id)

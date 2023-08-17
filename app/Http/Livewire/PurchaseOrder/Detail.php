@@ -50,7 +50,12 @@ class Detail extends Component
         $this->delivery_order_date = $data->delivery_order_date;
         $this->suppliers = Supplier::orderBy('id','DESC')->get(); 
         $data_product = [];
-        foreach(SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get() as $k => $item){
+        // $product_except = array('9', '10');
+        $product_except = PurchaseOrderDetail::select('product_id')->where('id_po', $data->id)->get();
+        
+        foreach(SupplierProduct::where('id_supplier', $this->id_supplier)
+                                ->whereNotIn('id', $product_except)
+                                ->orderBy('id','DESC')->get() as $k => $item){
         // foreach(Product::get() as $k => $item){
             $data_product[$k]['id'] = $item->id;
             // $data_product[$k]['text'] = $item->kode_produksi;
@@ -221,6 +226,8 @@ class Detail extends Component
         }
 
         $this->emit('reload');
+        
+        return redirect()->to('purchase-order/detail/'.$this->data->id);
     }
 
     public function addProduct()
@@ -242,7 +249,7 @@ class Detail extends Component
             $detail                 = new PurchaseOrderDetail();
             $detail->id_po          = $this->data->id;
             $detail->product_id     = $this->product_id;
-            $detail->product_uom_id = \App\Models\ProductUom::where('name', $this->product_uom_id)->first()->id;
+            $detail->product_uom_id = @\App\Models\ProductUom::where('name', $this->product_uom_id)->first()->id;
             $detail->qty            = $this->qty;
             $detail->price          = $this->price;
             $detail->disc           = $this->disc_p;
@@ -261,6 +268,8 @@ class Detail extends Component
         $this->price_akhir  = '';
         $this->reset(['product_id','qty']);
         $this->emit('reload');
+
+        return redirect()->to('purchase-order/detail/'.$this->data->id);
     }
 
     public function deleteProduct($id)

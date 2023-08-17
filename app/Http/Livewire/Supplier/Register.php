@@ -47,6 +47,7 @@ class Register extends Component
 			$match_pw=true;
 		}
 		// dd($match_pw);
+		
 
         return view('livewire.supplier.register')->layout('layouts.auth');
     }
@@ -80,11 +81,15 @@ class Register extends Component
 			'email' => 'required',
 		];
 
+		
+
 		$find = Supplier::where('nama_supplier',$this->nama_supplier)->first();
         if($find){
             $this->error_nama_supplier = 'Nama Supplier sudah ada';
             return;
         }
+
+		
 
         $user                   = new User();
 		$user->user_access_id   = 7; // Supplier

@@ -115,6 +115,7 @@ class Index extends Component
         // dd($check, $idsupplier, $id);
 
         if($check){
+            
             $checkproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
             if($checkproduct){
                 $updateproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
@@ -129,9 +130,17 @@ class Index extends Component
             }
         }else{
             $addpo = new PurchaseOrder();
+            $addpo->no_po = 'PO'.date('ymd').'0001';
             $addpo->id_supplier = $idsupplier;
             $addpo->id_buyer = Auth::user()->id;
+            $addpo->status = 0;
             $addpo->save();
+
+            $addproduct = new PurchaseOrderDetail();
+            $addproduct->id_po = $addpo->id;
+            $addproduct->product_id = $id;
+            $addproduct->qty = $this->qty;
+            $addproduct->save();
         }
 
         $this->insert = 0;

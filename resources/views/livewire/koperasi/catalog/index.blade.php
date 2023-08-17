@@ -34,10 +34,10 @@
                         <div class="col-md-12">
                             <label>View</label>
                             
-                            <select name="" id="" wire:model="optview" class="form-control" >
+                            <!-- <select name="" id="" wire:model="optview" class="form-control" >
                                 <option value="list"><i class="fa fa-list"></i>List</option>
                                 <option value="card"><i class="fa fa-file-image-o"></i>Card</option>
-                            </select>
+                            </select> -->
                             
                                 @if($card)
                                     <a href="javascript:void(0)" wire:click="$set('card',false)" class="btn btn-info"><i class="fa fa-list"></i></a>

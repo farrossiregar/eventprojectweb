@@ -26,6 +26,7 @@
                                 <div class="col-md-6">
                                     <label>Nama Supplier</label><span class="text-danger">*
                                     <input type="text" class="form-control" wire:model="nama_supplier" />
+                                    @error('error_nama_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputName">E-mail</label><span class="text-danger">*
