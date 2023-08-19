@@ -102,7 +102,7 @@ Route::group(['middleware' => ['auth','access:1']], function(){
 
     // Produk
     Route::get('vendor/index',App\Http\Livewire\Vendor\Index::class)->name('vendor.index');
-    Route::get('purchase-request/index',App\Http\Livewire\PurchaseRequest\Index::class)->name('purchase-request.index');
+    // Route::get('purchase-request/index',App\Http\Livewire\PurchaseRequest\Index::class)->name('purchase-request.index');
     Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-administration.index');
     Route::get('purchase-order-administration/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order-administration.insert');
     Route::get('purchase-order-administration/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-administration.detail');

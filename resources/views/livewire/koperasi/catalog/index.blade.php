@@ -201,6 +201,7 @@
     </div>
 
 
+
     <div wire:ignore.self class="modal fade" id="modal_detail_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -223,34 +224,80 @@
                                     <div class="col-md-8">
                                         <div class="row">
                                             <div class="col-md-">
-                                                <h4 class="card-title">{{ $title_detail }}</h4>
-                                                <h7><b>Tersedia {{ $stock_detail }}</b></span>
-                                                <br>
-                                                <h5 class="font-color: red;">Rp. {{ $price_detail }}</h5>
+                                                <h5 class="card-title"><b>{{ $title_detail }}</b></h5>
+                                                <h3 class="font-color: red;"><b>Rp,{{ format_idr($price_detail) }}</b></h3>
                                             </div>
                                         </div>
                                         <br>
                                         <div class="row">
-                                            <h5>Deskripsi Produk :</h5>
-                                            <br>
-                                            <p>
-                                                {{ $deskripsi_detail }}  
-                                            </p>
+                                            <ul class="nav nav-tabs">
+                                                <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_desc">{{ __('Deskripsi') }} </a></li>
+                                                <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_disc">{{ __('Diskon') }} </a></li>
+                                            </ul>
+                                            <div class="tab-content px-0">
+                                                <div class="tab-pane active show" id="tab_desc" style="overflow-y: scroll; overflow-x: hidden;">
+                                                    <h6><b>Kelipatan Harga</b></h6>
+                                                    <p>
+                                                        {{ $deskripsi_detail }}  
+                                                    </p>
+                                                </div>
+                                                <div class="tab-pane" id="tab_disc">
+                                                    <h6><b>Kelipatan Harga</b></h6>
+                                                    <hr />
+
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped m-b-0 c_list">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>Jumlah (<)</th>   
+                                                                    <th>Diskon (%)</th>                              
+                                                                    <th>Potongan (Rp)</th>
+                                                                    <th>Harga Jual (Rp)</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                               
+                                                                @foreach(@App\Models\SettingHarga::where('product_id',$this->selected_id)->get() as $k => $item)
+                                                                    <tr>
+                                                                        <td>{{$item->qty}}</td>
+                                                                        <td>{{ $item->disc }}</td>
+                                                                        <td>
+                                                                            Rp. {{ @format_idr($item->disc_harga) }}
+                                                                            
+                                                                        </td>
+                                                                        <td>
+                                                                            Rp. {{ @format_idr($price-$item->disc_harga) }}
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforeach
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
+                                        
                                     </div>
                                 </div>
                                 
                             </div>
                             <div class="modal-footer">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <input type="text" class="form-control" wire:model="qty" />
+                                <form wire:submit.prevent="beliproduct">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <span><b>Stok {{ $stock_detail }}</b></span>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <input type="text" class="form-control" wire:model="qty" />
+                                            <input type="hidden" class="form-control" wire:model="selected_id" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <!-- <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a> -->
+                                            
+                                            <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button>
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><i class="fa fa-save"></i></a>
-                                    </div>
-                                </div>
-                                
+                                </form>
                             </div>
                         
                     </div>
@@ -262,30 +309,6 @@
 
 
 
-    <div wire:ignore.self class="modal fade" id="modal_set_password" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <form wire:submit.prevent="changePassword">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-sign-in"></i> Set Password</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true close-btn">×</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="text" class="form-control" wire:model="password" />
-                            @error('password') <span class="text-danger">{{ $message }}</span> @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger close-modal">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 </div>
 
 <div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

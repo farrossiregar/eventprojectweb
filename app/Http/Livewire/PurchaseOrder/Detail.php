@@ -50,7 +50,7 @@ class Detail extends Component
         $this->delivery_order_date = $data->delivery_order_date;
         $this->suppliers = Supplier::orderBy('id','DESC')->get(); 
         $data_product = [];
-        // $product_except = array('9', '10');
+        
         $product_except = PurchaseOrderDetail::select('product_id')->where('id_po', $data->id)->get();
         
         foreach(SupplierProduct::where('id_supplier', $this->id_supplier)

@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\SupplierProduct;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
+use App\Models\SettingHarga;
 use Livewire\WithPagination;
 use Auth;
 
@@ -20,7 +21,7 @@ class Index extends Component
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
 
-    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail;
+    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail, $setting_harga;
 
     public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
@@ -35,6 +36,7 @@ class Index extends Component
         // }else{
         //     $this->card = true;
         // }
+        
         
 
         if($this->keyword){
@@ -100,11 +102,27 @@ class Index extends Component
         $this->deskripsi_detail      = $data_detail->desc_product;
         $this->image_detail          = $data_detail->image_source;
         $this->price_detail          = $data_detail->price;
+
+        
     }
 
   
 
     public function addproductpo($id)
+    {
+        $qty = $this->qty;
+        $this->insertproductpo($id, $qty);
+    }
+
+    public function beliproduct()
+    {
+        $id = $this->selected_id;
+        $qty = $this->qty;
+        $this->insertproductpo($id, $qty);
+    }
+
+
+    public function insertproductpo($id, $qty)
     {
         $idsupplier = SupplierProduct::where('id', $id)->first()->id_supplier;
         $check = PurchaseOrder::where('id_buyer', Auth::user()->id)
@@ -147,7 +165,11 @@ class Index extends Component
         // $add = new PurchaseOrderDetail();
         // $add = new PurchaseOrderDetail();
         // $this->emit('reload');
+
+        session()->flash('message', 'Produk Berhasil Ditambahkan.');
     }
+
+    
 
    
 }
