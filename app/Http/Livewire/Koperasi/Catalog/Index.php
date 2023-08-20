@@ -131,19 +131,31 @@ class Index extends Component
                                 ->first();
 
         // dd($check, $idsupplier, $id);
+        dd(get_disc_price($idsupplier, $id, $this->qty)['price_akhir'] * $this->qty);
 
+        $check_data_product = SupplierProduct::where('id', $id)->first();
+        // $check_data_settingprice = SettingHarga::where()->get();
         if($check){
             
             $checkproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
             if($checkproduct){
                 $updateproduct = PurchaseOrderDetail::where('product_id', $id)->where('id_po', $check->id)->first();
+                $updateproduct->price = $check_data_product->price;
                 $updateproduct->qty = $checkproduct->qty + $this->qty;
+                $updateproduct->disc = get_disc_price($idsupplier, $id, ($checkproduct->qty + $this->qty))['disc_p'];
+                $updateproduct->disc_harga = get_disc_price($idsupplier, $id, ($checkproduct->qty + $this->qty))['disc'];
+                $updateproduct->total_price = get_disc_price($idsupplier, $id, ($checkproduct->qty + $this->qty))['price_akhir'] * ($checkproduct->qty + $this->qty);
                 $updateproduct->save();
             }else{
                 $addproduct = new PurchaseOrderDetail();
                 $addproduct->id_po = $check->id;
                 $addproduct->product_id = $id;
+                $addproduct->price = $check_data_product->price;
                 $addproduct->qty = $this->qty;
+                $addproduct->disc = get_disc_price($idsupplier, $id, $this->qty)['disc_p'];
+                $addproduct->disc_harga = get_disc_price($idsupplier, $id, $this->qty)['disc'];
+                $addproduct->total_price = get_disc_price($idsupplier, $id, $this->qty)['price_akhir'] * $this->qty;
+                $addproduct->product_uom_id = $check_data_product->product_uom_id;
                 $addproduct->save();
             }
         }else{
@@ -157,7 +169,12 @@ class Index extends Component
             $addproduct = new PurchaseOrderDetail();
             $addproduct->id_po = $addpo->id;
             $addproduct->product_id = $id;
+            $addproduct->price = $check_data_product->price;
             $addproduct->qty = $this->qty;
+            $addproduct->disc = get_disc_price($idsupplier, $id, $this->qty)['disc_p'];
+            $addproduct->disc_harga = get_disc_price($idsupplier, $id, $this->qty)['disc'];
+            $addproduct->total_price = get_disc_price($idsupplier, $id, $this->qty)['price_akhir'] * $this->qty;
+            $addproduct->product_uom_id = $check_data_product->product_uom_id;
             $addproduct->save();
         }
 

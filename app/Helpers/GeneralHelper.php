@@ -444,3 +444,55 @@ function getAsuransi($id)
         return '<label class="badge badge-danger">No Criteria</label>';
     }    
 }
+
+
+function get_disc_price($id_supplier, $product_id, $qty){
+    if(\App\Models\SettingHarga::where('supplier_id', $id_supplier)->where('product_id', $product_id)->get()){
+        $qty_max = \App\Models\SettingHarga::where('product_id', $product_id)->max('qty');
+        if($qty > $qty_max){
+            $price_level_disc = @\App\Models\SettingHarga::where('supplier_id', $id_supplier)->where('product_id', $product_id)->orderBy('qty', 'desc')->first()->disc;
+            
+        }else{
+            $qty_min = \App\Models\SettingHarga::where('product_id', $product_id)->orderBy('qty', 'asc')->first()->qty;
+            if(\App\Models\SettingHarga::where('product_id', $product_id)->where('qty', $qty)->first()){
+                
+                $price_level_disc = \App\Models\SettingHarga::where('product_id', $product_id)
+                                                ->where('qty', $qty)
+                                                ->first()->disc;
+            }else{
+
+                if($qty < $qty_min){
+                    $price_level_disc = 0;
+                }else{
+                    
+                    $qty_abv = \App\Models\SettingHarga::where('product_id', $product_id)
+                                        ->where('qty', '>', $qty)
+                                        ->first()->qty;
+
+                    $qty_curr = \App\Models\SettingHarga::where('product_id', $product_id)
+                                            ->where('qty', '<', $qty_abv)
+                                            ->orderBy('qty', 'desc')
+                                            ->first()->qty;
+                    $price_level_disc   = @\App\Models\SettingHarga::where('product_id', $product_id)
+                                                        ->where('qty', '=', $qty_curr)
+                                                        ->first()->disc;
+                }
+            }
+        }
+
+        $price_real = \App\Models\SupplierProduct::where('id', $product_id)->first()->price;
+        $result = array(
+                        'disc_p' => $price_level_disc,
+                        'disc' => ($price_real*$price_level_disc)/100,
+                        'price' => $price_real,
+                        'price_akhir' => ceil($price_real - (($price_real*$price_level_disc)/100))
+        );
+
+        return $result;
+
+        // $this->disc_p       = $price_level_disc; 
+        // $this->disc         = ($this->price*$price_level_disc)/100; 
+        // $this->price        = $this->price;
+        // $this->price_akhir  = ceil($this->price - (($this->price*$price_level_disc)/100));
+    }
+}
