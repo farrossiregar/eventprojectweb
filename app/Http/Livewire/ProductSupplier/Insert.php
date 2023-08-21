@@ -4,10 +4,13 @@ namespace App\Http\Livewire\ProductSupplier;
 
 use Livewire\Component;
 use App\Models\SupplierProduct;
+use Livewire\WithFileUploads;
+use Auth;
 
 class Insert extends Component
 {
-    public $barcode,$desc_product,$nama_product, $qty, $price;
+    use WithFileUploads;
+    public $barcode,$desc_product,$nama_product, $qty, $price, $file;
     public function render()
     {
         return view('livewire.product-supplier.insert');
@@ -25,6 +28,18 @@ class Insert extends Component
         $data->barcode = $this->barcode;
         $data->desc_product = $this->desc_product;
         $data->nama_product = $this->nama_product;
+        $data->qty = $this->price;
+        $data->id_supplier = Auth::user()->id;
+        // $data->image_source = $this->file;
+
+        
+
+        // if($this->file!=""){
+            $image = strtolower(str_replace(" ", "", $this->nama_product)).'.'.$this->file->extension();
+            $this->file->storePubliclyAs('public/assets/images/',$image);
+            $data->image_source = $image;
+        // }
+
         $data->save();
 
         session()->flash('message-success',"Product berhasil di simpan, selanjutnya kamu harus tentukan harga jual produk");

@@ -24,6 +24,14 @@
                             @if($data->status==3)
                                 <span class="badge badge-success mr-0">Paid</span>
                             @endif
+
+                            @if($data->status==4)
+                                <span class="badge badge-success mr-0">Deliver</span>
+                            @endif
+
+                            @if($data->status==5)
+                                <span class="badge badge-success mr-0">Delivered</span>
+                            @endif
                         @else
                             @if($data->status==0)
                                 <span class="badge badge-warning mr-0">Draft</span>
@@ -45,6 +53,14 @@
                             @if($data->status==3)
                                 <span class="badge badge-success mr-0">Paid</span>
                             @endif<br />
+
+                            @if($data->status==4)
+                                <span class="badge badge-warning mr-0">On The Way</span>
+                            @endif
+
+                            @if($data->status==5)
+                                <span class="badge badge-success mr-0">Received</span>
+                            @endif
                         @endif
                         <br /><label>{{$data->no_po}}</label>
                         <hr class="py-0 my-0" />
@@ -234,7 +250,7 @@
                                         Rp. {{format_idr($item->price)}}
                                     </td>
                                     <td class="text-center">
-                                        {{$item->disc}}%
+                                        {{ isset($item->disc) ? $item->disc : 0 }}%
                                     </td>
                                     <td class="text-right">
                                         Rp. {{format_idr($item->disc_harga)}}
@@ -256,6 +272,7 @@
                                 @php($total += $item->price)
                                 @php($total_qty += $item->qty)
                                 <!-- @php($sub_total += $item->qty * ($item->price-$item->disc)) -->
+                                <!-- @php($sub_total += $item->total_price) -->
                                 @php($sub_total += $item->total_price)
                             @endforeach
                         </tbody>
@@ -272,10 +289,10 @@
                             </tr>
                             
                             <tr>
-                                <th colspan="9" class="text-right">Biaya Pengiriman</th>
+                                <th colspan="9" class="text-right">Biaya Pengiriman <span style="color:red;">*</span></th>
                                 <th class="text-right">
                                     @if($data->status==1 && Auth::user()->user_access_id == 7)
-                                        <input type="text" class="form-control text-right" wire:model="biaya_pengiriman" /> 
+                                        <input type="text" class="form-control text-right" wire:model="biaya_pengiriman" required/> 
                                     @else
                                         {{ isset($data->biaya_pengiriman) ? format_idr($data->biaya_pengiriman) : 0 }}
                                     @endif
@@ -313,7 +330,7 @@
                     @endif
                 </div>
                 <hr />
-                @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 7 || Auth::user()->user_access_id == 8)
+                @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
                     <div class="form-group">
                         <a href="{{route('purchase-order.index')}}" class="mr-3"><i class="fa fa-arrow-left"></i> Kembali</a>
                         @if($data->status==0)
@@ -329,6 +346,12 @@
                         @if($data->status==3 || $data->status==4 || $data->status==5)
                             <a href="javascript:void(0)" class="btn btn-info" data-toggle="modal" data-target="#modal_upload_bukti_pembayaran"><i class="fa fa-eye"></i> Detail Invoice</a>
                         @endif
+
+                        @if($data->status==4)
+                            <a href="javascript:void(0)" class="btn btn-info" wire:click="updateasreceived"><i class="fa fa-get-pocket"></i> Received</a>
+                        @endif
+
+                        
                     </div>
                 @endif
 
@@ -338,8 +361,9 @@
                             <button type="button" class="btn btn-info" wire:click="sendinvoice"><i class="fa fa-send-o"></i> Send Invoice</button>
                         @endif
 
-                        @if($data->status==1)
-                            <button type="button" class="btn btn-info" wire:click="updateaspaid"><i class="fa fa-dollar"></i> Update as Paid</button>
+                        @if($data->status==3)
+                            <!-- <button type="button" class="btn btn-info" wire:click="updateaspaid"><i class="fa fa-dollar"></i> Update as Paid</button> -->
+                            <button type="button" class="btn btn-info" wire:click="updateasdeliver"><i class="fa fa-truck"></i> Deliver</button>
                         @endif
                         <!-- <button type="button" class="btn btn-info" wire:click="submit"><i class="fa fa-check-circle"></i> Issued</button> -->
                     </div>

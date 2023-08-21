@@ -275,7 +275,8 @@ class Detail extends Component
     public function deleteProduct($id)
     {
         PurchaseOrderDetail::find($id)->delete();
-        $this->emit('reload');
+        // $this->emit('reload');
+        return redirect()->to('purchase-order/detail/'.$this->data->id);
     }
 
     public function save()
@@ -353,6 +354,7 @@ class Detail extends Component
 
     public function sendinvoice(){
         $this->data->status = 2;
+        $this->data->biaya_pengiriman = $this->biaya_pengiriman;
         $this->data->save();
         session()->flash('message-success',"Invoice berhasil dikirimkan ke Customer");
 
@@ -383,6 +385,24 @@ class Detail extends Component
         }
 
         session()->flash('message-success',"Pembayaran Purchase Order dikonfirmasi");
+
+        return redirect()->route('purchase-order-supplier.detail',$this->data->id);
+    }
+
+    public function updateasdeliver(){
+        $this->data->status = 4;
+        $this->data->save();
+
+        session()->flash('message-success',"Barang sudah dikirim");
+
+        return redirect()->route('purchase-order-supplier.detail',$this->data->id);
+    }
+
+    public function updateasreceived(){
+        $this->data->status = 5;
+        $this->data->save();
+
+        session()->flash('message-success',"Barang sudah diterima");
 
         return redirect()->route('purchase-order-supplier.detail',$this->data->id);
     }

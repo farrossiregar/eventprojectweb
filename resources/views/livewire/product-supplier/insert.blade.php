@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label>{{ __('Foto') }}</label>
-                        <input type="file" class="form-control"  >
+                        <input type="file" class="form-control"  wire:model="file" >
                         @error('foto')
                             <ul class="parsley-errors-list filled" id="parsley-id-29"><li class="parsley-required">{{ $message }}</li></ul>
                         @enderror
