@@ -140,48 +140,49 @@
                         @if($card)
                         <div class="row" id="card-view-catalog">
                             @foreach($data as $k => $item)
-                                <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
-                                    <div style="height: 180px; overflow: hidden;">
-                                        <img class="card-img-top" src="{{ asset('assets/images/'.$item->image_source) }}" alt="Card image cap">
-                                    </div>
-                                    
-                                    <div class="card-body">
-                                        <a href="{{ route('user-supplier.produk',$item->id_supplier) }}" class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</a>
-                                        <h6 class="card-title">{{ $item->nama_product }}</h6>
-                                        <!-- <p style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p> -->
-                                        <div>
-                                            <span style="float: left;">
-                                                <a href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
-                                            </span>
-                                            <span style="float: right;">
-                                                <b>Stok : {{ $item->qty }}</b>
-                                            </span>
+                                <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})">
+                                    <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
+                                        <div style="height: 180px; overflow: hidden;">
+                                            <img class="card-img-top" src="{{ asset('assets/images/'.$item->image_source) }}" alt="Card image cap">
                                         </div>
-                                        <!-- <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
-                                        <p><b>Stok : {{ $item->qty }}</b></p> -->
-                                        
-                                        <br>
-                                        @if($insert == 0)
-                                        <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
-                                        <a style="position: absolute; bottom: 10px;" href="javascript:void(0)" wire:click="$set('insert',{{$item->id}})" class="btn btn-primary"><b>+</b></a>
-                                        <a style="position: absolute; bottom: 10px; left: 60px;" href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
-                                        @endif
-                                        
-
-                                        @if($insert == $item->id)
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                    <input type="text" class="form-control" wire:model="qty" />
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <a href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-info"><i class="fa fa-save"></i></a>
-                                                    <a href="javascript:void(0)" wire:click="$set('insert',0)" class="btn btn-danger"><i class="fa fa-close"></i></a>
-                                                </div>
-                                            </div>
-                                        @endif
-                                    </div>
                                     
-                                </div>
+                                        <div class="card-body">
+                                            <a href="{{ route('user-supplier.produk',$item->id_supplier) }}" class="card-text">{{ @\App\Models\Supplier::where('id',$item->id_supplier)->first()->nama_supplier }}</a>
+                                            <h6 class="card-title">{{ $item->nama_product }}</h6>
+                                            <!-- <p style="position: absolute; bottom: 6px; left: 65px;" href="{{route('catalog.detail',$item->id)}}" class="btn btn-primary"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p> -->
+                                            <div>
+                                                <span style="float: left;">
+                                                    <a href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</a>
+                                                </span>
+                                                <span style="float: right;">
+                                                    <b>Stok : {{ $item->qty }}</b>
+                                                </span>
+                                            </div>
+                                            <!-- <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
+                                            <p><b>Stok : {{ $item->qty }}</b></p> -->
+                                            
+                                            <br>
+                                            @if($insert == 0)
+                                            <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
+                                            <!-- <a style="position: absolute; bottom: 10px;" href="javascript:void(0)" wire:click="$set('insert',{{$item->id}})" class="btn btn-primary"><b>+</b></a> -->
+                                            <!-- <a style="position: absolute; bottom: 10px; left: 60px;" wire:click="$emit('modal_detail_product',{{$item->id}})" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a> -->
+                                            @endif
+                                            
+
+                                            @if($insert == $item->id)
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <input type="text" class="form-control" wire:model="qty" />
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <a href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-info"><i class="fa fa-save"></i></a>
+                                                        <a href="javascript:void(0)" wire:click="$set('insert',0)" class="btn btn-danger"><i class="fa fa-close"></i></a>
+                                                    </div>
+                                                </div>
+                                            @endif
+                                        </div>
+                                    </div>
+                                </a>
                             @endforeach
                         </div>
                         @endif
