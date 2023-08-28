@@ -21,7 +21,7 @@ class Index extends Component
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
 
-    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail, $setting_harga;
+    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail, $setting_harga, $price_akhir, $uom;
 
     public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
@@ -90,6 +90,24 @@ class Index extends Component
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
     }
 
+
+    public function updated($propertyName)
+    {
+        if($propertyName=='qty'){
+            // dd(get_disc_price($this->supplier_detail, $this->selected_id, $this->qty));
+            $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, $this->qty)['price_akhir'];
+        } 
+
+        if($propertyName=='optview'){
+            if($this->optview == 'list'){
+                $this->card = false;
+            }else{
+                $this->card = true;
+            }
+        }
+
+    }
+
     public function modalDetailProduct($id)
     {
         $this->selected_id = $id;
@@ -102,6 +120,9 @@ class Index extends Component
         $this->deskripsi_detail      = $data_detail->desc_product;
         $this->image_detail          = $data_detail->image_source;
         $this->price_detail          = $data_detail->price;
+        $this->uom                   = \App\Models\ProductUom::where('id', $data_detail->product_uom_id)->first()->name;
+
+        $this->price_akhir           = $data_detail->price;
 
         
     }
@@ -131,7 +152,7 @@ class Index extends Component
                                 ->first();
 
         // dd($check, $idsupplier, $id);
-        dd(get_disc_price($idsupplier, $id, $this->qty)['price_akhir'] * $this->qty);
+        // dd(get_disc_price($idsupplier, $id, $this->qty)['price_akhir'] * $this->qty);
 
         $check_data_product = SupplierProduct::where('id', $id)->first();
         // $check_data_settingprice = SettingHarga::where()->get();

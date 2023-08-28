@@ -36,7 +36,14 @@ class Insert extends Component
 
         // if($this->file!=""){
             $image = strtolower(str_replace(" ", "", $this->nama_product)).'.'.$this->file->extension();
-            $this->file->storePubliclyAs('public/assets/images/',$image);
+            // $this->file->storePubliclyAs('public/assets/images/',$image);
+
+            $this->file->store('images', ['disk' => 'product']);
+
+            // $this->file($image)->storeAs('images', $image, 'product');
+
+            // Storage::disk('assets_public')->put('filename', $image);
+            
             $data->image_source = $image;
         // }
 

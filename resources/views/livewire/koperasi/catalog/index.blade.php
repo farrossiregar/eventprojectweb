@@ -34,56 +34,20 @@
                         <div class="col-md-12">
                             <label>View</label>
                             
-                            <!-- <select name="" id="" wire:model="optview" class="form-control" >
+                            <select name="" id="" wire:model="optview" class="form-control" >
                                 <option value="list"><i class="fa fa-list"></i>List</option>
                                 <option value="card"><i class="fa fa-file-image-o"></i>Card</option>
-                            </select> -->
-                            
+                            </select>
+<!--                             
                                 @if($card)
                                     <a href="javascript:void(0)" wire:click="$set('card',false)" class="btn btn-info"><i class="fa fa-list"></i></a>
                                 @else
                                     <a href="javascript:void(0)" wire:click="$set('card',true)" class="btn btn-info"><i class="fa fa-file-image-o"></i></a>
-                                @endif
+                                @endif -->
                             <br>
                         </div>
 
 
-                        <!-- <div class="col-md-12">
-                            <label>Tanggal Upload</label>
-                            <select name="" id="" wire:model="date" class="form-control" >
-                                <option value="" selected disabled>-- Sort By Date Upload --</option>
-                                <option value="new">Newest</option>
-                                <option value="old">Oldest</option>
-                            </select>
-                            <br>
-                        </div>
-                        <div class="col-md-12">
-                            <label>Harga</label>
-                            <select name="" id="" wire:model="price" class="form-control" >
-                                <option value="" selected disabled>-- Sort By Harga --</option>
-                                <option value="lo">Termurah</option>
-                                <option value="hi">Termahal</option>
-                            </select>
-                            <br>
-                        </div>
-                        <div class="col-md-12">
-                            <label>Nama Produk</label>
-                            <select name="" id="" wire:model="name" class="form-control" >
-                                <option value="" selected disabled>-- Sort By Nama Produk --</option>
-                                <option value="az">A-Z</option>
-                                <option value="za">Z-A</option>
-                            </select>
-                            <br>
-                        </div>                
-                        <div class="col-md-12">
-                            <label>Lainnya</label>
-                            <select name="" id="" wire:model="sortetc" class="form-control" >
-                                <option value="">-- Sort By --</option>
-                                <option value="populer">Populer</option>
-                                <option value="terdekat">Terdekat</option>
-                                <option value="stok">Stok</option>
-                            </select>
-                        </div> -->
                     </div>
                 </div>
                 <div class="col-md-10">
@@ -126,7 +90,7 @@
                                         <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->provinsi }}</td>
                                         <td>
                                             <!-- <a href="javascript:void(0)" data-toggle="modal" data-target="#modal_detail_product" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a> -->
-                                            <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})" wire:click="" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a>
+                                            <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})" wire:click="" class="btn btn-primary"><b><i class="fa fa-shopping-cart"></i></b></a>
                                         </td>
                                     
                                     </tr>
@@ -161,11 +125,11 @@
                                             <!-- <p href="{{route('catalog.detail',$item->id)}}"><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</p>
                                             <p><b>Stok : {{ $item->qty }}</b></p> -->
                                             
-                                            <br>
+                                            <br><br><br>
                                             @if($insert == 0)
                                             <!-- <a style="position: absolute; bottom: 6px;" href="javascript:void(0)" wire:click="addproductpo({{$item->id}}, {{$item->id_supplier}})" class="btn btn-primary"><b>+</b></a> -->
                                             <!-- <a style="position: absolute; bottom: 10px;" href="javascript:void(0)" wire:click="$set('insert',{{$item->id}})" class="btn btn-primary"><b>+</b></a> -->
-                                            <!-- <a style="position: absolute; bottom: 10px; left: 60px;" wire:click="$emit('modal_detail_product',{{$item->id}})" class="btn btn-primary"><b><i class="fa fa-eye"></i></b></a> -->
+                                            <a style="position: absolute; bottom: 10px; left: 10px;" wire:click="$emit('modal_detail_product',{{$item->id}})" class="btn btn-primary"><i class="fa fa-shopping-cart"></i></a>
                                             @endif
                                             
 
@@ -236,21 +200,20 @@
                                                 <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_disc">{{ __('Diskon') }} </a></li>
                                             </ul>
                                             <div class="tab-content px-0">
-                                                <div class="tab-pane active show" id="tab_desc" style="overflow-y: scroll; overflow-x: hidden;">
-                                                    <h6><b>Kelipatan Harga</b></h6>
-                                                    <p>
-                                                        {{ $deskripsi_detail }}  
-                                                    </p>
+                                                
+                                                <div class="tab-pane active show" id="tab_desc" style="width: 450px; overflow-y: scroll; overflow-x: hidden; scrollbar-width: none;">
+                                                    <div class="table-responsive">
+                                                        <p>
+                                                            {{ $deskripsi_detail }}  
+                                                        </p>
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane" id="tab_disc">
-                                                    <h6><b>Kelipatan Harga</b></h6>
-                                                    <hr />
-
                                                     <div class="table-responsive">
                                                         <table class="table table-striped m-b-0 c_list">
                                                             <thead>
                                                                 <tr>
-                                                                    <th>Jumlah (<)</th>   
+                                                                    <th>Jumlah (>)</th>   
                                                                     <th>Diskon (%)</th>                              
                                                                     <th>Potongan (Rp)</th>
                                                                     <th>Harga Jual (Rp)</th>
@@ -267,7 +230,7 @@
                                                                             
                                                                         </td>
                                                                         <td>
-                                                                            Rp. {{ @format_idr($price-$item->disc_harga) }}
+                                                                            Rp. {{ @format_idr($price_detail - $item->disc_harga) }}
                                                                         </td>
                                                                     </tr>
                                                                 @endforeach
@@ -282,24 +245,90 @@
                                 </div>
                                 
                             </div>
-                            <div class="modal-footer">
+
+                            <div class="modal-header">
+                                <form wire:submit.prevent="beliproduct" style="width: 960px;">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <b>Rp, <span style="color: red;">{{ format_idr($price_akhir) }}</span> / <span style="font-size: 9px;">{{ $uom }}</span></b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <b><h3>Rp, <span style="color: red;">{{ format_idr($price_akhir * $qty) }}</span></h3></b>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @if (session()->has('message'))
+                                        <div class="col-md-6">             
+                                            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                <strong>{{ session('message') }}!</strong>
+                                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>                               
+                                        </div>
+                                        @else
+                                        <div class="col-md-4">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <span><b>Stok {{ $stock_detail }}</b></span>
+                                                </div>
+                                                <div class="col-md-8">
+                                                    <input type="number" class="form-control" wire:model.debounce.1000ms="qty" min="0" max="{{ $stock_detail }}"/>
+                                                    <input type="hidden" class="form-control" wire:model="selected_id" />
+                                                    <input type="hidden" class="form-control" wire:model="supplier_detail" />
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-2">
+                                            <!-- <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a> -->
+                                            <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button>
+                                        </div>
+                                        @endif
+                                        
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- <div class="modal-footer">
                                 <form wire:submit.prevent="beliproduct">
                                     <div class="row">
-                                        <div class="col-md-3">
-                                            <span><b>Stok {{ $stock_detail }}</b></span>
+                                        <div class="col-md-6">
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <b>Rp, <span style="color: red;">{{ format_idr($price_akhir) }}</span> / <span style="font-size: 9px;">{{ $uom }}</span></b>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-9">
+                                                    <b><h4>Rp, <span style="color: red;">{{ format_idr($price_akhir * $qty) }}</span></h4></b>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col-md-4">
-                                            <input type="text" class="form-control" wire:model="qty" />
-                                            <input type="hidden" class="form-control" wire:model="selected_id" />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <!-- <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a> -->
+                                            <div class="row">
+                                                <div class="col-md-8">
+                                                    <input type="number" class="form-control" wire:model.debounce.1000ms="qty" min="0" max="{{ $stock_detail }}"/>
+                                                    <input type="hidden" class="form-control" wire:model="selected_id" />
+                                                    <input type="hidden" class="form-control" wire:model="supplier_detail" />
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <span><b>Stok {{ $stock_detail }}</b></span>
+                                                </div>
+                                            </div>
                                             
+                                        </div>
+                                        <div class="col-md-2">
+                                            <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a>
                                             <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button>
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </div> -->
                         
                     </div>
                 </div>
