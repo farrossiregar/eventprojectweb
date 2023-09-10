@@ -170,6 +170,9 @@ Route::group(['middleware' => ['auth','access:8']], function(){
     Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
     Route::get('catalog-detail',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.detail');
     Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
+
+
+    Route::get('compare',App\Http\Livewire\Koperasi\Compare\Index::class)->name('compare.index');
     
 });
  
