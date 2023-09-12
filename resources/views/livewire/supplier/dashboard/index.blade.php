@@ -98,6 +98,12 @@
                                         @if($item->status==3)
                                             <span class="badge badge-success">Paid</span>
                                         @endif
+                                        @if($item->status==4)
+                                            <span class="badge badge-success mr-0">Deliver</span>
+                                        @endif
+                                        @if($item->status==5)
+                                            <span class="badge badge-success mr-0">Delivered</span>
+                                        @endif
                                     </td>
                                     @if(Auth::user()->user_access_id == 1)
                                         <td><a href="{{route('purchase-order-administration.detail',$item->id)}}">{{$item->no_po}}</a></td>

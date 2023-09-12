@@ -1,54 +1,87 @@
 @section('title', 'Compare')
 <div class="clearfix row">
-    
+   
     <div class="col-lg-12">
         <div class="card">
             <div class="row">
-                <!-- <div class="col-md-2" style="border-right: 1px solid lightgrey;">
-                    <div class="header row">
-                        <div class="col-md-12">
-                            <label>Sort By</label>
-                            <select name="" id="" wire:model="sort_by" class="form-control" >
-                                <option value="" selected disabled>-- Sort By --</option>
-                                <option value="created_at" >Tanggal Upload</option>
-                                <option value="price" >Harga</option>
-                                <option value="nama_product" >Nama Produk</option>
-                                <option value="qty" >Stok Tersedia</option>
-                                <option value="popular" >Populer</option>
-                            </select>
-                            <br>
-                        </div>
-
-                        @if($sort_val_opt == true)
-                        
-                        <div class="col-md-12">
-                            <select name="" id="" wire:model="sort_val" class="form-control" >
-                                <option value="desc" selected>Z-A</option>
-                                <option value="asc">A-Z</option>
-                            </select>
-                            <br>
-                        </div>
-                        @endif
-
-
-                        <div class="col-md-12">
-                            <label>View</label>
-                            
-                            <select name="" id="" wire:model="optview" class="form-control" >
-                                <option value="list"><i class="fa fa-list"></i>List</option>
-                                <option value="card"><i class="fa fa-file-image-o"></i>Card</option>
-                            </select>
-
-                            <br>
-                        </div>
-
-
-                    </div>
-                </div>
-                 -->
+              
                 <div class="col-md-12">
                     <div class="row">
                         
+                        <div class="card-deck" style="padding: 30px;">
+                            @for($i = 1; $i < 4; $i++)
+                            <div class="card">
+                                <img class="card-img-top" src="https://mmc.tirto.id/image/otf/880x495/2019/04/25/avengers-endgame-marvel-studios_ratio-16x9.jpg" alt="Card image cap">
+                                <div class="card-body">
+                                    <h5 class="card-title" style="text-align: left; font-size: 18px;">Sari Roti Roti Tawar Choco Chip</h5>
+                                    <h5 class="card-title" style="text-align: left; font-size: 12px;">PT Kartika Mandiri Sejahtera</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title" style="text-align: center; font-size: 30px;">Rp, 10.000,00</h5>
+                                    <!-- <p class="card-text">This is a wider card with.</p> -->
+                                </div>
+                                
+                                <div class="card-body">
+                                    <p class="card-text" style="text-align: center;">Stok 20 Pcs</p>
+                                    <!-- <h5 class="card-title" style="text-align: center;">20/Pcs</h5> -->
+                                    
+                                </div>
+                                <div class="card-body">
+                                    <p class="card-text" style="text-align: center;">Tangerang Selatan</p>
+                                    <!-- <h5 class="card-title" style="text-align: center;">20/Pcs</h5> -->
+                                </div>
+
+                                <div class="card-body">
+                                    <p class="card-text" style="text-align: center;">Terjual 150 Pcs</p>
+                                    <!-- <h5 class="card-title" style="text-align: center;">20/Pcs</h5> -->
+                                    
+                                </div>
+                            
+                                <div class="card-footer">
+                                    <small class="text-muted">
+                                        <div class="row">
+                                            <div class="col-md-4"></div>
+                                            <div class="col-md-4">
+                                                <div class="btn btn-info">
+                                                    <i class="fa fa-shopping-cart"></i> &nbsp; <b> BELI</b>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4"></div>
+                                        </div>
+                                    </small>
+                                </div>
+                            </div>
+                            @endfor
+
+                            <div class="card">
+                                <img class="card-img-top">
+                                <div class="card-body">
+                                    <div class="container h-100">
+                                        <div class="row align-items-center h-100">
+                                            <div class="col-6 mx-auto">
+                                                <div class="row">
+                                                    <div class="col-md-4"></div>
+                                                    <div class="col-md-4">
+                                                        <i style="font-size: 75px; align:center; color: lightblue;" class="fa fa-plus fa-8x"></i>
+                                                    </div>
+                                                    <div class="col-md-4"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                               
+                            </div>
+
+
+                            <div class="card">
+                                <div class="card-body">
+                                    <input type="text" class="form-control" placeholder="Cari Produk...">
+                                </div>
+                            </div>
+                        </div>
+                        
+<!--                         
                             <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',$item->id)">
                                 <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
                                     <div style="height: 180px; overflow: hidden;">
@@ -119,7 +152,7 @@
                                         
                                     </div>
                                 </div>
-                            </a>
+                            </a> -->
                         
                     </div>
                     <!-- <div class="header row">
