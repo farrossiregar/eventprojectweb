@@ -14,6 +14,7 @@ class Index extends Component
 {
     protected $listeners = [
         'modal_detail_product'=>'modalDetailProduct',
+        'pick_product_compare'=>'pickProductCompare'
     ];
 
     use WithPagination;
@@ -77,6 +78,26 @@ class Index extends Component
     }
 
     public function modalDetailProduct($id)
+    {
+        $this->selected_id = $id;
+        
+
+        $data_detail                 = SupplierProduct::where('id', $this->selected_id)->first();
+        $this->title_detail          = $data_detail->nama_product;
+        $this->supplier_detail       = $data_detail->id_supplier;
+        $this->stock_detail          = $data_detail->qty;
+        $this->deskripsi_detail      = $data_detail->desc_product;
+        $this->image_detail          = $data_detail->image_source;
+        $this->price_detail          = $data_detail->price;
+        $this->uom                   = \App\Models\ProductUom::where('id', $data_detail->product_uom_id)->first()->name;
+
+        $this->price_akhir           = $data_detail->price;
+
+        
+    }
+
+
+    public function pickProductCompare($id)
     {
         $this->selected_id = $id;
         
