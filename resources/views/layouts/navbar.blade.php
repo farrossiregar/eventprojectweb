@@ -66,6 +66,7 @@
                             <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
                             <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Refund</a></li>
                             <li><a href="{{ route('catalog.index') }}" class="text-info icon-menu px-1">Catalog</a></li>
+                            <li><a href="{{ route('compare.index') }}" class="text-info icon-menu px-1">Compare</a></li>
                           
                             <!-- <li><a href="route('kasir.index')" class="text-info icon-menu px-1">Kasir</a></li> -->
                         @endif

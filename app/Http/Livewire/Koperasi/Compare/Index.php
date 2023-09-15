@@ -3,18 +3,17 @@
 namespace App\Http\Livewire\Koperasi\Compare;
 
 use Livewire\Component;
+use App\Models\CompareProductTemp;
 use App\Models\SupplierProduct;
-use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderDetail;
-use App\Models\SettingHarga;
 use Livewire\WithPagination;
 use Auth;
 
 class Index extends Component
 {
     protected $listeners = [
-        'modal_detail_product'=>'modalDetailProduct',
-        'pick_product_compare'=>'pickProductCompare'
+        'add_product_compare'=>'addProductCompare',
+        'pick_product_compare'=>'pickProductCompare',
+        'remove_product_compare'=>'removeProductCompare'
     ];
 
     use WithPagination;
@@ -22,41 +21,33 @@ class Index extends Component
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
 
-    public $selected_id, $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail, $setting_harga, $price_akhir, $uom;
+    public $selected_id, $data_detail;
 
     public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
     {
         $user = Auth::user();
-        $data = SupplierProduct::whereNotNull('id');
+        $data = CompareProductTemp::select([
+                                            'compare_product_temp.id', 
+                                            'compare_product_temp.id_product', 
+                                            'supplier_product.nama_product', 
+                                            'supplier_product.price', 
+                                            'supplier_product.qty', 
+                                            'supplier_product.product_uom_id', 
+                                            'supplier_product.id_supplier',
+                                            'supplier_product.image_source',
+                                            'supplier.nama_supplier',
+                                            'supplier.provinsi',
+                                            'product_uom.name as uom_id'
+                                        ])
+                                    ->where('id_buyer', $user->id)
+                                    ->join('supplier_product','supplier_product.id','=','compare_product_temp.id_product')
+                                    ->join('supplier','supplier_product.id_supplier','=','supplier.id')
+                                    ->join('product_uom','supplier_product.product_uom_id','=','product_uom.id');
+
+        $this->data_detail = $data_detail = SupplierProduct::whereNotNull('id')->get();
        
-
-        if($this->keyword){
-            $data->where('nama_product','LIKE',"%{$this->keyword}%")
-                ->orWhere('barcode','LIKE',"%{$this->keyword}%");
-        }
-
-        if($this->sort_by){
-            if($this->sort_by != 'popular'){
-                $this->sort_val_opt = true;
-    
-                if($this->sort_val == 'asc'){
-                    $data->orderBy($this->sort_by, 'ASC'); 
-                }else{
-                    $data->orderBy($this->sort_by, 'DESC'); 
-                }
-            }else{
-                $this->sort_val_opt = false;
-                $data->orderBy($this->sort_by, 'DESC'); 
-            }
-        }else{
-            $this->sort_by = 'created_at';
-            $this->sort_val = 'desc';
-            $data->orderBy($this->sort_by, $this->sort_val); 
-        }
-        
-        
-        return view('livewire.koperasi.compare.index')->with(['data'=>$data->paginate(200)]);
+        return view('livewire.koperasi.compare.index')->with(['data'=>$data->get()]);
     }
 
 
@@ -66,54 +57,33 @@ class Index extends Component
             // dd(get_disc_price($this->supplier_detail, $this->selected_id, $this->qty));
             $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, $this->qty)['price_akhir'];
         } 
-
-        if($propertyName=='optview'){
-            if($this->optview == 'list'){
-                $this->card = false;
-            }else{
-                $this->card = true;
-            }
-        }
-
     }
 
-    public function modalDetailProduct($id)
+    public function addProductCompare()
     {
-        $this->selected_id = $id;
-        
-
-        $data_detail                 = SupplierProduct::where('id', $this->selected_id)->first();
-        $this->title_detail          = $data_detail->nama_product;
-        $this->supplier_detail       = $data_detail->id_supplier;
-        $this->stock_detail          = $data_detail->qty;
-        $this->deskripsi_detail      = $data_detail->desc_product;
-        $this->image_detail          = $data_detail->image_source;
-        $this->price_detail          = $data_detail->price;
-        $this->uom                   = \App\Models\ProductUom::where('id', $data_detail->product_uom_id)->first()->name;
-
-        $this->price_akhir           = $data_detail->price;
-
-        
+        $this->data_detail                 = SupplierProduct::whereNotNull('id')->get();
     }
 
 
     public function pickProductCompare($id)
     {
         $this->selected_id = $id;
+        $insert = new CompareProductTemp();
+        $insert->id_product = $this->selected_id;
+        $insert->id_buyer = Auth::user()->id;
+        $insert->save();
+
+    }
+
+
+    public function removeProductCompare($id)
+    {
+        $this->selected_id = $id;
+        $delete = CompareProductTemp::where('id_product', $this->selected_id)->where('id_buyer', Auth::user()->id)->delete();
+        // dd($delete);
+        
         
 
-        $data_detail                 = SupplierProduct::where('id', $this->selected_id)->first();
-        $this->title_detail          = $data_detail->nama_product;
-        $this->supplier_detail       = $data_detail->id_supplier;
-        $this->stock_detail          = $data_detail->qty;
-        $this->deskripsi_detail      = $data_detail->desc_product;
-        $this->image_detail          = $data_detail->image_source;
-        $this->price_detail          = $data_detail->price;
-        $this->uom                   = \App\Models\ProductUom::where('id', $data_detail->product_uom_id)->first()->name;
-
-        $this->price_akhir           = $data_detail->price;
-
-        
     }
 
   

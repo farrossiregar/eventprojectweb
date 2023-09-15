@@ -8,58 +8,60 @@
                 <div class="col-md-12">
                     <div class="row">
                         
-                        <div id="card-deck" class="card-deck" style="padding: 30px;">
-                            <!-- for($i = 1; $i < 4; $i++) -->
-                            <div class="card">
-                                <img class="card-img-top" src="https://mmc.tirto.id/image/otf/880x495/2019/04/25/avengers-endgame-marvel-studios_ratio-16x9.jpg" alt="Card image cap">
+                        <div id="card-deck" class="card-deck row" style="padding: 30px; min-height: 720px; min-width: 720px;">
+                            @foreach($data as $item)
+                            <div class="card col-md-4" style="border: 1px solid lightgrey;">
+                                <img class="card-img-top" style="margin-top: 14px; border-radius: 8px; height: 175px;" src="{{ asset('assets/images/'.$item->image_source) }}" alt="{{ $item->nama_product }}">
                                 <div class="card-body">
-                                    <h5 class="card-title" style="text-align: left; font-size: 18px;">Sari Roti Roti Tawar Choco Chip</h5>
-                                    <h5 class="card-title" style="text-align: left; font-size: 12px;">PT Kartika Mandiri Sejahtera</h5>
+                                    <h5 class="card-title" style="text-align: left; font-size: 18px;">{{ $item->nama_product }}</h5>
+                                    <h5 class="card-title" style="text-align: left; font-size: 12px;">{{ $item->nama_supplier }}</h5>
                                 </div>
                                 <div class="card-body">
-                                    <h5 class="card-title" style="text-align: center; font-size: 30px;">Rp, 10.000,00</h5>
+                                    <h5 class="card-title" style="text-align: center; font-size: 30px;">Rp, {{ format_idr($item->price) }}</h5>
                                     <!-- <p class="card-text">This is a wider card with.</p> -->
                                 </div>
                                 
                                 <div class="card-body">
-                                    <p class="card-text" style="text-align: center;">Stok 20 Pcs</p>
+                                    <p class="card-text" style="text-align: center;">Stok {{ $item->qty }} {{ $item->uom_id }}</p>
+                                    <p class="card-text" style="text-align: center;">{{ $item->provinsi }}</p>
+                                    <p class="card-text" style="text-align: center;">Terjual {{ $item->provinsi }} {{ $item->uom_id }}</p>
                                 </div>
-                                <div class="card-body">
-                                    <p class="card-text" style="text-align: center;">Tangerang Selatan</p>
-                                </div>
-
-                                <div class="card-body">
-                                    <p class="card-text" style="text-align: center;">Terjual 150 Pcs</p>
-                                </div>
-                            
+                                
                                 <div class="card-footer">
                                     <small class="text-muted">
                                         <div class="row">
-                                            <div class="col-md-4"></div>
-                                            <div class="col-md-4">
-                                                <div class="btn btn-info">
-                                                    <i class="fa fa-shopping-cart"></i> &nbsp; <b> BELI</b>
+                                            <div class="col-md-12">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="btn btn-info">
+                                                            <i class="fa fa-shopping-cart"></i> &nbsp; <b></b>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="btn btn-danger" wire:click="$emit('remove_product_compare', {{$item->id_product}})">
+                                                            <i class="fa fa-close"></i> &nbsp; <b></b>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4"></div>
                                         </div>
                                     </small>
                                 </div>
                             </div>
-                            <!-- endfor -->
+                            @endforeach
 
-                            <div class="card">
+                            @if(count($data) < 6)
+                            <div class="card col-md-4">
                                 <img class="card-img-top">
                                 <div class="card-body">
                                     <div class="container h-100">
                                         <div class="row align-items-center h-100">
                                             <div class="col-6 mx-auto">
                                                 <div class="row">
-                                                    <div class="col-md-4"></div>
-                                                    <div class="col-md-4">
-                                                        <span wire:click="$emit('add_product_compare')">
+                                                    <div class="col-md-6"  wire:click="$emit('add_product_compare')">
+                                                        <div style="cursor: pointer;">
                                                             <i style="font-size: 75px; align:center; color: lightblue;" class="fa fa-plus fa-8x"></i>
-                                                        </span>
+                                                        </div>
                                                         
                                                     </div>
                                                     <div class="col-md-4"></div>
@@ -70,19 +72,9 @@
                                 </div>
                                
                             </div>
-
-
+                            @endif
                         </div>
-
-
-                        <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',$item->id)">
-                            <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
-                                
-                            </div>
-                        </a>
-                        
                     </div>
-                  
                 </div>
             </div>
             
@@ -95,100 +87,83 @@
     <div wire:ignore.self class="modal fade" id="add_product_compare" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                
                 <div class="row" >
-                    
                     <div class="col-md-12">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-search"></i> Search Product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true close-btn">×</span>
+                            </button>
+                        </div>
                         
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-search"></i> Search Product</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true close-btn">×</span>
-                                </button>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <input type="text" class="form-control" wire:model="keyword" placeholder="Cari Produk"/>
+                                </div>
+                                <div class="col-md-3">
+                                    <span class="btn btn-info">
+                                        <i class="fa fa-search"></i> Cari <b></b>
+                                    </span>
+                                </div>
                             </div>
-                            <div class="modal-body">
-                                
-                            </div>
-
-                            <div class="modal-header">
-                                <form wire:submit.prevent="beliproduct" style="width: 960px;">
-                                    <div class="row">
-                                        <div class="btn btn-info" wire:click="$emit('pick_product_compare', '10')">Pilih</div>
+                            <br><br>
+                            <div class="table-responsive">
+                                <table class="table table-hover m-b-0 c_list table-bordered">
+                                    <thead style="background: #eee;">
+                                        <tr>
+                                            <th class="text-center">No</th>
+                                            <th class="text-center">Nama Produk</th>
+                                            <th class="text-center">Harga</th>
+                                            <th class="text-center">Stok</th>
+                                            <th class="text-center">Nama Supplier</th>
+                                            <th class="text-center">Lokasi Supplier</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($data_detail as $k => $item)
+                                        <tr>
+                                            <td>{{$k+1}}</td>
+                                            <td>{{ $item->nama_product }}</td>
+                                            <td><b>Rp, {{ format_idr($item->price) }}</b>/{{ @strtolower($item->uom->name) }}</td>
+                                            <td>{{ $item->qty }}</td>
+                                            <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->nama_supplier }}</td>
+                                            <td>{{ \App\Models\Supplier::where('id', $item->id_supplier)->first()->provinsi }}</td>
+                                            <td>
+                                                <a href="javascript:void(0)" wire:click="$emit('pick_product_compare',{{$item->id}})" class="btn btn-primary"><b>PILIH</b></a>
+                                            </td>
                                         
-                                    </div>
-                                </form>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-
+                        </div>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-
-
-
 </div>
 
-<div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:product-supplier.upload />
-        </div>
-    </div>
-</div>
 
 
 @push('after-scripts') 
 <script>
 
     Livewire.on('add_product_compare',()=>{
-        console.log();
         $("#add_product_compare").modal('show');
+    });
+
+    Livewire.on('remove_product_compare',(data)=>{
+        location.reload();
     });
 
 
     Livewire.on('pick_product_compare',(data)=>{
-        // alert(data);
-        var cardprod = 
-                            '<div class="card">'+
-                                '<img class="card-img-top" src="https://mmc.tirto.id/image/otf/880x495/2019/04/25/avengers-endgame-marvel-studios_ratio-16x9.jpg" alt="Card image cap">'+
-                                '<div class="card-body">'+
-                                    '<h5 class="card-title" style="text-align: left; font-size: 18px;">Sari Roti Roti Tawar Choco Chip</h5>'+
-                                    '<h5 class="card-title" style="text-align: left; font-size: 12px;">PT Kartika Mandiri Sejahtera</h5>'+
-                                '</div>'+
-                                '<div class="card-body">'+
-                                    '<h5 class="card-title" style="text-align: center; font-size: 30px;">Rp, 10.000,00</h5>'+
-                                '</div>'+
-                                
-                                '<div class="card-body">'+
-                                    '<p class="card-text" style="text-align: center;">Stok 20 Pcs</p>'+
-                                '</div>'+
-                                '<div class="card-body">'+
-                                    '<p class="card-text" style="text-align: center;">Tangerang Selatan</p>'+
-                                '</div>'+
-
-                                '<div class="card-body">'+
-                                    '<p class="card-text" style="text-align: center;">Terjual 150 Pcs</p>'+
-                                '</div>'+
-                            
-                                '<div class="card-footer">'+
-                                    '<small class="text-muted">'+
-                                        '<div class="row">'+
-                                            '<div class="col-md-4"></div>'+
-                                            '<div class="col-md-4">'+
-                                                '<div class="btn btn-info">'+
-                                                    '<i class="fa fa-shopping-cart"></i> &nbsp; <b> BELI</b>'+
-                                                '</div>'+
-                                            '</div>'+
-                                            '<div class="col-md-4"></div>'+
-                                        '</div>'+
-                                    '</small>'+
-                                '</div>'+
-                           '</div>';
-        
         $("#add_product_compare").modal('hide');
-        $('#card-deck').append(cardprod);
     });
 
 
