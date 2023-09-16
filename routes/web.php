@@ -70,6 +70,10 @@ Route::get('set-navbar-show',function(){
     }
 })->name('set-navbar-show');
 
+Route::get('refund-product',App\Http\Livewire\RefundProduct\Index::class)->name('refund-product.index');
+// Route::get('refund-product/insert',App\Http\Livewire\RefundProduct\Insert::class)->name('refund-product.insert');
+Route::get('refund-product/detail/{id}',App\Http\Livewire\RefundProduct\Insert::class)->name('refund-product.detail');
+
 // Administrator
 Route::group(['middleware' => ['auth','access:1']], function(){    
     Route::get('qrcode',[\App\Http\Controllers\UserMemberController::class,'qrcode'])->name('qrcode');
