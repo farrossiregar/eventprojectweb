@@ -1,4 +1,4 @@
-@section('title', 'Purchase Order')
+@section('title', 'Refund Product')
 @section('sub-title', 'Index')
 <div class="clearfix row">
     <div class="col-lg-3 col-md-6">
@@ -8,8 +8,8 @@
                     <i class="fa fa-shopping-cart text-info"></i>
                 </div>
                 <div class="content">
-                    <div class="text">Total Nominal</div>
-                    <h5 class="number">Rp. {{format_idr($total_po)}}</h5>
+                    <div class="text">Pengajuan Refund</div>
+                    <h5 class="number">Rp. </h5>
                 </div>
             </div>
         </div>
@@ -21,8 +21,8 @@
                         <i class="fa fa-database"></i>
                     </div>
                 <div class="content">
-                    <div class="text">Lunas</div>
-                    <h5 class="number">Rp. {{format_idr(0)}}</h5>
+                    <div class="text">Refund dibayar</div>
+                    <h5 class="number">Rp. </h5>
                 </div>
             </div>
         </div>
@@ -30,12 +30,12 @@
     <div class="col-lg-3 col-md-6">
         <div class="card top_counter currency_state">
             <div class="body">
-                    <div class="icon text-danger">
-                        <i class="fa fa-calendar"></i>
-                    </div>
+                <div class="icon text-danger">
+                    <i class="fa fa-calendar"></i>
+                </div>
                 <div class="content">
-                    <div class="text">Belum Lunas</div>
-                    <h5 class="number">Rp. {{format_idr(0)}}</h5>
+                    <div class="text">Produk Refund</div>
+                    <h5 class="number">Rp. </h5>
                 </div>
             </div>
         </div>
@@ -48,7 +48,7 @@
                     </div>
                 <div class="content">
                     <div class="text">Total QTY</div>
-                    <h5 class="number">{{format_idr(0)}}</h5>
+                    <h5 class="number"></h5>
                 </div>
             </div>
         </div>
@@ -63,14 +63,6 @@
                         </a>
                         <div class="dropdown-menu show-form-filter" x-show="open_dropdown">
                             <form class="p-2">
-                                <div class="from-group my-2">
-                                    <select class="form-control" wire:model="filter.status">
-                                        <option value=""> -- Status -- </option>
-                                        <option value="1"> Sukses</option>
-                                        <option value="2"> Batal</option>
-                                        <option value="3"> Gagal</option>
-                                    </select>
-                                </div>
                                 <div class="from-group my-2">
                                     <input type="text" class="form-control" wire:model="filter.no_transaksi" placeholder="No Transaksi" />
                                 </div>
@@ -113,16 +105,18 @@
                            <tr>
                                 <th class="text-center">No</th>
                                 <th class="text-center">Status</th>
-                                <th>No Purchase Order</th>
-                                @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                <th>No Refund</th>
+                                @if(Auth::user()->user_access_id == 8 || Auth::user()->user_access_id == 1)
                                 <th>Supplier</th>
                                 @endif
+                                @if(Auth::user()->user_access_id == 7 || Auth::user()->user_access_id == 1)
+                                <th>Buyer</th>
+                                @endif
                                 <th>Tanggal Transaksi</th>
-                                <th>Total Produk</th>
-                                <th>Total Qty</th>
-                                <th class="text-right">Biaya Pengiriman</th>
-                                <!-- <th class="text-right">Pajak</th> -->
-                                <th class="text-right">Total Nominal</th>
+                                <th>Produk direfund</th>
+                                <th>Jumlah Refund</th>
+                                <th class="text-right">Biaya direfund</th>
+                                
                                 <th></th>
                            </tr>
                         </thead>
@@ -133,35 +127,16 @@
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
                                         @if($item->status==0)
-                                            <span class="badge badge-warning">Draft</span>
+                                            <span class="badge badge-warning">Belum dibayar</span>
                                         @endif
                                         @if($item->status==1)
-                                            <span class="badge badge-success">PO Submitted</span>
+                                            <span class="badge badge-success">Sudah dibayar</span>
                                         @endif
-                                        @if($item->status==2)
-                                            <span class="badge badge-default">Invoice</span>
-                                        @endif
-                                        @if($item->status==3)
-                                            <span class="badge badge-success">Paid</span>
-                                        @endif
-
-                                        @if($item->status==4)
-                                            <span class="badge badge-success mr-0">Deliver</span>
-                                        @endif
-
-                                        @if($item->status==5)
-                                            <span class="badge badge-success mr-0">Delivered</span>
-                                        @endif
+                                        
                                     </td>
-                                    @if(Auth::user()->user_access_id == 1)
-                                        <td><a href="{{route('purchase-order-administration.detail',$item->id)}}">{{$item->no_po}}</a></td>
-                                    @elseif(Auth::user()->user_access_id == 7)
-                                        <td><a href="{{route('purchase-order-supplier.detail',$item->id)}}">{{$item->no_po}}</a></td>
-                                    @else
-                                        <td><a href="{{route('purchase-order.detail',$item->id)}}">{{$item->no_po}}</a></td>
-                                    @endif
+                                    <td><a href="{{route('refund-product.detail',$item->id)}}">{{$item->no_po}}</a></td>
 
-                                    @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                    @if(Auth::user()->user_access_id == 8 || Auth::user()->user_access_id == 1)
                                     <td>
                                         {{isset($item->supplier->nama_supplier) ? $item->supplier->nama_supplier : '-'}}
                                         @if(isset($item->supplier->nama_supplier))
@@ -169,12 +144,20 @@
                                         @endif
                                     </td>
                                     @endif
+                                    
+                                    @if(Auth::user()->user_access_id == 7 || Auth::user()->user_access_id == 1)
+                                    <td>
+                                        {{isset($item->buyer->nama_buyer) ? $item->buyer->nama_buyer : '-'}}
+                                        @if(isset($item->buyer->nama_buyer))
+                                            <a href="javascript:void(0)" title="{!!$item->buyer->nama_buyer .'&#013;'. $item->buyer->nama_buyer!!}"><i class="fa fa-info-circle"></i></a>
+                                        @endif
+                                    </td>
+                                    @endif
+
                                     <td>{{date('d M Y H:i',strtotime($item->created_at))}}</td>
-                                    <td class="text-center">{{$item->total_product}}</td>
-                                    <td class="text-center">{{$item->total_qty}}</td>
-                                    <td class="text-right">{{format_idr($item->biaya_pengiriman)}}</td>
-                                    <!-- <td class="text-right">{{format_idr($item->ppn)}}</td> -->
-                                    <td class="text-right">Rp. {{format_idr($item->total_pembayaran)}}</td>
+                                    <td class="text-center">{{$item->product_id}}</td>
+                                    <td class="text-center">{{$item->qty_ref}}</td>
+                                    <td class="text-right">Rp. {{format_idr($item->price_ref)}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i></a>

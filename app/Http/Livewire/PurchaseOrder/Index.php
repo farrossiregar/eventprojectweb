@@ -4,15 +4,19 @@ namespace App\Http\Livewire\PurchaseOrder;
 
 use Livewire\Component;
 use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 use Livewire\WithPagination;
 use Auth;
 
 class Index extends Component
 {
+
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
     public $keyword,$filter=[],$total_po=0,$total_lunas=0,$total_belum_lunas=0;
-    protected $listeners = ['refresh'=>'$refresh'];
+    protected $listeners = [
+        'modal_upload_refund'=>'modalUploadRefund'
+    ];
     public function render()
     {
         $data = $this->getData();
@@ -54,4 +58,19 @@ class Index extends Component
 
         return redirect()->route('purchase-order.detail',$data->id);
     }
+
+    public function modalUploadRefund($id)
+    {
+        $data = PurchaseOrderDetail::where('id', $id)->first();
+        
+
+        // \LogActivity::add('Purchase Order Insert');
+
+        // return redirect()->route('purchase-order.detail',$data->id);
+    }
+
+    // public function kirimUploadRefund($id)
+    // {
+    //     $data = PurchaseOrderDetail::where('id', $id)->first();
+    // }
 }

@@ -269,7 +269,8 @@
                                         @endif
 
                                         @if($data->status==5)
-                                            <a href="javascript:void(0)" class="text-info" wire:click="refundProduct({{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a>
+                                            <!-- <a href="javascript:void(0)" class="text-info" wire:click="refundProduct({{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a>  -->
+                                            <a href="javascript:void(0)" class="text-info" data-target="#modal_upload_refund" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a> 
                                         @endif
                                     </td>
                                 </tr>
@@ -483,7 +484,7 @@
 
 
 
-
+    
 </div>
 
 @push('after-scripts')
@@ -507,5 +508,11 @@
             var data = $(this).select2("val");
             @this.set("product_id", data);
         });
+
+
+        Livewire.on('modal_upload_refund',(id)=>{
+            $("#modal_upload_refund").modal('show');
+        });
+
     </script>
 @endpush

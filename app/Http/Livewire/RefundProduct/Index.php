@@ -4,6 +4,7 @@ namespace App\Http\Livewire\RefundProduct;
 
 use Livewire\Component;
 use App\Models\PurchaseOrder;
+use App\Models\RefundProduct;
 use Livewire\WithPagination;
 use Auth;
 
@@ -22,22 +23,22 @@ class Index extends Component
 
     public function mount()
     {
-        $this->total_po = PurchaseOrder::whereYear('created_at',date('Y'))->sum('total_pembayaran');
-        $this->total_belum_lunas = PurchaseOrder::whereYear('created_at',date('Y'))->where('status_invoice',0)->sum('total_pembayaran');
-        $this->total_lunas = PurchaseOrder::whereYear('created_at',date('Y'))->where('status_invoice',1)->sum('total_pembayaran');
+        // $this->total_po = PurchaseOrder::whereYear('created_at',date('Y'))->sum('total_pembayaran');
+        // $this->total_belum_lunas = PurchaseOrder::whereYear('created_at',date('Y'))->where('status_invoice',0)->sum('total_pembayaran');
+        // $this->total_lunas = PurchaseOrder::whereYear('created_at',date('Y'))->where('status_invoice',1)->sum('total_pembayaran');
 
-        \LogActivity::add('Purchase Order');
+        \LogActivity::add('Refund Product');
     } 
 
     public function getData()
     {
         $user = Auth::user();
         if($user->user_access_id == 8){ // Buyer
-            $data = PurchaseOrder::where('id_buyer', $user->id)->orderBy('id','DESC');
+            $data = RefundProduct::where('id_buyer', $user->id)->orderBy('id','DESC');
         }elseif($user->user_access_id == 7){ // Supplier
-            $data = PurchaseOrder::where('id_supplier', $user->id)->where('status', '<>', '0')->orderBy('id','DESC');
+            $data = RefundProduct::where('id_supplier', $user->id)->orderBy('id','DESC');
         }else{
-            $data = PurchaseOrder::orderBy('id','DESC');
+            $data = RefundProduct::orderBy('id','DESC');
         }
         
         return $data;

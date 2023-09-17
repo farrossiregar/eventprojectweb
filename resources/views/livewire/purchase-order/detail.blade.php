@@ -269,7 +269,8 @@
                                         @endif
 
                                         @if($data->status==5)
-                                            <a href="javascript:void(0)" class="text-info" wire:click="refundProduct({{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a>
+                                            <a href="javascript:void(0)" class="text-info" wire:click="$emit('modal_upload_refund',{{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a> 
+                                            <!-- <a href="javascript:void(0)" class="text-info" data-toggle="modal" data-target="#modal_upload_refund" title="Refund"><i class="fa fa-refresh"></i></a>  -->
                                         @endif
                                     </td>
                                 </tr>
@@ -481,15 +482,134 @@
         </div>
     </div>
 
+    <div wire:ignore.self class="modal fade" id="modal_upload_refund" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <form wire:submit.prevent="sendrefund">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-upload"></i> Upload Bukti Refund</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true close-btn">×</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>No PO</label>
+                                                    <br>
+                                                    <b><?php echo date('d M Y'); ?></b>
+                                                    
+                                                    @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
 
+                                                <div class="col-md-7">
+                                                    <label>Nama Product</label>
+                                                    <br>
+                                                    <b><?php echo date('d M Y'); ?></b>
+                                                    
+                                                    @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+
+                                                <div class="col-md-3" style="float: right;">
+                                                    <label>Tanggal Refund</label>
+                                                    <br>
+                                                    <b><?php echo date('d M Y'); ?></b>
+                                                    
+                                                    @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                        <br><br>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label>Barang direfund</label> 
+                                                    <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
+                                                    <input type="text" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}"/>
+                                                    @error('payment_amount') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+                                                <div class="col-md-10">
+                                                    <label>Jumlah Biaya Refund</label> 
+                                                    <h5>Rp. {{ format_idr($sisa_bayar_inv) }}</h5>
+                                                    <input type="hidden" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" readonly/>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br><br>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label>Foto Barang 1</label>
+                                                    <input type="file" class="form-control" wire:model="file_bukti1" />
+                                                    @error('file_bukti1') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>Foto Barang 2</label>
+                                                    <input type="file" class="form-control" wire:model="file_bukti2" />
+                                                    @error('file_bukti2') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+
+                                                <div class="col-md-4">
+                                                    <label>Foto Barang 3</label>
+                                                    <input type="file" class="form-control" wire:model="file_bukti3" />
+                                                    @error('file_bukti3') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                   
+                                </div>
+                                <br><br>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <span wire:loading wire:target="bayar">
+                                            <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                                            <span class="sr-only">{{ __('Loading...') }}</span>
+                                        </span>
+                                        <button wire:loading.remove wire:target="sendpayment" type="submit" class="btn btn-info"><i class="fa fa-send"></i> Kirim</button>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                                
+            </div>
+        </div>
+    </div>
 
 
 </div>
 
 @push('after-scripts')
+
+    <script>
+         Livewire.on('modal_upload_refund',(data)=>{
+            // alert(data);
+            $("#modal_upload_refund").modal('show');
+        });
+    </script>
     <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}"/>
     <script src="{{ asset('assets/vendor/select2/js/select2.min.js') }}"></script>
     <script>
+
+       
+
+
         setTimeout(() => {
             select__2 = $('.select_anggota').select2();
             $('.select_anggota').on('change', function (e) {
@@ -507,5 +627,7 @@
             var data = $(this).select2("val");
             @this.set("product_id", data);
         });
+
+       
     </script>
 @endpush
