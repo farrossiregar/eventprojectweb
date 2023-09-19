@@ -12,6 +12,7 @@ use App\Models\SupplierProduct;
 use App\Models\SettingHarga;
 use App\Models\ProductUom;
 use App\Models\InvoicePoItem;
+use App\Models\RefundProduct;
 use Livewire\WithFileUploads;
 use Auth;
 
@@ -19,58 +20,28 @@ class Detail extends Component
 {
     use WithFileUploads;
 
-    public $data,$pembelian = [],$no_po,$id_supplier,$supplier=[],$suppliers=[],$product_supplier=[],$product_po=[];
+    
     public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
-    public $alamat_penagihan,$purchase_order_date,$delivery_order_number,$delivery_order_date,$disc=0,$disc_p=0,$pajak=0,$catatan;
+    
+    public $data, $no_po, $image_ref;
     protected $listeners = ['reload'=>'$refresh'];
-    public $nama_product;
-
-    public $payment_date, $payment_amount, $file_bukti_pembayaran, $metode_pembayaran;
-    // public $data_invoice = [];
-    public $data_invoice, $sisa_bayar_inv;
+    
     public function render()
     {
-        return view('livewire.purchase-order.detail');
+
+        return view('livewire.refund-product.detail');
     }
 
-    public function mount(PurchaseOrder $data)
+    public function mount(RefundProduct $data)
     {
         
 
         $this->data = $data;        
-        $this->id_supplier = $data->id_supplier;
-        if($this->id_supplier) $this->supplier = Supplier::find($this->id_supplier);
         $this->no_po = $data->no_po;
-        $this->catatan = $data->catatan;
-        $this->pajak = 0;//$data->ppn;
-        $this->biaya_pengiriman = $data->biaya_pengiriman;
-        $this->alamat_penagihan = $data->alamat_penagihan?$data->alamat_penagihan:get_setting('address');
-        $this->purchase_order_date = $data->purchase_order_date;
-        $this->delivery_order_number = $data->delivery_order_number;
-        $this->delivery_order_date = $data->delivery_order_date;
-        $this->suppliers = Supplier::orderBy('id','DESC')->get(); 
-        $data_product = [];
-        
-        $product_except = PurchaseOrderDetail::select('product_id')->where('id_po', $data->id)->get();
-        
-        foreach(SupplierProduct::where('id_supplier', $this->id_supplier)
-                                ->whereNotIn('id', $product_except)
-                                ->orderBy('id','DESC')->get() as $k => $item){
-        // foreach(Product::get() as $k => $item){
-            $data_product[$k]['id'] = $item->id;
-            // $data_product[$k]['text'] = $item->kode_produksi;
-            // $data_product[$k]['text'] .= $item->kode_produksi ? ' / '.$item->keterangan : $item->keterangan;
+        $this->image_ref = $data->image_ref;
 
-            $data_product[$k]['text'] = $item->barcode;
-            $data_product[$k]['text'] .= $item->barcode ? ' / '.$item->nama_product : $item->nama_product;
-        }
-        $this->data_product = $data_product;// Product::select('id',\DB::raw("CONCAT(kode_produksi,' - ', keterangan) as text"))->get()->toArray();
-
-        $this->data_invoice = InvoicePoItem::where('po_id', $data->id)->get();
-        $this->sisa_bayar_inv = $data->total_pembayaran - \App\Models\InvoicePoItem::where('po_id', $this->data->id)->sum('amount');
-        $this->payment_amount = $this->sisa_bayar_inv;
+        dd($data->image_ref);
         
-       
     }
 
     public function updated($propertyName)

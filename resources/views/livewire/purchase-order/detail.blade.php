@@ -529,16 +529,34 @@
                                         <br><br>
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <div class="col-md-3">
+                                                    <label>Jumlah Barang</label> 
+                                                    <h5>10</h5>
+                                                    <input type="hidden" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" readonly/>
+                                                </div>
+                                                <div class="col-md-3">
                                                     <label>Barang direfund</label> 
                                                     <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
                                                     <input type="text" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}"/>
                                                     @error('payment_amount') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
-                                                <div class="col-md-10">
-                                                    <label>Jumlah Biaya Refund</label> 
-                                                    <h5>Rp. {{ format_idr($sisa_bayar_inv) }}</h5>
-                                                    <input type="hidden" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" readonly/>
+                                                
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <label>Total Harga</label> 
+                                                    <h5>Rp. {{ format_idr(120000) }}</h5>
+                                                    <input type="hidden" class="form-control" wire:model="payment_amount" readonly/>
+                                                    
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <label>Jumlah diRefund</label> 
+                                                    <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
+                                                    <input type="hidden" class="form-control" wire:model="payment_amount"/>
+                                                    <h5>Rp. {{ format_idr(43200) }}</h5>
                                                 </div>
                                             </div>
                                         </div>

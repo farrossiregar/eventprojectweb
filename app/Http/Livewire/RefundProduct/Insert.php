@@ -14,7 +14,7 @@ class Insert extends Component
     public $data_product = [],$price,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier';
     public function render()
     {
-        return view('livewire.refund-product.insert');
+        return view('livewire.refund-product.detail');
     }
 
     public function mount()
