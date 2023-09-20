@@ -4,10 +4,8 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="row">
-              
                 <div class="col-md-12">
                     <div class="row">
-                        
                         <div id="card-deck" class="card-deck row" style="padding: 30px; min-height: 720px; min-width: 720px;">
                             @foreach($data as $item)
                             <div class="card col-md-4" style="border: 1px solid lightgrey;">
@@ -33,7 +31,7 @@
                                             <div class="col-md-12">
                                                 <div class="row">
                                                     <div class="col-md-6">
-                                                        <div class="btn btn-info">
+                                                        <div class="btn btn-info" wire:click="$emit('modal_detail_product',{{$item->id_product}})" style="float: right;">
                                                             <i class="fa fa-shopping-cart"></i> &nbsp; <b></b>
                                                         </div>
                                                     </div>
@@ -70,15 +68,12 @@
                                         </div>
                                     </div>
                                 </div>
-                               
                             </div>
                             @endif
                         </div>
                     </div>
                 </div>
             </div>
-            
-            
         </div>
     </div>
 
@@ -101,11 +96,6 @@
                                 <div class="col-md-12">
                                     <input type="text" class="form-control" wire:model="keyword" placeholder="Cari Produk"/>
                                 </div>
-                                <div class="col-md-3">
-                                    <span class="btn btn-info">
-                                        <i class="fa fa-search"></i> Cari <b></b>
-                                    </span>
-                                </div>
                             </div>
                             <br><br>
                             <div class="table-responsive">
@@ -122,7 +112,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($data_detail as $k => $item)
+                                        @foreach($data_search as $k => $item)
                                         <tr>
                                             <td>{{$k+1}}</td>
                                             <td>{{ $item->nama_product }}</td>
@@ -146,6 +136,139 @@
             </div>
         </div>
     </div>
+
+
+
+    <div wire:ignore.self class="modal fade" id="modal_detail_product" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="row" >
+                    <div class="col-md-12">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-eye"></i> Detail product</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true close-btn">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <img class="card-img-top" style="width: 90%;" src="{{ asset('assets/images/'.$image_detail) }}" alt="Card image cap">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="row">
+                                        <div class="col-md-">
+                                            <h5 class="card-title"><b>{{ $title_detail }}</b></h5>
+                                            <h3 class="font-color: red;"><b>Rp,{{ format_idr($price_detail) }}</b></h3>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <ul class="nav nav-tabs">
+                                            <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_desc">{{ __('Deskripsi') }} </a></li>
+                                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#tab_disc">{{ __('Diskon') }} </a></li>
+                                        </ul>
+                                        <div class="tab-content px-0">
+                                            
+                                            <div class="tab-pane active show" id="tab_desc" style="width: 450px; overflow-y: scroll; overflow-x: hidden; scrollbar-width: none;">
+                                                <div class="table-responsive">
+                                                    <p>
+                                                        {{ $deskripsi_detail }}  
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane" id="tab_disc">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped m-b-0 c_list">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Jumlah (>)</th>   
+                                                                <th>Diskon (%)</th>                              
+                                                                <th>Potongan (Rp)</th>
+                                                                <th>Harga Jual (Rp)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            
+                                                            @foreach(@App\Models\SettingHarga::where('product_id',$this->selected_id)->get() as $k => $item)
+                                                                <tr>
+                                                                    <td>{{$item->qty}}</td>
+                                                                    <td>{{ $item->disc }}</td>
+                                                                    <td>
+                                                                        Rp. {{ @format_idr($item->disc_harga) }}
+                                                                        
+                                                                    </td>
+                                                                    <td>
+                                                                        Rp. {{ @format_idr($price_detail - $item->disc_harga) }}
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="modal-header">
+                            <form wire:submit.prevent="beliproduct" style="width: 960px;">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <b>Rp, <span style="color: red;">{{ format_idr($price_akhir) }}</span> / <span style="font-size: 9px;">{{ $uom }}</span></b>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-9">
+                                                <b><h3>Rp, <span style="color: red;">{{ format_idr($price_akhir * $qty) }}</span></h3></b>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (session()->has('message'))
+                                    <div class="col-md-6">             
+                                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                            <strong>{{ session('message') }}!</strong>
+                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>                               
+                                    </div>
+                                    @else
+                                    <div class="col-md-4">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <span><b>Stok {{ $stock_detail }}</b></span>
+                                            </div>
+                                            <div class="col-md-8">
+                                                <input type="number" class="form-control" wire:model.debounce.1000ms="qty" min="0" max="{{ $stock_detail }}"/>
+                                                <input type="hidden" class="form-control" wire:model="selected_id" />
+                                                <input type="hidden" class="form-control" wire:model="supplier_detail" />
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-md-2">
+                                        <!-- <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a> -->
+                                        <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button>
+                                    </div>
+                                    @endif
+                                    
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 </div>
 
 
@@ -167,10 +290,9 @@
     });
 
 
-    // Livewire.on('modal_detail_product',(data)=>{
-    //     console.log(data);
-    //     $("#modal_detail_product").modal('show');
-    // });
+    Livewire.on('modal_detail_product',(data)=>{
+        $("#modal_detail_product").modal('show');
+    });
     
     // untuk menangkap Event emit "refresh-page" yang dibuat di Component Edit.php
     // jika ada event refresh-page maka modal kita hide

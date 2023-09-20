@@ -28,17 +28,7 @@ class Index extends Component
     {
         $user = Auth::user();
         $data = SupplierProduct::whereNotNull('id');
-        // dd($data->get());
-
-        
-        // if($this->optview == 'list'){
-        //     $this->card = false;
-        // }else{
-        //     $this->card = true;
-        // }
-        
-        
-
+     
         if($this->keyword){
             $data->where('nama_product','LIKE',"%{$this->keyword}%")
                 ->orWhere('barcode','LIKE',"%{$this->keyword}%");
@@ -64,28 +54,6 @@ class Index extends Component
         }
         
 
-        // if($this->price){
-        //     if($this->price == 'lo'){
-        //         $dataprice = $data->orderBy('price', 'ASC');    
-        //     }else{
-        //         $dataprice = $data->orderBy('price', 'DESC'); 
-        //     }
-        // }else{
-        //     $dataprice = $data->orderBy('price', 'ASC');    
-        // }
-
-        // if($this->date){
-        //     if($this->date == 'old'){
-        //         $datadate = $data->orderBy('id', 'ASC');    
-        //     }else{
-        //         $datadate = $data->orderBy('id', 'DESC');   
-        //     }
-        // }else{
-        //     $datadate = '';   
-        // }
-        
-        // $data->$dataprice;
-        // $data = $data->where('id', 'ASC');
         
         return view('livewire.koperasi.catalog.index')->with(['data'=>$data->paginate(200)]);
     }

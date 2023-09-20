@@ -13,7 +13,8 @@ class Index extends Component
     protected $listeners = [
         'add_product_compare'=>'addProductCompare',
         'pick_product_compare'=>'pickProductCompare',
-        'remove_product_compare'=>'removeProductCompare'
+        'remove_product_compare'=>'removeProductCompare',
+        'modal_detail_product'=>'modalDetailProduct',
     ];
 
     use WithPagination;
@@ -21,7 +22,9 @@ class Index extends Component
     public $keyword,$insert=0,$qty;
     public $price, $name, $date, $sortetc;
 
-    public $selected_id, $data_detail;
+    public $title_detail, $supplier_detail, $stock_detail, $deskripsi_detail, $image_detail, $price_detail, $setting_harga, $price_akhir, $uom;
+
+    public $selected_id, $data_search;
 
     public $viewscatalog = 'list', $card=FALSE, $optview, $sort_by, $sort_val, $sort_val_opt=true;
     public function render()
@@ -40,21 +43,44 @@ class Index extends Component
                                             'supplier.provinsi',
                                             'product_uom.name as uom_id'
                                         ])
-                                    ->where('id_buyer', $user->id)
                                     ->join('supplier_product','supplier_product.id','=','compare_product_temp.id_product')
                                     ->join('supplier','supplier_product.id_supplier','=','supplier.id')
                                     ->join('product_uom','supplier_product.product_uom_id','=','product_uom.id');
 
-        $this->data_detail = $data_detail = SupplierProduct::whereNotNull('id')->get();
+        $data_search = SupplierProduct::select([
+                                                    'supplier_product.id', 
+                                                    'supplier_product.nama_product', 
+                                                    'supplier_product.price', 
+                                                    'supplier_product.qty', 
+                                                    'supplier_product.product_uom_id', 
+                                                    'supplier_product.id_supplier',
+                                                    'supplier_product.image_source',
+                                                    'supplier.nama_supplier',
+                                                    'supplier.provinsi',
+                                                    'product_uom.name as uom_id'
+                                                ])
+                                            ->leftjoin('supplier','supplier_product.id_supplier','=','supplier.id')
+                                            ->leftjoin('product_uom','supplier_product.product_uom_id','=','product_uom.id');
+
+        
+
+        if($this->keyword){
+            $data_search->where(function($table){
+                $table->orWhere("supplier_product.nama_product",'LIKE',"%{$this->keyword}%")
+                        ->orWhere("supplier.nama_supplier",'LIKE',"%{$this->keyword}%")
+                        ->orWhere("supplier.provinsi",'LIKE',"%{$this->keyword}%");
+            });
+        }
+
+        $this->data_search = $data_search->get();
        
-        return view('livewire.koperasi.compare.index')->with(['data'=>$data->get()]);
+        return view('livewire.koperasi.compare.index')->with(['data'=>$data->where('id_buyer', $user->id)->get()]);
     }
 
 
     public function updated($propertyName)
     {
         if($propertyName=='qty'){
-            // dd(get_disc_price($this->supplier_detail, $this->selected_id, $this->qty));
             $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, $this->qty)['price_akhir'];
         } 
     }
@@ -81,12 +107,26 @@ class Index extends Component
         $this->selected_id = $id;
         $delete = CompareProductTemp::where('id_product', $this->selected_id)->where('id_buyer', Auth::user()->id)->delete();
         // dd($delete);
-        
-        
 
     }
 
   
+    public function modalDetailProduct($id)
+    {
+        // $this->selected_id = $id;
+        $data_detail                 = SupplierProduct::where('id', $id)->first();
+        $this->title_detail          = $data_detail->nama_product;
+        $this->supplier_detail       = $data_detail->id_supplier;
+        $this->stock_detail          = $data_detail->qty;
+        $this->deskripsi_detail      = $data_detail->desc_product;
+        $this->image_detail          = @$data_detail->image_source;
+        $this->price_detail          = $data_detail->price;
+        $this->uom                   = \App\Models\ProductUom::where('id', $data_detail->product_uom_id)->first()->name;
+
+        $this->price_akhir           = $data_detail->price;
+
+        
+    }
 
     public function addproductpo($id)
     {
