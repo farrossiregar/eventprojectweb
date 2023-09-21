@@ -226,7 +226,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-9">
-                                                <b><h3>Rp, <span style="color: red;">{{ format_idr($price_akhir * $qty) }}</span></h3></b>
+                                                <b><h3>Rp, <span style="color: red;">{{ @format_idr(@$price_akhir * intval(@$qty)) }}</span></h3></b>
                                             </div>
                                         </div>
                                     </div>
@@ -246,7 +246,7 @@
                                                 <span><b>Stok {{ $stock_detail }}</b></span>
                                             </div>
                                             <div class="col-md-8">
-                                                <input type="number" class="form-control" wire:model.debounce.1000ms="qty" min="0" max="{{ $stock_detail }}"/>
+                                                <input id="qty" type="number" class="form-control" wire:model.debounce.1000ms="qty" min="0" max="{{ $stock_detail }}"/>
                                                 <input type="hidden" class="form-control" wire:model="selected_id" />
                                                 <input type="hidden" class="form-control" wire:model="supplier_detail" />
                                             </div>
@@ -255,7 +255,8 @@
                                     </div>
                                     <div class="col-md-2">
                                         <!-- <a href="javascript:void(0)" wire:click="addproductpo($item->id, $item->id_supplier)" class="btn btn-info"><h6><b>BELI</b></h6></a> -->
-                                        <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button>
+                                        <!-- <button wire:target="beliproduct" type="submit" class="btn btn-info"><h6><b>BELI</b></h6></button> -->
+                                        <button wire:click="$emit('beliproduct')" class="btn btn-info"><h6><b>BELI</b></h6></button>
                                     </div>
                                     @endif
                                     
@@ -294,6 +295,24 @@
         $("#modal_detail_product").modal('show');
     });
     
+
+    Livewire.on('modal_detail_product',(data)=>{
+        $("#modal_detail_product").modal('show');
+    });
+
+    Livewire.on('beliproduct',(data)=>{
+        if($("#qty").val() != '0' || $("#qty").val() != ''){
+            if($("#qty").val() <= '<?php echo $stock_detail; ?>'){
+                $("#modal_detail_product").modal('hide');
+            }else{
+                alert('stok cuma <?php echo $stock_detail; ?>');
+            }
+        }else{
+            alert('Jumlah masih kosong!!!');
+        }
+    });
+    
+
     // untuk menangkap Event emit "refresh-page" yang dibuat di Component Edit.php
     // jika ada event refresh-page maka modal kita hide
     Livewire.on('refresh-page',()=>{

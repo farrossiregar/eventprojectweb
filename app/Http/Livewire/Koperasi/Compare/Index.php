@@ -5,6 +5,8 @@ namespace App\Http\Livewire\Koperasi\Compare;
 use Livewire\Component;
 use App\Models\CompareProductTemp;
 use App\Models\SupplierProduct;
+use App\Models\PurchaseOrder;
+use App\Models\PurchaseOrderDetail;
 use Livewire\WithPagination;
 use Auth;
 
@@ -81,7 +83,12 @@ class Index extends Component
     public function updated($propertyName)
     {
         if($propertyName=='qty'){
-            $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, $this->qty)['price_akhir'];
+            if($this->qty != 0 || $this->qty != ''){
+                $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, $this->qty)['price_akhir'];
+            }else{
+                $this->price_akhir = get_disc_price($this->supplier_detail, $this->selected_id, 0)['price_akhir'];
+            }
+            
         } 
     }
 
@@ -113,7 +120,7 @@ class Index extends Component
   
     public function modalDetailProduct($id)
     {
-        // $this->selected_id = $id;
+        $this->selected_id = $id;
         $data_detail                 = SupplierProduct::where('id', $id)->first();
         $this->title_detail          = $data_detail->nama_product;
         $this->supplier_detail       = $data_detail->id_supplier;
@@ -136,9 +143,15 @@ class Index extends Component
 
     public function beliproduct()
     {
-        $id = $this->selected_id;
-        $qty = $this->qty;
-        $this->insertproductpo($id, $qty);
+        dd($this->qty);
+        if($this->qty != '0' && $this->qty != ''){
+            
+            $id = $this->selected_id;
+            $qty = $this->qty;
+            $this->insertproductpo($id, $qty);
+        }else{
+            session()->flash('message', 'Jumlah masih kosong!');
+        }
     }
 
 
