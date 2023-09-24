@@ -106,6 +106,7 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Status</th>
                                 <th>No Refund</th>
+                                <th>No PO</th>
                                 @if(Auth::user()->user_access_id == 8 || Auth::user()->user_access_id == 1)
                                 <th>Supplier</th>
                                 @endif
@@ -134,7 +135,8 @@
                                         @endif
                                         
                                     </td>
-                                    <td><a href="{{route('refund-product.detail',$item->id)}}">{{$item->no_po}}</a></td>
+                                    <td><a href="{{route('refund-product.detail',$item->id)}}">{{$item->no_ref}}</a></td>
+                                    <td>{{$item->no_po}}</td>
 
                                     @if(Auth::user()->user_access_id == 8 || Auth::user()->user_access_id == 1)
                                     <td>

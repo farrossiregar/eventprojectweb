@@ -27,3 +27,39 @@ function count_project_status($status){
     
     return $count;
 }
+
+
+function get_status_buyer($status){
+    switch($status){
+        case 1:
+            return "Opportunity";
+        break;
+        case 2:
+            return "Successful";
+        break;
+        case 3:
+            return "Unsuccessful";
+        break;
+        default:
+            return "Opportunity";
+        break;
+    }
+}
+
+
+function get_status_supplier($status){
+    switch($status){
+        case 1:
+            return "Opportunity";
+        break;
+        case 2:
+            return "Successful";
+        break;
+        case 3:
+            return "Unsuccessful";
+        break;
+        default:
+            return "Opportunity";
+        break;
+    }
+}

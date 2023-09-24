@@ -132,6 +132,14 @@
                                 <tr>
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
+                                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                            <!-- {{ get_status_buyer($item->status) }} -->
+                                        @endif
+
+                                        @if(Auth::user()->user_access_id == 7)
+                                            <!-- {{ get_status_supplier($item->status) }} -->
+                                        @endif  
+                                        
                                         @if($item->status==0)
                                             <span class="badge badge-warning">Draft</span>
                                         @endif

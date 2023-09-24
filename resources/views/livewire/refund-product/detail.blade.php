@@ -20,12 +20,12 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Total Produk</label>
-                        <input type="number" class="form-control" wire:model="biaya_pengiriman"  readonly/>
+                        <input type="number" class="form-control" wire:model="qty_po"  readonly/>
                         
                     </div>
                     <div class="form-group col-md-6">
                         <label>Jumlah Produk direfund</label>
-                        <input type="number" class="form-control" wire:model="biaya_pengiriman" />
+                        <input type="number" class="form-control" wire:model="qty_ref" />
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                    
@@ -34,22 +34,51 @@
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Harga Total</label>
-                        <input type="number" class="form-control" wire:model="biaya_pengiriman"  readonly/>
+                        <input type="number" class="form-control" wire:model="price_po"  readonly/>
                         
                     </div>
                     <div class="form-group col-md-6">
                         <label>Harga direfund</label>
-                        <input type="number" class="form-control" wire:model="biaya_pengiriman" />
+                        <input type="number" class="form-control" wire:model="price_ref" />
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     
                 </div>
 
                 <div class="row">
-                    <div class="form-group col-md-6">
-                        <label>Photo</label>
-                        <!-- <input type="file" class="form-control" wire:model="biaya_pengiriman" /> -->
-                        <img src="{{ asset('assets/images/refund/'.$image_ref) }}" alt="">
+                    <div class="form-group col-md-4">
+                        <label>Photo 1</label>
+                        @if($image_ref)
+                        <div style="height: 180px; overflow: hidden;">
+                            <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref) }}" alt="Card image cap">
+                        </div>
+                        @endif
+                        <input type="file" class="form-control" wire:model="image_ref" />
+                        
+                        @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Photo 2</label>
+                        @if($image_ref2)
+                        <div style="height: 180px; overflow: hidden;">
+                            <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref2) }}" alt="Card image cap">
+                        </div>
+                        @endif
+                        <input type="file" class="form-control" wire:model="image_ref2" />
+                        
+                        @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+
+                    <div class="form-group col-md-4">
+                        <label>Photo 3</label>
+                        @if($image_ref3)
+                        <div style="height: 180px; overflow: hidden;">
+                            <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref3) }}" alt="Card image cap">
+                        </div>
+                        @endif
+                        <input type="file" class="form-control" wire:model="image_ref3" />
+                        
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     

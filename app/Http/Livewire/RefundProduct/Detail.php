@@ -23,7 +23,8 @@ class Detail extends Component
     
     public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
     
-    public $data, $no_po, $image_ref;
+    public $data;
+    public $no_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3;
     protected $listeners = ['reload'=>'$refresh'];
     
     public function render()
@@ -35,12 +36,16 @@ class Detail extends Component
     public function mount(RefundProduct $data)
     {
         
-
         $this->data = $data;        
+        $this->no_ref = $data->no_ref;
         $this->no_po = $data->no_po;
+        $this->qty_po = @PurchaseOrderDetail::where('id', $data->id_po_detail)->first()->qty;
+        $this->qty_ref = $data->qty_ref;
+        $this->price_po = @PurchaseOrderDetail::where('id', $data->id_po_detail)->first()->price;
+        $this->price_ref = $data->price_ref;
         $this->image_ref = $data->image_ref;
-
-        dd($data->image_ref);
+        $this->image_ref2 = $data->image_ref2;
+        $this->image_ref3 = $data->image_ref3;
         
     }
 
