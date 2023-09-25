@@ -12,24 +12,31 @@ use App\Models\SupplierProduct;
 use App\Models\SettingHarga;
 use App\Models\ProductUom;
 use App\Models\InvoicePoItem;
+use App\Models\RefundProduct;
 use Livewire\WithFileUploads;
 use Auth;
 
 class Detail extends Component
 {
+
+
     use WithFileUploads;
 
     public $data,$pembelian = [],$no_po,$id_supplier,$supplier=[],$suppliers=[],$product_supplier=[],$product_po=[];
     public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
     public $alamat_penagihan,$purchase_order_date,$delivery_order_number,$delivery_order_date,$disc=0,$disc_p=0,$pajak=0,$catatan;
-    protected $listeners = ['reload'=>'$refresh'];
+    
     public $nama_product;
 
     public $payment_date, $payment_amount, $file_bukti_pembayaran, $metode_pembayaran;
     // public $data_invoice = [];
     public $data_invoice, $sisa_bayar_inv;
+
+    public $qty_ref, $price_ref, $image_ref, $image_ref2, $image_ref3;
     public function render()
     {
+        $this->emit('refund-stat',['status'=>'0']);
+
         return view('livewire.purchase-order.detail');
     }
 
@@ -200,6 +207,11 @@ class Detail extends Component
                 $this->price_akhir  = $product->price;
             }
                 
+        }
+
+
+        if($this->qty_ref){
+            $this->price_ref = 10 * $this->qty_ref;
         }
     }
 
@@ -452,5 +464,18 @@ class Detail extends Component
         session()->flash('message-success',"Purchase Order berhasil di submit");
 
         return redirect()->route('purchase-order.detail',$this->data->id);
+    }
+
+
+
+    public function sendrefund(){
+        
+        $insert = new RefundProduct();
+        $insert->price_ref = 10 * $this->qty_ref;
+        $insert->qty_ref = $this->qty_ref;
+        $insert->save();
+        // dd($this->qty_ref);
+
+        $this->emit('refund-stat',['status'=>'1']);
     }
 }

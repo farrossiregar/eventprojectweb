@@ -537,7 +537,7 @@
                                                 <div class="col-md-3">
                                                     <label>Barang direfund</label> 
                                                     <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
-                                                    <input type="text" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}"/>
+                                                    <input type="text" class="form-control" wire:model="qty_ref"/>
                                                     @error('payment_amount') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
                                                 
@@ -555,8 +555,8 @@
                                                 <div class="col-md-3">
                                                     <label>Jumlah diRefund</label> 
                                                     <!-- @if($sisa_bayar_inv > 0)<span style="color: red">(Sisa Bayar : Rp, {{ format_idr($sisa_bayar_inv) }})</span>@endif -->
-                                                    <input type="hidden" class="form-control" wire:model="payment_amount"/>
-                                                    <h5>Rp. {{ format_idr(43200) }}</h5>
+                                                    <input type="hidden" class="form-control" wire:model="price_ref"/>
+                                                    <h5>Rp. {{ format_idr($price_ref) }}</h5>
                                                 </div>
                                             </div>
                                         </div>
@@ -566,20 +566,20 @@
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <label>Foto Barang 1</label>
-                                                    <input type="file" class="form-control" wire:model="file_bukti1" />
-                                                    @error('file_bukti1') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    <input type="file" class="form-control" wire:model="image_ref" />
+                                                    @error('image_ref') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label>Foto Barang 2</label>
-                                                    <input type="file" class="form-control" wire:model="file_bukti2" />
-                                                    @error('file_bukti2') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    <input type="file" class="form-control" wire:model="image_ref2" />
+                                                    @error('image_ref2') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
 
                                                 <div class="col-md-4">
                                                     <label>Foto Barang 3</label>
-                                                    <input type="file" class="form-control" wire:model="file_bukti3" />
-                                                    @error('file_bukti3') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    <input type="file" class="form-control" wire:model="image_ref3" />
+                                                    @error('image_ref3') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
                                             </div>
                                             
@@ -590,11 +590,11 @@
                                 <br><br>
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <span wire:loading wire:target="bayar">
+                                        <span wire:loading wire:target="sendrefund">
                                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
                                             <span class="sr-only">{{ __('Loading...') }}</span>
                                         </span>
-                                        <button wire:loading.remove wire:target="sendpayment" type="submit" class="btn btn-info"><i class="fa fa-send"></i> Kirim</button>
+                                        <button wire:loading.remove wire:target="sendrefund" type="submit" class="btn btn-info"><i class="fa fa-send"></i> Kirim</button>
                                     </div>
                                 </div>
                                 
@@ -617,8 +617,14 @@
 
     <script>
          Livewire.on('modal_upload_refund',(data)=>{
-            // alert(data);
             $("#modal_upload_refund").modal('show');
+        });
+
+        Livewire.on('refund-stat',(data)=>{
+            if(data.status == '1'){
+                $("#modal_upload_refund").modal('hide');
+            }
+            
         });
     </script>
     <link rel="stylesheet" href="{{ asset('assets/vendor/select2/css/select2.min.css') }}"/>
