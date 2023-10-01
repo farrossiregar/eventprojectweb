@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\PurchaseOrder;
+namespace App\Http\Livewire\RefundProduct;
 
 use Livewire\Component;
 use App\Models\PurchaseOrder;

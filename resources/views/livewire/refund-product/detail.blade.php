@@ -12,7 +12,25 @@
                     </div>
                     <div class="form-group col-md-6 text-right">
                         <small>Status</small><br />
-                        <span class="badge badge-info mr-0">Draft</span>
+                        @if(Auth::user()->user_access_id == 8)
+                            @if($status == 0)
+                            <span class="badge badge-warning mr-0">Refund diajukkan</span>
+                            @elseif($status == 1)
+                            <span class="badge badge-success mr-0">Refund dibayar</span>
+                            @else
+                            <span class="badge badge-danger mr-0">Refund ditolak</span>
+                            @endif
+                        @endif
+
+                        @if(Auth::user()->user_access_id == 7)
+                            @if($status == 0)
+                            <span class="badge badge-warning mr-0">Menunggu Approval</span>
+                            @elseif($status == 1)
+                            <span class="badge badge-success mr-0">Approved</span>
+                            @else
+                            <span class="badge badge-danger mr-0">Decline</span>
+                            @endif
+                        @endif
                     </div>
                 </div>
               
@@ -39,7 +57,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>Harga direfund</label>
-                        <input type="number" class="form-control" wire:model="price_ref" />
+                        <input type="number" class="form-control" wire:model="price_ref" readonly/>
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     
@@ -88,6 +106,17 @@
                     <label>Alasan Refund</label>
                     <textarea class="form-control" wire:model="alamat_penagihan"></textarea>
                     @error('alamat_penagihan') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="btn-group" role="group">
+                    @if(Auth::user()->user_access_id == 8 && $status == 0)<!-- Koperasi -->
+                    <button type="button" class="btn btn-info" d>Submit</button>        
+                    @endif
+
+                    @if(Auth::user()->user_access_id == 7 && $status == 1)<!-- Supplier -->
+                    <button type="button" class="btn btn-success" d>Approve</button>        
+                    <button type="button" class="btn btn-danger" d>Decline</button>        
+                    @endif
                 </div>
             </div>
         </div>

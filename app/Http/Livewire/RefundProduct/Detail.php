@@ -24,7 +24,7 @@ class Detail extends Component
     public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
     
     public $data;
-    public $no_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3;
+    public $no_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3, $status;
     protected $listeners = ['reload'=>'$refresh'];
     
     public function render()
@@ -46,234 +46,56 @@ class Detail extends Component
         $this->image_ref = $data->image_ref;
         $this->image_ref2 = $data->image_ref2;
         $this->image_ref3 = $data->image_ref3;
+        $this->status = $data->status;
         
     }
 
     public function updated($propertyName)
     {
+        $this->price_ref = 0;
 
-        if($this->id_supplier != $this->data->id_supplier){
-            $delete_po_detail = PurchaseOrderDetail::where('id_po', $this->data->id)->delete();
-            $this->emit('reload');
+        if($this->qty_ref){
+            $this->price_ref = $this->qty_ref * ($this->price_po/$this->qty_po);
         }
-
-        if($propertyName=='id_supplier'){
-            $check_po_sup = PurchaseOrder::where('id_supplier', $this->id_supplier)->where('status', '0')->where('id_buyer', Auth::user()->id)->first();
-            
-            if($check_po_sup){
-                // return route('purchase-order-administration.detail',$this->data->id);
-                return redirect()->to('purchase-order/detail/'.$check_po_sup->id);
-            }else{
-                $this->data->id_supplier = $this->id_supplier;
-                $this->data->save();
-
-                return redirect(request()->header('Referer'));
-            }
-        }
-        if($this->id_supplier){
-            $this->product_supplier = SupplierProduct::where('id_supplier', $this->id_supplier)->orderBy('id','DESC')->get();
-            $this->supplier = Supplier::find($this->id_supplier);
-            $this->emit('reload');
-        }
-
-        if($this->product_id){
-            $this->product_uom_id = @ProductUom::where('id', @SupplierProduct::where('id', $this->product_id)->first()->product_uom_id)->first()->name;
-        }
-
-        // if($this->qty && $this->product_id){
-        if($this->qty){
-            if(SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->get()){
-                $qty_max = SettingHarga::where('product_id', $this->product_id)->max('qty');
-                if($this->qty > $qty_max){
-                    // $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->where('qty', $this->qty)->first()->disc;
-                    $price_level_disc = @SettingHarga::where('supplier_id', $this->id_supplier)->where('product_id', $this->product_id)->orderBy('qty', 'desc')->first()->disc;
-                    
-                }else{
-                    $qty_min = SettingHarga::where('product_id', $this->product_id)->orderBy('qty', 'asc')->first()->qty;
-                    if(SettingHarga::where('product_id', $this->product_id)->where('qty', $this->qty)->first()){
-                        
-                        $price_level_disc = SettingHarga::where('product_id', $this->product_id)
-                                                        ->where('qty', $this->qty)
-                                                        ->first()->disc;
-                    }else{
-
-                        if($this->qty < $qty_min){
-                            $price_level_disc = 0;
-                        }else{
-                            
-                            $qty_abv = SettingHarga::where('product_id', $this->product_id)
-                                                ->where('qty', '>', $this->qty)
-                                                ->first()->qty;
-
-                            $qty_curr = SettingHarga::where('product_id', $this->product_id)
-                                                    ->where('qty', '<', $qty_abv)
-                                                    ->orderBy('qty', 'desc')
-                                                    ->first()->qty;
-
-                            // $qty_blw = SettingHarga::where('product_id', $this->product_id)
-                            //                         ->where('qty', '<', $qty_curr)
-                            //                         ->first();
-
-                            // if($qty_blw){
-                                // dd($qty_abv, $qty_curr, $qty_blw);
-
-                            //     $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
-                            //                                     ->where('qty', '>', $qty_blw->qty)
-                            //                                     ->where('qty', '<', $qty_abv)
-                            //                                     ->orderBy('qty', 'asc')
-                            //                                     ->first()->disc;
-                            // }else{
-                            //     // dd('b', $qty_abv, $qty_curr);
-                            //     $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
-                            //                                     ->where('qty', '=', $qty_curr)
-                            //                                     // ->where('qty', '<', $qty_abv)
-                            //                                     ->orderBy('qty', 'asc')
-                            //                                     ->first()->disc;
-                            // }
-
-                            $price_level_disc   = @SettingHarga::where('product_id', $this->product_id)
-                                                                ->where('qty', '=', $qty_curr)
-                                                                ->first()->disc;
-                        }
-                    }
-                }
- 
-
-                $this->disc_p       = $price_level_disc; 
-                $this->disc         = ($this->price*$price_level_disc)/100; 
-                $this->price        = $this->price;
-                $this->price_akhir  = ceil($this->price - (($this->price*$price_level_disc)/100));
-            }else{
-                $this->disc_p       = 0; 
-                $this->disc         = 0; 
-                $this->price        = $this->price;
-                $this->price_akhir  = $this->price;
-            }
-          
-             
-        }elseif($this->product_id){
-            
-            $this->price        = @SupplierProduct::where('id', $this->product_id)->first()->price;
-            $this->price_akhir  = @SupplierProduct::where('id', $this->product_id)->first()->price;
-            // dd(SupplierProduct::where('id', $this->product_id)->first());
-            $this->disc         = 0;
-            $this->disc_p       = 0; 
-        }else{
-            $this->price        = 0;
-            $this->price_akhir  = 0;
-            $this->disc         = 0;
-            $this->disc_p       = 0; 
-        }
-
-        foreach($this->data->details as $item){
-            $this->total_pembayaran += $this->price_akhir * $item->qty;
-        }
-
-        if($propertyName=='product_id'){
-            $product = SupplierProduct::where(['id_supplier'=>$this->id_supplier,'product_id'=>$this->product_id])->first();
-            if($product){
-                $this->price        = $product->price;
-                $this->price_akhir  = $product->price;
-            }
-                
-        }
-    }
-
-    public function addProductSupplier(SupplierProduct $data)
-    {
-        $detail = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_id'=>$data->product_id])->first();
-        if(!$detail){
-            $detail                 = new PurchaseOrderDetail();
-            $detail->qty            = 1;
-            $detail->id_po          = $this->data->id;
-            $detail->item           = $this->nama_product;
-            $detail->product_id     = $data->product_id;
-            $detail->product_uom_id = \App\Models\ProductUom::where('name', $data->product_uom_id)->first()->id;
-            $detail->price          = $data->price;
-            $detail->disc           = $this->disc_p;
-            $detail->disc_harga     = $this->disc;
-            $detail->total_harga    = $this->price_akhir;
-            $detail->save();
-        }else{
-            $detailupdate = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_id'=>$data->product_id])->first();
-            $detailupdate->qty = $detailupdate->qty+1;
-            $detailupdate->total_price = $detailupdate->qty * $data->price;
-            $detailupdate->save();
-        }
-
-        $this->emit('reload');
         
-        return redirect()->to('purchase-order/detail/'.$this->data->id);
     }
 
-    public function addProduct()
-    {
-        $this->validate([
-            'id_supplier' => 'required',
-            'product_id' => 'required',
-            'qty' => 'required',
-            'price' => 'required'
-        ],[
-            'id_supplier.required' => 'Supplier harus dipilih',
-            'product_id.required' => 'Produk harus dipilih',
-            'qty.required' => 'Produk harus diisi',
-            'price.required' => 'Harga Produk harus diisi'
-        ]);
-
-        $detail = PurchaseOrderDetail::where(['id_po'=>$this->data->id,'product_uom_id'=>$this->product_uom_id,'product_id'=>$this->product_id])->first();
-        if(!$detail){
-            $detail                 = new PurchaseOrderDetail();
-            $detail->id_po          = $this->data->id;
-            $detail->product_id     = $this->product_id;
-            $detail->product_uom_id = @\App\Models\ProductUom::where('name', $this->product_uom_id)->first()->id;
-            $detail->qty            = $this->qty;
-            $detail->price          = $this->price;
-            $detail->disc           = $this->disc_p;
-            $detail->disc_harga     = $this->disc;
-            $detail->total_price    = $this->price_akhir;
-
-            $detail->save();
-        }else{
-            $detail->qty = $detail->qty + $this->qty;
-            $detail->save();
-        }
-
-        $this->disc         = '';
-        $this->disc_p       = '';
-        $this->price        = '';
-        $this->price_akhir  = '';
-        $this->reset(['product_id','qty']);
-        $this->emit('reload');
-
-        return redirect()->to('purchase-order/detail/'.$this->data->id);
-    }
-
-    public function deleteProduct($id)
-    {
-        PurchaseOrderDetail::find($id)->delete();
-        // $this->emit('reload');
-        return redirect()->to('purchase-order/detail/'.$this->data->id);
-    }
+ 
 
     public function save()
     {
-        $this->total_pembayaran = 0;$total_qty = 0;$total_product = 0;
-        foreach($this->data->details as $item){
-            $this->total_pembayaran += ($item->price - $item->disc) * $item->qty;
-            $total_qty += $item->qty;$total_product++; 
+        $insert = new RefundProduct();
+        $insert->no_ref = '';
+        $insert->no_po = '';
+        $insert->qty_po = $this->qty_po;
+        $insert->qty_ref = $this->qty_ref;
+        $insert->price_po = $this->price_po;
+        $insert->price_ref = $this->price_ref;
+
+        if($this->image_ref!="") {
+            $name = $this->data->id.".".$this->image_ref->extension();
+            $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
         }
+
+        if($this->image_ref2!="") {
+            $name = $this->data->id.".".$this->image_ref2->extension();
+            $this->image_ref2->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            $insert->image_ref2 = "storage/refund-product/{$this->data->id}/{$name}";
+        }
+
+        if($this->image_ref3!="") {
+            $name = $this->data->id.".".$this->image_ref3->extension();
+            $this->image_ref3->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            $insert->image_ref3 = "storage/refund-product/{$this->data->id}/{$name}";
+        }
+
+        // $insert->image_ref = $this->image_ref;
+        // $insert->image_ref2 = $this->image_ref2;
+        // $insert->image_ref3 = $this->image_ref3;
+        $insert->status = 1;
+        $insert->save();
         
-        $this->data->total_qty = $total_qty;
-        $this->data->total_product = $total_product;
-        $this->data->ppn = $this->pajak;
-        $this->data->biaya_pengiriman = $this->biaya_pengiriman;
-        $this->data->total_pembayaran = $this->total_pembayaran + $this->biaya_pengiriman + $this->pajak;
-        $this->data->alamat_penagihan = $this->alamat_penagihan;
-        $this->data->purchase_order_date = $this->purchase_order_date;
-        $this->data->delivery_order_number = $this->delivery_order_number;
-        $this->data->delivery_order_date = $this->delivery_order_date;
-        $this->data->catatan = $this->catatan;
-        $this->data->save();
     }
 
     public function sendpayment()
