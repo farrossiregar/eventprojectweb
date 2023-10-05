@@ -132,13 +132,34 @@
                                 <tr>
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
-                                    @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
-                                            <span class="badge badge-{{ get_status_buyer($item->status)['badge'] }} mr-0">{{ get_status_buyer($item->status)['msg'] }}</span>
+                                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                            <!-- {{ get_status_buyer($item->status) }} -->
                                         @endif
 
                                         @if(Auth::user()->user_access_id == 7)
-                                            <span class="badge badge-{{ get_status_supplier($item->status)['badge'] }} mr-0">{{ get_status_supplier($item->status)['msg'] }}</span>
+                                            <!-- {{ get_status_supplier($item->status) }} -->
                                         @endif  
+                                        
+                                        @if($item->status==0)
+                                            <span class="badge badge-warning">Draft</span>
+                                        @endif
+                                        @if($item->status==1)
+                                            <span class="badge badge-success">PO Submitted</span>
+                                        @endif
+                                        @if($item->status==2)
+                                            <span class="badge badge-default">Invoice</span>
+                                        @endif
+                                        @if($item->status==3)
+                                            <span class="badge badge-success">Paid</span>
+                                        @endif
+
+                                        @if($item->status==4)
+                                            <span class="badge badge-success mr-0">Deliver</span>
+                                        @endif
+
+                                        @if($item->status==5)
+                                            <span class="badge badge-success mr-0">Delivered</span>
+                                        @endif
                                     </td>
                                     @if(Auth::user()->user_access_id == 1)
                                         <td><a href="{{route('purchase-order-administration.detail',$item->id)}}">{{$item->no_po}}</a></td>

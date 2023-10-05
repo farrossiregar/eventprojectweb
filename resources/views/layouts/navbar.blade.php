@@ -31,7 +31,7 @@
                             <li><a href="{{route('user-supplier.index')}}" class="text-info icon-menu px-1">Supplier</a></li>
                             <li><a href="{{route('user-buyer.index')}}" class="text-info icon-menu px-1">Buyer</a></li>
                             <li><a href="{{route('purchase-order.index')}}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
+                            <li><a href="{{ route('delivery-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
                             <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Refund</a></li>
                         @endif
                         
@@ -52,7 +52,7 @@
                             <li><a href="{{ route('supplier.index') }}" class="text-info icon-menu px-1">Dashboard</a></li>
                             <li><a href="{{ route('product-supplier.index') }}" class="text-info icon-menu px-1">Produk</a></li>
                             <li><a href="{{ route('purchase-order-supplier.index') }}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('purchase-order-supplier.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
+                            <li><a href="{{ route('delivery-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
                             <li><a href="{{ route('refund-product.index') }}" class="text-info icon-menu px-1">Refund</a></li>
                           
                             <!-- <li><a href="route('kasir.index')" class="text-info icon-menu px-1">Kasir</a></li> -->
@@ -63,7 +63,7 @@
                             <li><a href="" class="text-info icon-menu px-1">Dashboard</a></li>
                             <li><a href="{{ route('user-supplier.index') }}" class="text-info icon-menu px-1">Supplier List</a></li>
                             <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
+                            <li><a href="{{ route('delivery-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
                             <li><a href="{{ route('refund-product.index') }}" class="text-info icon-menu px-1">Refund</a></li>
                             <li><a href="{{ route('catalog.index') }}" class="text-info icon-menu px-1">Catalog</a></li>
                             <li><a href="{{ route('compare.index') }}" class="text-info icon-menu px-1">Compare</a></li>

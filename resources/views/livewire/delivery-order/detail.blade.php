@@ -7,17 +7,13 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <small>No Purchase Order</small> 
-                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 7)
-                            <span class="badge badge-{{ get_status_supplier($data->status)['badge'] }} mr-0">{{ get_status_supplier($data->status)['msg'] }}</span>
-                            
-                            <!-- @if($data->status==3)
-                                <span class="badge badge-info mr-0">Payment Sent</span>
-                            @endif<br /> -->
-                            
-                        @else
-                            <span class="badge badge-{{ get_status_buyer($data->status)['badge'] }} mr-0">{{ get_status_buyer($data->status)['msg'] }}</span>
-
+                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                            <span class="badge badge-{{ get_status_buyer($item->status)['badge'] }} mr-0">{{ get_status_buyer($item->status)['msg'] }}</span>
                         @endif
+
+                        @if(Auth::user()->user_access_id == 7)
+                            <span class="badge badge-{{ get_status_supplier($item->status)['badge'] }} mr-0">{{ get_status_supplier($item->status)['msg'] }}</span>
+                        @endif  
                         <br /><label>{{$data->no_po}}</label>
                         <hr class="py-0 my-0" />
                     </div>

@@ -140,6 +140,9 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
     Route::get('purchase-order-supplier/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order-supplier.insert-delivery-order');
 
+    Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
+
+
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
     Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
     Route::get('product-supplier/detail/{data}',App\Http\Livewire\ProductSupplier\Detail::class)->name('product-supplier.detail');
