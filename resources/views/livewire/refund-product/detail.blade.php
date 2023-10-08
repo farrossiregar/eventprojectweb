@@ -12,7 +12,10 @@
                     </div>
                     <div class="form-group col-md-6 text-right">
                         <small>Status</small><br />
+                        
                         @if(Auth::user()->user_access_id == 8)
+                            {{ get_status_buyer($status) }}
+
                             @if($status == 0)
                             <span class="badge badge-warning mr-0">Refund diajukkan</span>
                             @elseif($status == 1)
@@ -23,6 +26,7 @@
                         @endif
 
                         @if(Auth::user()->user_access_id == 7)
+                            {{ get_status_supplier($status) }}
                             @if($status == 0)
                             <span class="badge badge-warning mr-0">Menunggu Approval</span>
                             @elseif($status == 1)

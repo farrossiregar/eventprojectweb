@@ -136,5 +136,26 @@ function get_status_supplier($status){
             // return '<span class="badge badge-success mr-0">Delivered</span>';
             return $response;
         break;
+        case 6:
+            $response = array(
+                'badge' => 'warning',
+                'msg' => 'Requested Refund'
+            );
+            return $response;
+        break;
+        case 7:
+            $response = array(
+                'badge' => 'success',
+                'msg' => 'Refund Approved'
+            );
+            return $response;
+        break;
+        case 8:
+            $response = array(
+                'badge' => 'danger',
+                'msg' => 'Refund Decline'
+            );
+            return $response;
+        break;
     }
 }

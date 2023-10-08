@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Product;
 use App\Models\ProductUom;
+use App\Models\RefundProduct;
 
 class PurchaseOrderDetail extends Model
 {
@@ -22,4 +23,10 @@ class PurchaseOrderDetail extends Model
     {
         return $this->hasOne(ProductUom::class,'id','product_uom_id');
     }
+
+    // public function refund()
+    // {
+    //     return $this->hasOne(RefundProduct::class,'id','id_po_detail');
+    //     // return $this->hasOne(RefundProduct::class,'id','product_uom_id');
+    // }
 }

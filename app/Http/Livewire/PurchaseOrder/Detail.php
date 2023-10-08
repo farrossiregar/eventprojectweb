@@ -32,7 +32,14 @@ class Detail extends Component
     // public $data_invoice = [];
     public $data_invoice, $sisa_bayar_inv;
 
-    public $qty_ref, $price_ref, $image_ref, $image_ref2, $image_ref3;
+    // Start Data Refund //
+    public $po_no, $ref_product_name, $ref_date_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3;
+    // End Data Refund //
+
+    protected $listeners = [
+        'modal_upload_refund'=>'modalUploadRefund'
+    ];
+
     public function render()
     {
         $this->emit('refund-stat',['status'=>'0']);
@@ -210,8 +217,8 @@ class Detail extends Component
         }
 
 
-        if($this->qty_ref){
-            $this->price_ref = 10 * $this->qty_ref;
+        if($this->qty_ref){ // Update Data Refund
+            $this->price_ref = $this->qty_ref * $this->price_po;
         }
     }
 
@@ -468,14 +475,63 @@ class Detail extends Component
 
 
 
-    public function sendrefund(){
+    public function modalUploadRefund($id)
+    {
+        $data = PurchaseOrderDetail::where('id', $id)->first();
         
-        $insert = new RefundProduct();
-        $insert->price_ref = 10 * $this->qty_ref;
-        $insert->qty_ref = $this->qty_ref;
-        $insert->save();
-        // dd($this->qty_ref);
+        $this->ref_product_name = $data->product->nama_product;
+        $this->qty_po = $data->qty;
+        $this->price_po = $data->total_price;
+        
+        if(RefundProduct::where('id_po_detail', $id)->first()){
+            $this->emit('refund-stat',['status'=>'2']);
+        }
+    }
 
-        $this->emit('refund-stat',['status'=>'1']);
+    public function sendrefund(){
+        $validate['image_ref'] = 'file|mimes:jpg,jpeg,png|max:51200'; //] 50MB Max
+        $validate['image_ref2'] = 'file|mimes:jpg,jpeg,png|max:51200'; //] 50MB Max
+        $validate['image_ref3'] = 'file|mimes:jpg,jpeg,png|max:51200'; //] 50MB Max
+
+        if($this->image_ref == "" && $this->image_ref2 == "" && $this->image_ref3 == "") {
+            session()->flash('message', 'Harus disertakan foto minimal 1!!!');
+        }else{
+            if($this->qty_ref > $this->qty_po){
+                session()->flash('message', 'Jumlah di refund melebihi jumlah produk!!!');
+            }else{
+                $insert = new RefundProduct();
+                $insert->no_ref = $this->price_ref;
+                $insert->id_buyer = Auth::user()->id;
+                $insert->price_ref = $this->price_ref;
+                $insert->qty_ref = $this->qty_ref;
+
+                if($this->image_ref!="") {
+                    $name = $this->data->id.".".$this->image_ref->extension();
+                    $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+                    // $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
+                    $insert->image_ref = $name;
+                }
+
+                if($this->image_ref2!="") {
+                    $name2 = $this->data->id.".".$this->image_ref2->extension();
+                    $this->image_ref2->storePubliclyAs("public/refund-product/{$this->data->id}", $name2);
+                    $insert->image_ref2 = $name2;
+                }
+
+                if($this->image_ref3!="") {
+                    $name3 = $this->data->id.".".$this->image_ref3->extension();
+                    $this->image_ref3->storePubliclyAs("public/refund-product/{$this->data->id}", $name3);
+                    $insert->image_ref3 = $name3;
+                }
+
+                $insert->status = 1;
+                
+                $insert->save();
+                $this->reset(['qty_ref','price_ref']);
+                $this->emit('refund-stat',['status'=>'1']);
+            }
+            
+        }
+        
     }
 }

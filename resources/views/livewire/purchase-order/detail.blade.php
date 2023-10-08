@@ -225,8 +225,10 @@
                                         @endif
 
                                         @if($data->status==5)
-                                            <a href="javascript:void(0)" class="text-info" wire:click="$emit('modal_upload_refund',{{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a> 
-                                            <!-- <a href="javascript:void(0)" class="text-info" data-toggle="modal" data-target="#modal_upload_refund" title="Refund"><i class="fa fa-refresh"></i></a>  -->
+                                            
+                                                <a href="javascript:void(0)" class="text-info" wire:click="$emit('modal_upload_refund',{{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a> 
+                                                <!-- <a href="javascript:void(0)" class="text-info" data-toggle="modal" data-target="#modal_upload_refund" title="Refund"><i class="fa fa-refresh"></i></a>  -->
+                                            
                                         @endif
                                     </td>
                                 </tr>
@@ -456,18 +458,18 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <div class="row">
-                                                <div class="col-md-2">
+                                                <!-- <div class="col-md-2">
                                                     <label>No PO</label>
                                                     <br>
                                                     <b><?php echo date('d M Y'); ?></b>
                                                     
                                                     @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
-                                                </div>
+                                                </div> -->
 
                                                 <div class="col-md-7">
                                                     <label>Nama Product</label>
                                                     <br>
-                                                    <b><?php echo date('d M Y'); ?></b>
+                                                    <b>{{ $ref_product_name }}</b>
                                                     
                                                     @error('payment_date') <span class="text-danger">{{ $message }}</span> @enderror
                                                 </div>
@@ -487,8 +489,8 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Jumlah Barang</label> 
-                                                    <h5>10</h5>
-                                                    <input type="hidden" class="form-control" wire:model="payment_amount" value="{{ $sisa_bayar_inv }}" readonly/>
+                                                    <h5>{{ $qty_po }}</h5>
+                                                    <input type="hidden" class="form-control" wire:model="qty_po" readonly/>
                                                 </div>
                                                 <div class="col-md-3">
                                                     <label>Barang direfund</label> 
@@ -504,8 +506,8 @@
                                             <div class="row">
                                                 <div class="col-md-3">
                                                     <label>Total Harga</label> 
-                                                    <h5>Rp. {{ format_idr(120000) }}</h5>
-                                                    <input type="hidden" class="form-control" wire:model="payment_amount" readonly/>
+                                                    <h5>Rp. {{ format_idr($price_po*$qty_po) }}</h5>
+                                                    <input type="hidden" class="form-control" wire:model="price_po" readonly/>
                                                     
                                                 </div>
                                                 <div class="col-md-3">
@@ -543,8 +545,19 @@
                                     </div>
                                    
                                 </div>
+
+                                @if (session()->has('message'))
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                        <strong>{{ session('message') }}!</strong>
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>                               
+                                @endif
+
                                 <br><br>
-                                <div class="row">
+                                
+                                <div class="row sendrefund">
                                     <div class="col-md-4">
                                         <span wire:loading wire:target="sendrefund">
                                             <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
@@ -573,6 +586,11 @@
 
     <script>
          Livewire.on('modal_upload_refund',(data)=>{
+            // if(data.status == '2'){
+            //     $('.sendrefund').css('display', session('message'));
+            // }else{
+            //     $('.sendrefund').css('display', session('message'));   
+            // }
             $("#modal_upload_refund").modal('show');
         });
 
@@ -580,6 +598,7 @@
             if(data.status == '1'){
                 $("#modal_upload_refund").modal('hide');
             }
+
             
         });
     </script>
