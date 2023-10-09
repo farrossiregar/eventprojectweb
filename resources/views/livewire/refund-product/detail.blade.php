@@ -14,7 +14,7 @@
                         <small>Status</small><br />
                         
                         @if(Auth::user()->user_access_id == 8)
-                            {{ get_status_buyer($status) }}
+                            <!-- get_status_buyer($status) -->
 
                             @if($status == 0)
                             <span class="badge badge-warning mr-0">Refund diajukkan</span>
@@ -75,7 +75,7 @@
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref) }}" alt="Card image cap">
                         </div>
                         @endif
-                        <input type="file" class="form-control" wire:model="image_ref" />
+                        <!-- <input type="file" class="form-control" wire:model="image_ref" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -87,7 +87,7 @@
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref2) }}" alt="Card image cap">
                         </div>
                         @endif
-                        <input type="file" class="form-control" wire:model="image_ref2" />
+                        <!-- <input type="file" class="form-control" wire:model="image_ref2" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
@@ -99,7 +99,7 @@
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref3) }}" alt="Card image cap">
                         </div>
                         @endif
-                        <input type="file" class="form-control" wire:model="image_ref3" />
+                        <!-- <input type="file" class="form-control" wire:model="image_ref3" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>

@@ -24,7 +24,7 @@ class Detail extends Component
     public $data_product = [],$price, $price_akhir,$qty,$product_uom_id,$product_id,$tab_active='tab-supplier',$biaya_pengiriman=0,$total_pembayaran=0;
     
     public $data;
-    public $no_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3, $status;
+    public $no_po, $qty_po, $qty_ref, $price_po, $price_ref, $image_ref, $image_ref2, $image_ref3, $status, $alasan_refund;
     protected $listeners = ['reload'=>'$refresh'];
     
     public function render()
@@ -73,21 +73,33 @@ class Detail extends Component
         $insert->price_ref = $this->price_ref;
 
         if($this->image_ref!="") {
-            $name = $this->data->id.".".$this->image_ref->extension();
-            $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
-            $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
+            // $name = $this->data->id.".".$this->image_ref->extension();
+            // $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            // $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
+
+            $image_ref = strtolower(str_replace(" ", "", $this->image_ref)).'.'.$this->image_ref->extension();
+            $this->image_ref->store('images', ['disk' => 'refund']);
+            $insert->image_ref = $image_ref;
         }
 
         if($this->image_ref2!="") {
-            $name = $this->data->id.".".$this->image_ref2->extension();
-            $this->image_ref2->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
-            $insert->image_ref2 = "storage/refund-product/{$this->data->id}/{$name}";
+            // $name = $this->data->id.".".$this->image_ref2->extension();
+            // $this->image_ref2->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            // $insert->image_ref2 = "storage/refund-product/{$this->data->id}/{$name}";
+
+            $image_ref2 = strtolower(str_replace(" ", "", $this->image_ref2)).'.'.$this->image_ref2->extension();
+            $this->image_ref2->store('images', ['disk' => 'refund']);
+            $insert->image_ref2 = $image_ref2;
         }
 
         if($this->image_ref3!="") {
-            $name = $this->data->id.".".$this->image_ref3->extension();
-            $this->image_ref3->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
-            $insert->image_ref3 = "storage/refund-product/{$this->data->id}/{$name}";
+            // $name = $this->data->id.".".$this->image_ref3->extension();
+            // $this->image_ref3->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+            // $insert->image_ref3 = "storage/refund-product/{$this->data->id}/{$name}";
+
+            $image_ref3 = strtolower(str_replace(" ", "", $this->image_ref3)).'.'.$this->image_ref3->extension();
+            $this->image_ref3->store('images', ['disk' => 'refund']);
+            $insert->image_ref3 = $image_ref3;
         }
 
         // $insert->image_ref = $this->image_ref;

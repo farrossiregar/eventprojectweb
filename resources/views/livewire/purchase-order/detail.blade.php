@@ -542,6 +542,16 @@
                                             </div>
                                             
                                         </div>
+
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Alasan Refund</label>
+                                                    <textarea class="form-control" wire:model="alasan_refund"></textarea>
+                                                    @error('alasan_refund') <span class="text-danger">{{ $message }}</span> @enderror
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                    
                                 </div>
