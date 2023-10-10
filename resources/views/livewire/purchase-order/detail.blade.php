@@ -224,7 +224,7 @@
                                             <a href="javascript:void(0)" class="text-danger" wire:click="deleteProduct({{$item->id}})"><i class="fa fa-close"></i></a>
                                         @endif
 
-                                        @if($data->status==5)
+                                        @if($data->status==5 && Auth::user()->user_access_id == 8)
                                             
                                                 <a href="javascript:void(0)" class="text-info" wire:click="$emit('modal_upload_refund',{{$item->id}})" data-toggle="tooltip" data-placement="top" title="Refund"><i class="fa fa-refresh"></i></a> 
                                                 <!-- <a href="javascript:void(0)" class="text-info" data-toggle="modal" data-target="#modal_upload_refund" title="Refund"><i class="fa fa-refresh"></i></a>  -->

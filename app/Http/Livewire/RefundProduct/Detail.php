@@ -36,17 +36,21 @@ class Detail extends Component
     public function mount(RefundProduct $data)
     {
         
-        $this->data = $data;        
-        $this->no_ref = $data->no_ref;
-        $this->no_po = $data->no_po;
-        $this->qty_po = @PurchaseOrderDetail::where('id', $data->id_po_detail)->first()->qty;
-        $this->qty_ref = $data->qty_ref;
-        $this->price_po = @PurchaseOrderDetail::where('id', $data->id_po_detail)->first()->price;
-        $this->price_ref = $data->price_ref;
-        $this->image_ref = $data->image_ref;
-        $this->image_ref2 = $data->image_ref2;
-        $this->image_ref3 = $data->image_ref3;
-        $this->status = $data->status;
+        $this->data = RefundProduct::select(['refund_product.*','purchase_order.status as status_po'])
+                            ->join('purchase_order','refund_product.no_po','=','purchase_order.no_po')->get();        
+
+        // dd($this->data[0]->id);
+
+        $this->no_ref = $this->data[0]->no_ref;
+        $this->no_po = $this->data[0]->no_po;
+        $this->qty_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->qty;
+        $this->qty_ref = $this->data[0]->qty_ref;
+        $this->price_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->price;
+        $this->price_ref = $this->data[0]->price_ref;
+        $this->image_ref = $this->data[0]->image_ref;
+        $this->image_ref2 = $this->data[0]->image_ref2;
+        $this->image_ref3 = $this->data[0]->image_ref3;
+        $this->status = strval($this->data[0]->status_po);
         
     }
 

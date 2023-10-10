@@ -31,6 +31,13 @@ function count_project_status($status){
 
 function get_status_buyer($status){
     switch($status){
+        case 0:
+            $response = array(
+                'badge' => 'warning',
+                'msg' => 'Draft'
+            );
+            return $response;
+        break;
         case 1:
             $response = array(
                 'badge' => 'info',

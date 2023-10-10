@@ -14,26 +14,26 @@
                         <small>Status</small><br />
                         
                         @if(Auth::user()->user_access_id == 8)
-                            <!-- get_status_buyer($status) -->
+                            <span class="badge badge-{{ get_status_buyer($status)['badge'] }} mr-0">{{ get_status_buyer($status)['msg'] }}</span>
 
-                            @if($status == 0)
+                            <!-- @if($status == 0)
                             <span class="badge badge-warning mr-0">Refund diajukkan</span>
                             @elseif($status == 1)
                             <span class="badge badge-success mr-0">Refund dibayar</span>
                             @else
                             <span class="badge badge-danger mr-0">Refund ditolak</span>
-                            @endif
+                            @endif -->
                         @endif
 
                         @if(Auth::user()->user_access_id == 7)
-                            {{ get_status_supplier($status) }}
-                            @if($status == 0)
+                            <span class="badge badge-{{ get_status_supplier($status)['badge'] }} mr-0">{{ get_status_supplier($status)['msg'] }}</span>
+                            <!-- @if($status == 0)
                             <span class="badge badge-warning mr-0">Menunggu Approval</span>
                             @elseif($status == 1)
                             <span class="badge badge-success mr-0">Approved</span>
                             @else
                             <span class="badge badge-danger mr-0">Decline</span>
-                            @endif
+                            @endif -->
                         @endif
                     </div>
                 </div>
@@ -47,7 +47,7 @@
                     </div>
                     <div class="form-group col-md-6">
                         <label>Jumlah Produk direfund</label>
-                        <input type="number" class="form-control" wire:model="qty_ref" />
+                        <input type="number" class="form-control" wire:model="qty_ref" readonly />
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                    
@@ -108,7 +108,7 @@
 
                 <div class="form-group">
                     <label>Alasan Refund</label>
-                    <textarea class="form-control" wire:model="alamat_penagihan"></textarea>
+                    <textarea class="form-control" wire:model="alamat_penagihan" readonly></textarea>
                     @error('alamat_penagihan') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
 

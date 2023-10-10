@@ -133,11 +133,11 @@
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
                                         @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
-                                            <!-- {{ get_status_buyer($item->status) }} -->
+                                            <span class="badge badge-{{ get_status_buyer($status)['badge'] }} mr-0">{{ get_status_buyer($status)['msg'] }}</span>
                                         @endif
 
                                         @if(Auth::user()->user_access_id == 7)
-                                            <!-- {{ get_status_supplier($item->status) }} -->
+                                            <span class="badge badge-{{ get_status_supplier($status)['badge'] }} mr-0">{{ get_status_supplier($status)['msg'] }}</span>
                                         @endif  
                                         
                                         @if($item->status==0)

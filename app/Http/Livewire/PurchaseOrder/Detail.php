@@ -525,6 +525,10 @@ class Detail extends Component
                 }
 
                 $insert->status = 1;
+
+                $updatepo = PurchaseOrder::where('id', $this->data->id)->first();
+                $updatepo->status = 6;
+                $updatepo->save();
                 
                 $insert->save();
                 $this->reset(['qty_ref','price_ref']);

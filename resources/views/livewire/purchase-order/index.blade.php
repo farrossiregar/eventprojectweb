@@ -132,7 +132,7 @@
                                 <tr>
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
-                                    @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
+                                        @if(Auth::user()->user_access_id == 1 || Auth::user()->user_access_id == 8)
                                             <span class="badge badge-{{ get_status_buyer($item->status)['badge'] }} mr-0">{{ get_status_buyer($item->status)['msg'] }}</span>
                                         @endif
 
