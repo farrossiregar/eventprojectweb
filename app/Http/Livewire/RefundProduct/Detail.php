@@ -36,21 +36,27 @@ class Detail extends Component
     public function mount(RefundProduct $data)
     {
         
-        $this->data = RefundProduct::select(['refund_product.*','purchase_order.status as status_po'])
-                            ->join('purchase_order','refund_product.no_po','=','purchase_order.no_po')->get();        
+        $this->data = RefundProduct::select(['refund_product.*', 'purchase_order_detail.qty as qty_po', 'purchase_order_detail.price as price_po'])
+                            ->leftjoin('purchase_order_detail','refund_product.id_po_detail','=','purchase_order_detail.id')
+                            ->where('refund_product.id', $data->id)
+                            ->get();        
 
-        // dd($this->data[0]->id);
+                            // dd($this->data[0]);
+
 
         $this->no_ref = $this->data[0]->no_ref;
         $this->no_po = $this->data[0]->no_po;
-        $this->qty_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->qty;
+        // $this->qty_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->qty;
+        $this->qty_po = $this->data[0]->qty_po;
         $this->qty_ref = $this->data[0]->qty_ref;
-        $this->price_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->price;
+        // $this->price_po = @PurchaseOrderDetail::where('id', $this->data[0]->id_po_detail)->first()->price;
+        $this->price_po = $this->data[0]->price_po;
         $this->price_ref = $this->data[0]->price_ref;
         $this->image_ref = $this->data[0]->image_ref;
         $this->image_ref2 = $this->data[0]->image_ref2;
         $this->image_ref3 = $this->data[0]->image_ref3;
-        $this->status = strval($this->data[0]->status_po);
+        $this->status = $this->data[0]->status;
+        // $this->status = strval($this->data[0]->status_po);
         
     }
 

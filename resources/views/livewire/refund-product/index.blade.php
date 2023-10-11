@@ -113,7 +113,8 @@
                                 @if(Auth::user()->user_access_id == 7 || Auth::user()->user_access_id == 1)
                                 <th>Buyer</th>
                                 @endif
-                                <th>Tanggal Transaksi</th>
+                                <th>Tanggal Refund</th>
+                                <th>Tanggal dibayar</th>
                                 <th>Produk direfund</th>
                                 <th>Jumlah Refund</th>
                                 <th class="text-right">Biaya direfund</th>
@@ -127,13 +128,15 @@
                                 <tr>
                                     <td style="width: 50px;" class="text-center">{{$k+1}}</td>
                                     <td class="text-center">
-                                        @if($item->status==0)
-                                            <span class="badge badge-warning">Belum dibayar</span>
-                                        @endif
-                                        @if($item->status==1)
-                                            <span class="badge badge-success">Sudah dibayar</span>
-                                        @endif
                                         
+                                        @if(Auth::user()->user_access_id == 8 || Auth::user()->user_access_id == 1)
+                                            <span class="badge badge-{{ get_status_buyer($item->status_po)['badge'] }} mr-0">{{ get_status_buyer($item->status_po)['msg'] }}</span>
+                                        @endif
+
+                                        @if(Auth::user()->user_access_id == 7)
+                                            <span class="badge badge-{{ get_status_supplier($item->status_po)['badge'] }} mr-0">{{ get_status_supplier($item->status_po)['msg'] }}</span>
+                                        @endif
+
                                     </td>
                                     <td><a href="{{route('refund-product.detail',$item->id)}}">{{$item->no_ref}}</a></td>
                                     <td>{{$item->no_po}}</td>
@@ -157,17 +160,16 @@
                                     @endif
 
                                     <td>{{date('d M Y H:i',strtotime($item->created_at))}}</td>
-                                    <td class="text-center">{{$item->product_id}}</td>
+                                    <td></td>
+                                    <td class="text-right">{{$item->product->nama_product}}</td>
                                     <td class="text-center">{{$item->qty_ref}}</td>
                                     <td class="text-right">Rp. {{format_idr($item->price_ref)}}</td>
                                     <td>
                                         <div class="btn-group" role="group">
                                             <a href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-navicon"></i></a>
                                             <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                <a href="{{route('purchase-order.detail',$item->id)}}" class="dropdown-item"><i class="fa fa-info"></i> Detail</a>
-                                                @if($item->status==1)
-                                                    <a href="{{route('purchase-order.insert-delivery-order',$item->id)}}" class="dropdown-item"><i class="fa fa-plus"></i> Delivery Order</a>
-                                                @endif
+                                                <a href="{{route('refund-product.detail',$item->id)}}" class="dropdown-item"><i class="fa fa-info"></i> Detail</a>
+                                               
                                             </div>
                                         </div>    
                                     </td>

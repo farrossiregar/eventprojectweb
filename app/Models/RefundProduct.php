@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\ProductUom;
-use App\Models\Product;
+use App\Models\SupplierProduct;
+use App\Models\Buyer;
+use App\Models\Supplier;
 
 class RefundProduct extends Model
 {
@@ -21,6 +23,11 @@ class RefundProduct extends Model
     public function buyer()
     {
         return $this->hasOne(Buyer::class,'id','id_buyer');
+    }
+
+    public function product()
+    {
+        return $this->hasOne(SupplierProduct::class,'id','product_id');
     }
 
 }

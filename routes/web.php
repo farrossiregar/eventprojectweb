@@ -168,6 +168,8 @@ Route::group(['middleware' => ['auth','access:8']], function(){
     Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
     Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
 
+    Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
+
     // Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
     // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
     // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');

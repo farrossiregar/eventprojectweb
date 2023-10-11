@@ -34,11 +34,20 @@ class Index extends Component
     {
         $user = Auth::user();
         if($user->user_access_id == 8){ // Buyer
-            $data = RefundProduct::where('id_buyer', $user->id)->orderBy('id','DESC');
+            $data = RefundProduct::select(['refund_product.*','purchase_order.status as status_po'])
+                                    ->join('purchase_order','refund_product.no_po','=','purchase_order.no_po')
+                                    ->where('purchase_order.id_buyer', $user->id)
+                                    ->orderBy('refund_product.id','DESC');
         }elseif($user->user_access_id == 7){ // Supplier
-            $data = RefundProduct::where('id_supplier', $user->id)->orderBy('id','DESC');
+            $data = RefundProduct::select(['refund_product.*','purchase_order.status as status_po'])
+                                    ->join('purchase_order','refund_product.no_po','=','purchase_order.no_po')
+                                    ->where('purchase_order.id_supplier', $user->id)
+                                    ->orderBy('refund_product.id','DESC');
+
         }else{
-            $data = RefundProduct::orderBy('id','DESC');
+            $data = RefundProduct::select(['refund_product.*','purchase_order.status as status_po'])
+                                    ->join('purchase_order','refund_product.no_po','=','purchase_order.no_po')
+                                    ->orderBy('refund_product.id','DESC');
         }
         
         return $data;

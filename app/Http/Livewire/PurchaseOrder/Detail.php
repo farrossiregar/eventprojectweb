@@ -506,21 +506,26 @@ class Detail extends Component
                 $insert->qty_ref = $this->qty_ref;
 
                 if($this->image_ref!="") {
-                    $name = $this->data->id.".".$this->image_ref->extension();
-                    $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
+                    // $name = $this->image_ref->getClientOriginalName().".".$this->image_ref->extension();
+                    // $this->image_ref->storePubliclyAs("public/refund-product/", $name);
                     // $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
-                    $insert->image_ref = $name;
+
+                    $image_ref = strtolower(str_replace(" ", "", $this->image_ref->getClientOriginalName())).'.'.$this->image_ref->extension();
+                    $this->image_ref->store('images/refund', ['disk' => 'refund']);
+                    // $image_ref->store('images/refund', ['disk' => 'refund']);
+
+                    $insert->image_ref = $image_ref;
                 }
 
                 if($this->image_ref2!="") {
-                    $name2 = $this->data->id.".".$this->image_ref2->extension();
-                    $this->image_ref2->storePubliclyAs("public/refund-product/{$this->data->id}", $name2);
+                    $name2 = $this->image_ref2->getClientOriginalName().".".$this->image_ref2->extension();
+                    $this->image_ref2->storePubliclyAs("public/refund-product/", $name2);
                     $insert->image_ref2 = $name2;
                 }
 
                 if($this->image_ref3!="") {
-                    $name3 = $this->data->id.".".$this->image_ref3->extension();
-                    $this->image_ref3->storePubliclyAs("public/refund-product/{$this->data->id}", $name3);
+                    $name3 = $this->image_ref3->getClientOriginalName().".".$this->image_ref3->extension();
+                    $this->image_ref3->storePubliclyAs("public/refund-product/", $name3);
                     $insert->image_ref3 = $name3;
                 }
 

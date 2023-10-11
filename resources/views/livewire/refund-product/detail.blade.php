@@ -14,26 +14,26 @@
                         <small>Status</small><br />
                         
                         @if(Auth::user()->user_access_id == 8)
-                            <span class="badge badge-{{ get_status_buyer($status)['badge'] }} mr-0">{{ get_status_buyer($status)['msg'] }}</span>
+                            <!-- <span class="badge badge-{{ get_status_buyer($status)['badge'] }} mr-0">{{ get_status_buyer($status)['msg'] }}</span> -->
 
-                            <!-- @if($status == 0)
+                            @if($status == 0)
                             <span class="badge badge-warning mr-0">Refund diajukkan</span>
                             @elseif($status == 1)
                             <span class="badge badge-success mr-0">Refund dibayar</span>
                             @else
                             <span class="badge badge-danger mr-0">Refund ditolak</span>
-                            @endif -->
+                            @endif
                         @endif
 
                         @if(Auth::user()->user_access_id == 7)
-                            <span class="badge badge-{{ get_status_supplier($status)['badge'] }} mr-0">{{ get_status_supplier($status)['msg'] }}</span>
-                            <!-- @if($status == 0)
+                            <!-- <span class="badge badge-{{ get_status_supplier($status)['badge'] }} mr-0">{{ get_status_supplier($status)['msg'] }}</span> -->
+                            @if($status == 0)
                             <span class="badge badge-warning mr-0">Menunggu Approval</span>
                             @elseif($status == 1)
                             <span class="badge badge-success mr-0">Approved</span>
                             @else
                             <span class="badge badge-danger mr-0">Decline</span>
-                            @endif -->
+                            @endif
                         @endif
                     </div>
                 </div>
