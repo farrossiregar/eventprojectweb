@@ -67,42 +67,49 @@
                     
                 </div>
 
+                
                 <div class="row">
+                    @if($image_ref)
                     <div class="form-group col-md-4">
                         <label>Photo 1</label>
-                        @if($image_ref)
+                        
                         <div style="height: 180px; overflow: hidden;">
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref) }}" alt="Card image cap">
                         </div>
-                        @endif
+                        
                         <!-- <input type="file" class="form-control" wire:model="image_ref" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    @endif
 
+                    @if($image_ref2)
                     <div class="form-group col-md-4">
                         <label>Photo 2</label>
-                        @if($image_ref2)
+                        
                         <div style="height: 180px; overflow: hidden;">
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref2) }}" alt="Card image cap">
                         </div>
-                        @endif
+                        
                         <!-- <input type="file" class="form-control" wire:model="image_ref2" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    @endif
 
+                    @if($image_ref3)
                     <div class="form-group col-md-4">
                         <label>Photo 3</label>
-                        @if($image_ref3)
+                        
                         <div style="height: 180px; overflow: hidden;">
                             <img class="card-img-top" src="{{ asset('assets/images/refund/'.$image_ref3) }}" alt="Card image cap">
                         </div>
-                        @endif
+                        
                         <!-- <input type="file" class="form-control" wire:model="image_ref3" /> -->
                         
                         @error('id_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    @endif
                     
                 </div>
 

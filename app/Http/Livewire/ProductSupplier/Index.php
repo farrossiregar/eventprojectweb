@@ -24,4 +24,10 @@ class Index extends Component
 
         return view('livewire.product-supplier.index')->with(['data'=>$data->paginate(200)]);
     }
+
+
+    public function delete($id){
+        $delete = SupplierProduct::where('id', $id)->first();
+        $delete->delete();
+    }
 }

@@ -133,7 +133,7 @@
                         <table class="table table-striped m-b-0 c_list">
                             <thead>
                                 <tr>
-                                    <th>Jumlah (<)</th>   
+                                    <th>Jumlah (>)</th>   
                                     <th>Diskon (%)</th>                              
                                     <th>Potongan (Rp)</th>
                                     <th>Harga Jual (Rp)</th>

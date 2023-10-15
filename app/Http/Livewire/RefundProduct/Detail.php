@@ -75,8 +75,8 @@ class Detail extends Component
     public function save()
     {
         $insert = new RefundProduct();
-        $insert->no_ref = '';
-        $insert->no_po = '';
+        $insert->no_ref = 'REF';
+        $insert->no_po = 'PO';
         $insert->qty_po = $this->qty_po;
         $insert->qty_ref = $this->qty_ref;
         $insert->price_po = $this->price_po;
@@ -87,9 +87,14 @@ class Detail extends Component
             // $this->image_ref->storePubliclyAs("public/refund-product/{$this->data->id}", $name);
             // $insert->image_ref = "storage/refund-product/{$this->data->id}/{$name}";
 
-            $image_ref = strtolower(str_replace(" ", "", $this->image_ref)).'.'.$this->image_ref->extension();
-            $this->image_ref->store('images', ['disk' => 'refund']);
+            // $image_ref = strtolower(str_replace(" ", "", $this->image_ref)).'.'.$this->image_ref->extension();
+            // $this->image_ref->store('images', ['disk' => 'refund']);
+
+            $image_ref = strtolower(str_replace(" ", "-", $this->image_ref->getClientOriginalName()));
+            $this->image_ref->storeAs('images/refund', $image_ref, 'refund');
             $insert->image_ref = $image_ref;
+
+            
         }
 
         if($this->image_ref2!="") {

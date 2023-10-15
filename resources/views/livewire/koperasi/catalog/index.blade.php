@@ -107,7 +107,7 @@
                                 <a href="javascript:void(0)" wire:click="$emit('modal_detail_product',{{$item->id}})">
                                     <div class="card" style="width: 16rem; border: 1px solid lightgrey; margin: 4px;">
                                         <div style="height: 180px; overflow: hidden;">
-                                            <img class="card-img-top" src="{{ asset('assets/images/'.$item->image_source) }}" alt="Card image cap">
+                                            <img class="card-img-top" src="{{ asset('assets/images/product/'.$item->image_source) }}" alt="Card image cap">
                                         </div>
                                     
                                         <div class="card-body">
@@ -184,7 +184,7 @@
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <img class="card-img-top" style="width: 90%;" src="{{ asset('assets/images/'.$image_detail) }}" alt="Card image cap">
+                                        <img class="card-img-top" style="width: 90%;" src="{{ asset('assets/images/product/'.$image_detail) }}" alt="Card image cap">
                                     </div>
                                     <div class="col-md-8">
                                         <div class="row">
