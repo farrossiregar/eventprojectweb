@@ -1,115 +1,167 @@
-@section('title', 'Register')
-<div class="container">
-    <div class="mt-2 card">
-      <div class="card-header">
-        <div class="row">
-            <div class="col-md-6">
-                <h4><small>Koperasi</small><br /></h4>
-                <!-- <p>Jl. Citarum Tengah Ruko E-1<br />
-                Telp: 024-354 4085 Semarang 50126 </p> -->
-            </div>
-            
-        </div>
-      </div>
-      <div class="card-body">
-        <form class="form-auth-small" method="POST" wire:submit.prevent="register" action="" >
-           
-            <div class="row">
-                <div class="col-md-12">
-                    <h5 class="text-info">DATA USER SUPPLIER</h5>
-                    <hr />
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Nama Supplier</label><span class="text-danger">*
-                                    <input type="text" class="form-control" wire:model="nama_supplier" />
-                                    @error('error_nama_supplier') <span class="text-danger">{{ $message }}</span> @enderror
+
+        <style>
+            .gradient-custom {
+            /* fallback for old browsers */
+            /* background: #f093fb; */
+            background-image: url('https://images.pexels.com/photos/196652/pexels-photo-196652.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1');
+
+            /* Chrome 10-25, Safari 5.1-6 */
+            /* background: -webkit-linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)); */
+
+            /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            /* background: linear-gradient(to bottom right, rgba(240, 147, 251, 1), rgba(245, 87, 108, 1)) */
+            }
+
+            .card-registration .select-input.form-control[readonly]:not([disabled]) {
+            font-size: 1rem;
+            line-height: 2.15;
+            padding-left: .75em;
+            padding-right: .75em;
+            }
+            .card-registration .select-arrow {
+            top: 13px;
+            }
+        </style>
+        
+        <!-- <div class="container"> -->
+            <!-- <div class="row"> -->
+                <section class="vh-100 gradient-custom">
+                    <div class="container py-5 h-100">
+                        <div class="row justify-content-center align-items-center h-100">
+                        <div class="col-12 col-lg-9 col-xl-7">
+                            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                            <div class="card-body p-4 p-md-5">
+                                <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Registrasi Event Creator</h3>
+                                <form>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <label class="form-label" for="firstName">First Name</label>
+                                            <input type="text" id="firstName" class="form-control form-control-lg" />
+                                            
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <label class="form-label" for="lastName">Last Name</label>
+                                            <input type="text" id="lastName" class="form-control form-control-lg" />
+                                            
+                                        </div>
+
+                                    </div>
                                 </div>
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputName">E-mail</label><span class="text-danger">*
-                                    <input type="email" class="form-control" placeholder="Enter name" wire:model="email">
-                                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="emailAddress">Email</label>
+                                        <input type="email" id="emailAddress" class="form-control form-control-lg" />
+                                        
+                                    </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                                        <input type="tel" id="phoneNumber" class="form-control form-control-lg" />
+                                        
+                                    </div>
+
+                                    </div>
                                 </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-4">
+
+                                        <div class="form-outline">
+                                            <label class="form-label" for="firstName">Perusahaan</label>
+                                            <input type="text" id="firstName" class="form-control form-control-lg" />
+                                            
+                                        </div>
+
+                                    </div>
+                                    
+                                </div>
+
+                                <!-- <div class="row">
+                                    <div class="col-md-6 mb-4 d-flex align-items-center">
+
+                                    <div class="form-outline datepicker w-100">
+                                        <input type="text" class="form-control form-control-lg" id="birthdayDate" />
+                                        <label for="birthdayDate" class="form-label">Birthday</label>
+                                    </div>
+
+                                    </div>
+                                    <div class="col-md-6 mb-4">
+
+                                    <h6 class="mb-2 pb-1">Gender: </h6>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="femaleGender"
+                                        value="option1" checked />
+                                        <label class="form-check-label" for="femaleGender">Female</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="maleGender"
+                                        value="option2" />
+                                        <label class="form-check-label" for="maleGender">Male</label>
+                                    </div>
+
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="inlineRadioOptions" id="otherGender"
+                                        value="option3" />
+                                        <label class="form-check-label" for="otherGender">Other</label>
+                                    </div>
+
+                                    </div>
+                                </div> -->
+
                                 
-                            </div>
 
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputName">Password</label><span class="text-danger">*</span> 
-                                    <input type="password" name="password" class="form-control" wire:model="password" wire:change="checkpw" required>
-                                    @error('password') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputAlamat">Confirm Password</label><span class="text-danger">*
-                                    <input type="password" name="confirm_password" class="form-control" wire:model="confirm_password" wire:change="checkpw" required>
-                                    @if($match_pw==false)
-                                    <span class="text-danger">Password Doesn't Match</span> 
-                                    @endif
-                                </div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-12">
 
-                            
-                            <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputAlamat">No Telp. / HP</label><span class="text-danger">*
-                                    <input type="text" class="form-control" wire:model="no_telp">
-                                    @error('no_telp') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputName">Provinsi</label>
-                                    <select name="provinsi" class="form-control" wire:model="provinsi">
-                                        @foreach(\App\Models\Provinsi::get()  as $item)
-                                        <option value="{{ $item->id_prov }}">{{ $item->nama }}</option>
-                                        @endforeach
+                                    <select class="select form-control-lg">
+                                        <option value="1" disabled>Choose option</option>
+                                        <option value="2">Subject 1</option>
+                                        <option value="3">Subject 2</option>
+                                        <option value="4">Subject 3</option>
                                     </select>
-                                    @error('provinsi') <span class="text-danger">{{ $message }}</span> @enderror
+                                    <label class="form-label select-label">Choose option</label>
+
+                                    </div>
                                 </div>
-                            </div>
-                            
-                            
-                            <div class="row">
+
+                                <div class="mt-4 pt-2">
+                                    <input class="btn btn-primary btn-lg" type="submit" value="Submit" />
+                                </div>
+
                                 <div class="form-group col-md-12">
-                                    <label for="exampleInputAlamat">Alamat</label>
-                                    <!-- <input type="text" class="form-control" id="address" placeholder="Enter address" wire:model="address"> -->
-                                    <textarea name="alamat_supplier" cols="30" rows="6" class="form-control" wire:model="alamat_supplier"></textarea>
-                                    @error('alamat_supplier') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div> 
-                            </div>
-
-                            <div class="row">
-                                
-                                <div class="form-group col-md-6">
-                                    <label>Tipe Supplier</label><span class="text-danger">*
-                                    <select name="" id="" class="form-control" wire:model="tipe_supplier">
-                                        <option value="lainnya">Lainnya</option>
-                                        <option value="makanan">Makanan</option>
-                                        <option value="perlengkapan-kantor">Perlengkapan Kantor</option>
-                                        <option value="alat-elektronik">Alat Elektronik</option>
-                                    </select>
-                                    <!-- <input type="text" class="form-control" wire:model="no_anggota_gold" /> -->
+                                    <hr />
+                                    <a href="/"><i class="fa fa-arrow-left"></i> {{__('Back')}}</a>
+                                    
+                                    <button type="submit" class="ml-3 btn btn-primary">{{ __('Submit Pendaftaran') }} <i class="fa fa-check"></i></button>
+                                    
                                 </div>
+
+                                </form>
                             </div>
-                            
+                            </div>
+                        </div>
                         </div>
                     </div>
-                </div>
-                
-                
-                <div class="form-group col-md-12">
-                    <hr />
-                    <a href="/"><i class="fa fa-arrow-left"></i> {{__('Back')}}</a>
-                    
-                    <button type="submit" class="ml-3 btn btn-primary">{{ __('Submit Pendaftaran') }} <i class="fa fa-check"></i></button>
-                    
-                </div>
-            </div>
-            
-            
-        </form>
-      </div>
-    </div>
-</div>
+                </section>
+            <!-- </div> -->
+        <!-- </div> -->
+        
+        
+        
+           
+

@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h4><small>Registrasi</small><br /></h4>
+                <h4><small>Koperasi</small><br /></h4>
                 <!-- <p>Jl. Citarum Tengah Ruko E-1<br />
                 Telp: 024-354 4085 Semarang 50126 </p> -->
             </div>

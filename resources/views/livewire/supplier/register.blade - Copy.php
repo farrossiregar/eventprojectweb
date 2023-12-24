@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h4><small>Registrasi</small><br /></h4>
+                <h4><small>Koperasi</small><br /></h4>
                 <!-- <p>Jl. Citarum Tengah Ruko E-1<br />
                 Telp: 024-354 4085 Semarang 50126 </p> -->
             </div>
@@ -16,7 +16,7 @@
            
             <div class="row">
                 <div class="col-md-12">
-                    <h5 class="text-info">DATA USER</h5>
+                    <h5 class="text-info">DATA USER SUPPLIER</h5>
                     <hr />
                 </div>
                 <div class="container">
@@ -26,6 +26,7 @@
                                 <div class="col-md-6">
                                     <label>Nama Supplier</label><span class="text-danger">*
                                     <input type="text" class="form-control" wire:model="nama_supplier" />
+                                    @error('error_nama_supplier') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputName">E-mail</label><span class="text-danger">*
@@ -80,19 +81,6 @@
                             </div>
 
                             <div class="row">
-                                <div class="form-group col-md-6">
-                                    <label for="exampleInputAlamat">Tipe User</label><span class="text-danger">*
-                                    <select name="tipe_user" class="form-control" wire:model="tipe_user">
-                                        <option value="">-- Pilih Tipe User --</option>
-                                        <option value="1">Buyer</option>
-                                        <option value="2">Supplier</option>
-                                    </select>
-                                    @error('provinsi') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
-                            </div>
-
-                            @if($tipeuser == '2')
-                            <div class="row">
                                 
                                 <div class="form-group col-md-6">
                                     <label>Tipe Supplier</label><span class="text-danger">*
@@ -105,7 +93,7 @@
                                     <!-- <input type="text" class="form-control" wire:model="no_anggota_gold" /> -->
                                 </div>
                             </div>
-                            @endif
+                            
                         </div>
                     </div>
                 </div>
