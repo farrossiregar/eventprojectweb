@@ -123,6 +123,11 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
     Route::get('user-supplier/insert', App\Http\Livewire\UserSupplier\Insert::class)->name('user-supplier.insert');
     Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
+
+
+    Route::get('event',App\Http\Livewire\CreateEvent\Index::class)->name('event.index');
+    Route::get('add-event',App\Http\Livewire\CreateEvent\Insert::class)->name('event.add');
+    // Route::get('transaksi',App\Http\Livewire\Transaction\Index::class)->name('transaction.index');
 });
 
 // Administrator dan Kasir
@@ -140,7 +145,7 @@ Route::group(['middleware' => ['auth','access:7']], function(){
     Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
     Route::get('purchase-order-supplier/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order-supplier.insert-delivery-order');
 
-    Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
+    // Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
 
 
     Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
@@ -168,7 +173,7 @@ Route::group(['middleware' => ['auth','access:8']], function(){
     Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
     Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
 
-    Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
+    // Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
 
     // Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
     // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');

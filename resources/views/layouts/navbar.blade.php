@@ -12,27 +12,11 @@
                     <ul class="nav navbar-nav">
                         <!---Administrator-->
                         @if(\Auth::user()->user_access_id==1)
-                            <!-- <li class="dropdown">
-                                <a href="#" class="text-info dropdown-toggle icon-menu px-1" data-toggle="dropdown">Data Master</a>
-                                <ul class="dropdown-menu user-menu menu-icon">
-                                    <li><a href="route('jenis-simpanan.index')">Jenis Simpanan</a></li>
-                                    <li><a href="route('jenis-pinjaman.index')">Jenis Pembiayaan</a></li>
-                                    <li><a href="route('users.index')">Users</a></li>
-                                    <li><a href="route('bank-account.index')">Akun Bank</a></li>
-                                    <li><a href="route('log-activity.index')">Log Activity</a></li>
-                                    <li><a href="route('setting')">Pengaturan</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="{{route('user-member.index')}}" class="text-info icon-menu px-1">Keanggotaan</a></li>
-                            <li><a href="{{route('transaksi.index')}}" class="text-info icon-menu px-1">Transaksi</a></li>           
-                            <li><a href="{{route('product.index')}}" class="text-info icon-menu px-1">Produk</a></li>            -->
-                            <!-- <li><a href="{{route('invoice-transaksi.index')}}" class="text-info icon-menu px-1">Invoice</a></li>            -->
+                           
                             <li><a href="{{route('home') }}" class="text-info icon-menu px-1">Dashboard</a></li>
-                            <li><a href="{{route('user-supplier.index')}}" class="text-info icon-menu px-1">Supplier</a></li>
-                            <li><a href="{{route('user-buyer.index')}}" class="text-info icon-menu px-1">Buyer</a></li>
-                            <li><a href="{{route('purchase-order.index')}}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('delivery-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
-                            <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Refund</a></li>
+                            <li><a href="{{ route('event.index') }}" class="text-info icon-menu px-1">Event</a></li>
+                            <li><a href="{{ route('event.index') }}" class="text-info icon-menu px-1">Transaksi</a></li>
+                            <li><a href="{{ route('event.index') }}" class="text-info icon-menu px-1">Materi</a></li>
                         @endif
                         
                         @if(\Auth::user()->user_access_id==6)
@@ -58,18 +42,6 @@
                             <!-- <li><a href="route('kasir.index')" class="text-info icon-menu px-1">Kasir</a></li> -->
                         @endif
 
-                        <!-- Koperasi -->
-                        @if(\Auth::user()->user_access_id==8)
-                            <li><a href="" class="text-info icon-menu px-1">Dashboard</a></li>
-                            <li><a href="{{ route('user-supplier.index') }}" class="text-info icon-menu px-1">Supplier List</a></li>
-                            <li><a href="{{ route('purchase-order.index') }}" class="text-info icon-menu px-1">Purchase Order</a></li>
-                            <li><a href="{{ route('delivery-order.index') }}" class="text-info icon-menu px-1">Delivery Order</a></li>
-                            <li><a href="{{ route('refund-product.index') }}" class="text-info icon-menu px-1">Refund</a></li>
-                            <li><a href="{{ route('catalog.index') }}" class="text-info icon-menu px-1">Catalog</a></li>
-                            <li><a href="{{ route('compare.index') }}" class="text-info icon-menu px-1">Compare</a></li>
-                          
-                            <!-- <li><a href="route('kasir.index')" class="text-info icon-menu px-1">Kasir</a></li> -->
-                        @endif
                     </ul>
                 </div>
             </form>
