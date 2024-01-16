@@ -4,7 +4,7 @@
       <div class="card-header">
         <div class="row">
             <div class="col-md-6">
-                <h4><small>Registrasi</small><br /></h4>
+                <h4><small>Registrasi Event Creator</small><br /></h4>
                 <!-- <p>Jl. Citarum Tengah Ruko E-1<br />
                 Telp: 024-354 4085 Semarang 50126 </p> -->
             </div>
@@ -16,7 +16,7 @@
            
             <div class="row">
                 <div class="col-md-12">
-                    <h5 class="text-info">DATA USER</h5>
+                    <h5 class="text-info">DATA CREATOR</h5>
                     <hr />
                 </div>
                 <div class="container">
@@ -24,7 +24,7 @@
                         <div class="col-md-8">
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Nama Supplier</label><span class="text-danger">*
+                                    <label>Nama User / Company</label><span class="text-danger">*
                                     <input type="text" class="form-control" wire:model="nama_supplier" />
                                 </div>
                                 <div class="form-group col-md-6">
@@ -57,7 +57,7 @@
                                     <input type="text" class="form-control" wire:model="no_telp">
                                     @error('no_telp') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-
+<!-- 
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputName">Provinsi</label>
                                     <select name="provinsi" class="form-control" wire:model="provinsi">
@@ -66,7 +66,7 @@
                                         @endforeach
                                     </select>
                                     @error('provinsi') <span class="text-danger">{{ $message }}</span> @enderror
-                                </div>
+                                </div> -->
                             </div>
                             
                             
@@ -79,7 +79,7 @@
                                 </div> 
                             </div>
 
-                            <div class="row">
+                            <!-- <div class="row">
                                 <div class="form-group col-md-6">
                                     <label for="exampleInputAlamat">Tipe User</label><span class="text-danger">*
                                     <select name="tipe_user" class="form-control" wire:model="tipe_user">
@@ -89,7 +89,7 @@
                                     </select>
                                     @error('provinsi') <span class="text-danger">{{ $message }}</span> @enderror
                                 </div>
-                            </div>
+                            </div> -->
 
                             @if($tipeuser == '2')
                             <div class="row">

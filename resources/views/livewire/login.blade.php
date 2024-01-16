@@ -44,8 +44,7 @@
                         <!-- <button wire:loading.remove wire:target="login" type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block mt-1"><i class="fa fa-sign-in mr-2"></i>{{ __('LOGIN') }}</button> -->
                         <button type="submit" id="btn_submit" class="btn btn-primary btn-lg btn-block mt-1"><i class="fa fa-sign-in mr-2"></i>{{ __('LOGIN') }}</button>
                         <div class="bottom">
-                            <span class="helper-text m-b-10"><i class="fa fa-sign-in"></i> <a href="{{ route('supplier-register') }}">{{ __('Daftar Sebagai Supplier?') }}</a></span>
-                            <span class="helper-text m-b-10"><i class="fa fa-sign-in"></i> <a href="{{ route('buyer-register') }}">{{ __('Daftar Sebagai Buyer?') }}</a></span>
+                            <span class="helper-text m-b-10"><i class="fa fa-sign-in"></i> <a href="{{ route('register') }}">{{ __('Daftar Sebagai Event Creator?') }}</a></span>
                         </div>
                     </form>
                 </div>

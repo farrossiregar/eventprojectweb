@@ -1,7 +1,7 @@
-@section('title', 'Dashboard Admin')
+@section('title', 'Index Event')
 @section('sub-title', 'Index')
 <div class="clearfix row">
-<div class="col-lg-3 col-md-6">
+    <div class="col-lg-3 col-md-6">
         <div class="card top_counter currency_state">
             <div class="body">
                 <div class="icon">
@@ -21,8 +21,8 @@
                         <i class="fa fa-database"></i>
                     </div>
                 <div class="content">
-                    <div class="text">Supplier Active</div>
-                    <h5 class="number"></h5>
+                    <div class="text">Lunas</div>
+                    <h5 class="number">Rp. </h5>
                 </div>
             </div>
         </div>
@@ -34,8 +34,8 @@
                         <i class="fa fa-calendar"></i>
                     </div>
                 <div class="content">
-                    <div class="text">Buyer Active</div>
-                    <h5 class="number"></h5>
+                    <div class="text">Belum Lunas</div>
+                    <h5 class="number">Rp. </h5>
                 </div>
             </div>
         </div>
@@ -53,90 +53,88 @@
             </div>
         </div>
     </div>
-
-
-    
-
-    <div class="col-12 px-0 mx-0">
-        <div class="card mb-2">
-            <div class="body">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_transaksi">{{ __('Supplier Terbaru') }} </a></li>
-                </ul>
-                <div class="tab-content px-0">
-                    <div class="tab-pane active show" id="tab_transaksi">
-                        <div class="table-responsive">
-                            <table class="table table-hover m-b-0 c_list table-bordered">
-                                <thead style="background: #eee;">
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Status</th>
-                                        <th>Nama Supplier</th>
-                                        <th>Tanggal Join</th>
-                                        <th>Tipe Supplier</th>
-                                        <th>No Telp</th>
-                                        <th>Email</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12" style="float: right;">
-                                <a href="{{ route('event.index') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
-                            </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="header row">
+                <div class="col-md-1">
+                    <div class="pl-3 pt-2 form-group mb-0" x-data="{open_dropdown:false}" @click.away="open_dropdown = false">
+                        <a href="javascript:void(0)" x-on:click="open_dropdown = ! open_dropdown" class="dropdown-toggle">
+                            Filter <i class="fa fa-search-plus"></i>
+                        </a>
+                        <div class="dropdown-menu show-form-filter" x-show="open_dropdown">
+                            <form class="p-2">
+                                <div class="from-group my-2">
+                                    <select class="form-control" wire:model="filter.status">
+                                        <option value=""> -- Status -- </option>
+                                        <option value="1"> Sukses</option>
+                                        <option value="2"> Batal</option>
+                                        <option value="3"> Gagal</option>
+                                    </select>
+                                </div>
+                                <div class="from-group my-2">
+                                    <input type="text" class="form-control" wire:model="filter.no_transaksi" placeholder="No Transaksi" />
+                                </div>
+                                <div class="from-group my-2">
+                                    <select class="form-control" wire:model="filter.pembayaran">
+                                        <option value=""> -- Status Pembayaran -- </option>
+                                        <option value="1"> Lunas</option>
+                                        <option value="2"> Belum Lunas</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <small>Tanggal Transaksi</small>
+                                    <input type="text" class="form-control tanggal_transaksi" />
+                                </div>
+                                <a href="javascript:void(0)" wire:click="clear_filter()"><small>Clear filter</small></a>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div class="col-12 px-0 mx-0">
-        <div class="card mb-2">
-            <div class="body">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_transaksi">{{ __('Buyer Terbaru') }} </a></li>
-                </ul>
-                <div class="tab-content px-0">
-                    <div class="tab-pane active show" id="tab_transaksi">
-                        <div class="table-responsive">
-                            <table class="table table-hover m-b-0 c_list table-bordered">
-                                <thead style="background: #eee;">
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Status</th>
-                                        <th>Nama Buyer</th>
-                                        <th>Tanggal Join</th>
-                                        <th>No Telp</th>
-                                        <th>Email</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- foreach(App\Models\Buyer::orderBy('id','DESC')->take(5)->get() as $k => $item)
-                                    
-                                    endforeach -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12" style="float: right;">
-                                <a href="{{ route('event.index') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
-                            </div>
+                <div class="col-5">
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupDrop1" type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action</button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+                            <a class="dropdown-item" href="javascript:void(0);" wire:click="downloadExcel"><i class="fa fa-download"></i> Download</a>
+                            <a href="javascript:void(0)" wire:click="insert" class="dropdown-item"><i class="fa fa-plus"></i> Tambah</a>
                         </div>
                     </div>
+                    <span wire:loading>
+                        <i class="fa fa-spinner fa-pulse fa-2x fa-fw"></i>
+                        <span class="sr-only">{{ __('Loading...') }}</span>
+                    </span>
                 </div>
+            </div>
+            <div class="body pt-0">
+                <div class="table-responsive">
+                    <table class="table table-hover m-b-0 c_list table-bordered">
+                        <thead style="background: #eee;">
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Status</th>
+                                <th>Nama Event</th>
+                                <th>Kategori</th>
+                                <th>Tanggal Event (Start - End)</th>
+                                <th>Status Payment</th>
+                                <th>Harga</th>
+                                <th>Status Venue</th>
+                                <th>Lokasi</th>
+                                <th>Kapasitas</th>
+                                <th>Terisi</th>
+                                <th>Created Event</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                        
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                
             </div>
         </div>
     </div>
-
 
 
 <div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

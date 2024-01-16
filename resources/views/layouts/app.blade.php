@@ -14,192 +14,478 @@
         {{-- See https://laravel.com/docs/5.5/blade#stacks for usage --}}
         @stack('before-styles')
 
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendor/font-awesome/css/font-awesome.min.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/vendor/jvectormap/jquery-jvectormap-2.0.3.min.css') }}"/>
         <link rel="stylesheet" href="{{ asset('assets/vendor/morrisjs/morris.min.css') }}" />
-        <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/>
+        <link rel="stylesheet" href="{{ asset('assets/vendor/toastr/toastr.min.css') }}"/> -->
 
         <!-- Custom Css --> 
-        <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
+        <!-- <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/color_skins.css') }}">
         <link rel="stylesheet" href="{{ asset('assets/css/custom.css').(env('APP_DEBUG')==true?'?date='.date('YmdHis') : '') }}">
         <script src="{{ asset('js/alpine.min.js') }}" defer></script>
+ -->
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="Tooplate">
+        <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap" rel="stylesheet">
+
+        <title>ArtXibition HTML Event Template</title>
+
+
+        <!-- Additional CSS Files -->
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/bootstrap.min.css') }}">
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/font-awesome.css') }}">
+
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/owl-carousel.css') }}">
+
+        <link rel="stylesheet" href="{{ asset('assets/css/tooplate-artxibition.css') }}">
+
+
+        
         @stack('after-styles')
 
         @if (trim($__env->yieldContent('page-styles')))
             @yield('page-styles')
         @endif
         @livewireStyles
-        <style>
-            .theme-blue:before, .theme-blue:after {background:white !important;}
-            .theme-blue #wrapper:before, .theme-blue #wrapper:after {background:white !important;}
-        </style>
+       
     </head>
     <!-- <body class="theme-blue {{get_setting('show-navbar')==1 ? 'layout-fullwidth' : ''}}"> -->
-    <body class="theme-blue">
-        <!-- Page Loader -->
-        <div class="page-loader-wrapper">
-            <div class="loader">
-                @if(get_setting('logo'))
-                <div class="m-t-30">
-                    <img src="{{get_setting('logo')}}" height="48" alt="{{get_setting('company')}}">
-                </div>
-                @endif
-                <p>Please wait...</p>        
-            </div>
+    <body>
+    
+    <!-- ***** Preloader Start ***** -->
+    <div id="js-preloader" class="js-preloader">
+      <div class="preloader-inner">
+        <span class="dot"></span>
+        <div class="dots">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <div id="wrapper">
-            @include('layouts.navbar')
-            @include('layouts.sidebar')
-            <div id="main-content">
-                <div class="container-fluid">
-                    <div class="block-header">
-                        @if(session()->has('message-success'))
-                        <div class="alert alert-success alert-dismissible" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                            <i class="fa fa-check-circle"></i> {{session('message-success')}}
-                        </div>
-                        @endif
-                        @if(session()->has('message-error'))
-                            <div class="alert alert-danger alert-dismissible" role="alert">
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <i class="fa fa-times-circle"></i>  {{session('message-error')}}
-                            </div>
-                        @endif
-                        <div class="alert alert-danger alert-dismissible" role="alert" style="display:none">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <i class="fa fa-times-circle"></i> <span class="message"></span>
-                        </div>
-                        <div class="alert alert-success alert-dismissible" role="alert" style="display:none">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <i class="fa fa-check-circle"></i> <span class="message"></span>
-                        </div>
-                        @if (trim($__env->yieldContent('title')))
-                            <div class="row">
-                                <div class="col-lg-5 col-md-8 col-sm-12">                        
-                                    <h2><a href="javascript:void(0);" onclick="setNavbarShow()" class="btn btn-xs btn-link btn-toggle-fullwidth">
-                                        <i class="fa fa-arrow-{{get_setting('show-navbar')==1 ? 'right' : 'left'}}"></i>
-                                    </a> @yield('title')
-                                    </h2>
-                                    <ul class="breadcrumb">
-                                        <li class="breadcrumb-item">
-                                            <a href=""><i class="icon-home"></i></a>
-                                        </li>
-                                        <li class="breadcrumb-item">@yield('title')</li>
-                                        @if (trim($__env->yieldContent('sub-title')))
-                                            <li class="breadcrumb-item active">@yield('sub-title')</li>
-                                        @endif
-                                    </ul>
-                                </div>            
-                            </div> 
-                        @endif
-                        
+      </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+    
+    <!-- ***** Pre HEader ***** -->
+    <div class="pre-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 col-sm-6">
+                    <span>Hey! The Show is Starting in 15 Days.</span>
+                </div>
+                <div class="col-lg-6 col-sm-6">
+                    <div class="text-button">
+                        <a href="rent-venue.html">Contact Us Now! <i class="fa fa-arrow-right"></i></a>
                     </div>
-                    @yield('content')
-                    {{$slot}}
                 </div>
             </div>
         </div>
-        <!-- Scripts -->
-        @stack('before-scripts')
-        <script src="{{ asset('assets/bundles/libscripts.bundle.js') }}"></script>    
-        <script src="{{ asset('assets/bundles/vendorscripts.bundle.js') }}"></script>
-        <script src="{{ asset('assets/bundles/morrisscripts.bundle.js') }}"></script><!-- Morris Plugin Js -->
-        <script src="{{ asset('assets/bundles/jvectormap.bundle.js') }}"></script> <!-- JVectorMap Plugin Js -->
-        <script src="{{ asset('assets/bundles/knob.bundle.js') }}"></script>
-        <script src="{{ asset('assets/bundles/mainscripts.bundle.js') }}"></script>
-        <script src="{{ asset('assets/vendor/toastr/toastr.js') }}"></script>
-        <script src="{{ asset('js/pusher.min.js') }}"></script>
-        @livewireScripts
-        <script>
-            // Pusher.logToConsole = true;
-            var pusher = new Pusher('{{env('PUSHER_APP_KEY')}}', {
-                cluster: 'ap1'
-            });
-            var channel_general = pusher.subscribe('general');
-            channel_general.bind('notification', function(data) {
-                show_toast(data.message,'top-right',data.is_refresh);
-            });
-        </script>   
-        @stack('after-scripts')
-        @if (trim($__env->yieldContent('page-script')))
-            <script>
-                @yield('page-script')
-            </script>
-        @endif
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-            {{ csrf_field() }}
-        </form>
-        <script>
-            function setNavbarShow(){
-                $.ajax({
-                    url: "{{route('set-navbar-show')}}",
-                    }).done(function() {
-                        
-                    });
-            }
-            Livewire.on('message-success', (msg) => {
-                $('.alert-success').show();
-                $('.alert-success .message').html(msg);
-                $('html, body').animate({
-                    scrollTop: $("#wrapper").offset().top
-                }, 0);
-            });
-            Livewire.on('message-error', (msg) => {
-                $('.alert-error').show();
-                $('.alert-error .message').html(msg);
-                $('html, body').animate({
-                    scrollTop: $("#wrapper").offset().top
-                }, 0);
-            });
-            
-            Livewire.on('error-message',(msg)=>{
-                alert(msg);
-            });
-            Livewire.on('close-modal',()=>{
-                $('.modal').modal('hide');
-            });
+    </div>
+    
+    <!-- ***** Header Area Start ***** -->
+    <header class="header-area header-sticky">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <nav class="main-nav">
+                        <!-- ***** Logo Start ***** -->
+                        <a href="index.html" class="logo">Art<em>Xibition</em></a>
+                        <!-- ***** Logo End ***** -->
+                        <!-- ***** Menu Start ***** -->
+                        <ul class="nav">
+                            <li><a href="index.html" class="active">Home</a></li>
+                            <li><a href="about.html">About Us</a></li>
+                            <li><a href="rent-venue.html">Rent Venue</a></li>
+                            <li><a href="shows-events.html">Shows & Events</a></li> 
+                            <li><a href="tickets.html">Tickets</a></li> 
+                        </ul>        
+                        <a class='menu-trigger'>
+                            <span>Menu</span>
+                        </a>
+                        <!-- ***** Menu End ***** -->
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- ***** Header Area End ***** -->
 
-            @if(Auth::check())
-                @if(Auth::user()->user_access_id == 2)
-                    $('body').addClass('layout-fullwidth');
-                @endif
-            @endif
-            var counting_form_ = 0;
-            Livewire.on('counting_form',()=>{
-                counting_form_ = 0;
-                console.log('counting form : '+counting_form_);
-            });
+    <!-- ***** Main Banner Area Start ***** -->
+    <div class="main-banner">
+        <div class="counter-content">
+            <ul>
+                <li>Days<span id="days"></span></li>
+                <li>Hours<span id="hours"></span></li>
+                <li>Minutes<span id="minutes"></span></li>
+                <li>Seconds<span id="seconds"></span></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-content">
+                        <div class="next-show">
+                            <i class="fa fa-arrow-up"></i>
+                            <span>Next Show</span>
+                        </div>
+                        <h6>Opening on Thursday, March 31st</h6>
+                        <h2>The Sunny Hill Festival 2022</h2>
+                        <div class="main-white-button">
+                            <a href="ticket-details.html">Purchase Tickets</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ***** Main Banner Area End ***** -->
 
-            Livewire.on('go-to-div',(id)=>{
-                go_to_div("#rekomendasi_anggota_"+id);
-            });
+    <!-- *** Owl Carousel Items ***-->
+    <div class="show-events-carousel">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="owl-show-events owl-carousel">
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-01.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-02.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-03.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-04.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-01.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-02.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-03.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-04.jpg') }}" alt=""></a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-            function go_to_div(target){
-                console.log('target : '+target);
-                if(counting_form_==0){
-                    console.log('first target : '+target);
-                    $('html, body').animate({
-                        scrollTop: ($(target).offset().top-60)
-                    }, 2000);
-                    counting_form_++;
-                }
-            }
-            
-            function show_toast(message,positon,is_refresh=true)
-            {
-                if(is_refresh){
-                    Livewire.emit('refresh');
-                }
-                toastr.options.closeButton = true;
-                toastr.options.progressBar = true;
-                toastr['info'](message, '', {
-                    positionClass: 'toast-'+positon
-                });
-            }
-        </script>
-    </body>
+    
+    <!-- *** Amazing Venus ***-->
+    <div class="amazing-venues">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="left-content">
+                        <h4>Three Amazing Venues for events</h4>
+                        <p>ArtXibition Event Template is brought to you by Tooplate website and it included total 7 HTML pages. 
+                        These are <a href="index.html">Homepage</a>, <a href="about.html">About</a>, 
+                        <a href="rent-venue.html">Rent a venue</a>, <a href="shows-events.html">shows &amp; events</a>, 
+                        <a href="event-details.html">event details</a>, <a href="tickets.html">tickets</a>, and <a href="ticket-details.html">ticket details</a>. 
+                        You can feel free to modify any page as you like. If you have any question, please visit our <a href="https://www.tooplate.com/contact" target="_blank">Contact page</a>.</p>
+                        <br>
+                        <p>You can use this event template for your commercial or business website. You are not permitted to redistribute this template ZIP file on any template download website. If you need the latest HTML templates, you may visit <a href="https://www.toocss.com/" target="_blank">Too CSS</a> website that features a great collection of templates in different categories.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="right-content">
+                        <h5><i class="fa fa-map-marker"></i> Visit Us</h5>
+                        <span>5 College St NW, <br>Norcross, GA 30071<br>United States</span>
+                        <div class="text-button"><a href="show-events-details.html">Need Directions? <i class="fa fa-arrow-right"></i></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- *** Map ***-->
+    <div class="map-image">
+        <img src="{{ asset('assets/images/map-image.jpg') }}" alt="Maps of 3 Venues">
+    </div>
+
+
+    <!-- *** Venues & Tickets ***-->
+    <div class="venue-tickets">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <h2>Our Venues & Tickets</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-01.jpg') }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <h4>Radio City Musical Hall</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>250</li>
+                                    <li><i class="fa fa-user"></i>500</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$45</em></span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-02.jpg') }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <h4>Madison Square Garden</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>450</li>
+                                    <li><i class="fa fa-user"></i>650</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$55</em></span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-03.jpg') }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <h4>Royce Hall</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>450</li>
+                                    <li><i class="fa fa-user"></i>750</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$65</em></span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- *** Coming Events ***-->
+    <div class="coming-events">
+        <div class="left-button">
+            <div class="main-white-button">
+                <a href="shows-events.html">Discover More</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-01.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Radio City Musical Hall</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Tuesday: 15:30-19:30</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-02.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Madison Square Garden</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Wednesday: 08:00-14:00</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-03.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Royce Hall</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Thursday: 09:00-23:00</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- *** Subscribe *** -->
+    <div class="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h4>Subscribe Our Newsletter:</h4>
+                </div>
+                <div class="col-lg-8">
+                    <form id="subscribe" action="" method="get">
+                        <div class="row">
+                          <div class="col-lg-9">
+                            <fieldset>
+                              <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
+                            </fieldset>
+                          </div>
+                          <div class="col-lg-3">
+                            <fieldset>
+                              <button type="submit" id="form-submit" class="main-dark-button">Submit</button>
+                            </fieldset>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- *** Footer *** -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="address">
+                        <h4>Sunny Hill Festival Address</h4>
+                        <span>5 College St NW, <br>Norcross, GA 30071<br>United States</span>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="links">
+                        <h4>Useful Links</h4>
+                        <ul>
+                            <li><a href="#">Info</a></li>
+                            <li><a href="#">Venues</a></li>
+                            <li><a href="#">Guides</a></li>
+                            <li><a href="#">Videos</a></li>
+                            <li><a href="#">Outreach</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="hours">
+                        <h4>Open Hours</h4>
+                        <ul>
+                            <li>Mon to Fri: 10:00 AM to 8:00 PM</li>
+                            <li>Sat - Sun: 11:00 AM to 4:00 PM</li>
+                            <li>Holidays: Closed</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="under-footer">
+                        <div class="row">
+                            <div class="col-lg-6 col-sm-6">
+                                <p>São Conrado, Rio de Janeiro</p>
+                            </div>
+                            <div class="col-lg-6 col-sm-6">
+                                <p class="copyright">Copyright 2021 ArtXibition Company 
+                    
+                    			<br>Design: <a rel="nofollow" href="https://www.tooplate.com" target="_parent">Tooplate</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="sub-footer">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="logo"><span>Art<em>Xibition</em></span></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="menu">
+                                    <ul>
+                                        <li><a href="index.html" class="active">Home</a></li>
+                                        <li><a href="about.html">About Us</a></li>
+                                        <li><a href="rent-venue.html">Rent Venue</a></li>
+                                        <li><a href="shows-events.html">Shows & Events</a></li> 
+                                        <li><a href="tickets.html">Tickets</a></li> 
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="social-links">
+                                    <ul>
+                                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                        <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- jQuery -->
+    <script src="{{ asset('assets/js/jquery-2.1.0.min.js') }}"></script>
+
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/js/popper.js') }}"></script>
+    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
+
+    <!-- Plugins -->
+    <script src="{{ asset('assets/js/scrollreveal.min.js') }}"></script>
+    <script src="{{ asset('assets/js/waypoints.min.js') }}"></script>
+    <script src="{{ asset('assets/js/jquery.counterup.min.js') }}"></script>
+    <script src="{{ asset('assets/js/imgfix.min.js') }}"></script> 
+    <script src="{{ asset('assets/js/mixitup.js') }}"></script> 
+    <script src="{{ asset('assets/js/accordions.js') }}"></script>
+    <script src="{{ asset('assets/js/owl-carousel.js') }}"></script>
+    
+    <!-- Global Init -->
+    <script src="{{ asset('assets/js/custom.js') }}"></script>
+
+  </body>
 </html>

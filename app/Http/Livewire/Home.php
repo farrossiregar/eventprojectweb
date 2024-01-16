@@ -16,13 +16,13 @@ class Home extends Component
         /**
          * if kasir
          */
-        if(\Auth::user()->user_access_id==7){
-            redirect()->route('supplier.index');
-        } 
+        // if(\Auth::user()->user_access_id==7){
+        //     redirect()->route('supplier.index');
+        // } 
         
-        if(\Auth::user()->user_access_id==8){
-            redirect()->route('buyer.index');
-        } 
+        // if(\Auth::user()->user_access_id==8){
+        //     redirect()->route('buyer.index');
+        // } 
         
         // if(\Auth::user()->user_access_id==1){
         //     $user = Auth::user();

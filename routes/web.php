@@ -13,15 +13,16 @@ use App\Http\Livewire\Home;
 |
 */
 
-Route::get('/', Home::class)->name('home')->middleware('auth');
+// Route::get('/', Home::class)->name('home')->middleware('auth');
+Route::get('/', App\Http\Livewire\Home::class)->name('');
 Route::get('privacy', App\Http\Livewire\Privacy::class)->name('privacy');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 Route::get('register', App\Http\Livewire\Register::class)->name('register');
-Route::get('supplier-register', App\Http\Livewire\Supplier\Register::class)->name('supplier-register');
-Route::get('buyer-register', App\Http\Livewire\Koperasi\Register::class)->name('buyer-register');
-Route::get('konfirmasi-pembayaran',App\Http\Livewire\KonfirmasiPembayaran::class)->name('konfirmasi-pembayaran');
-Route::get('konfirmasi-pendaftaran',App\Http\Livewire\KonfirmasiPendaftaran::class)->name('konfirmasi-pendaftaran');
-Route::get('transaksi/cetak-struk-kasir/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-kasir');
+// Route::get('supplier-register', App\Http\Livewire\Supplier\Register::class)->name('supplier-register');
+// Route::get('buyer-register', App\Http\Livewire\Koperasi\Register::class)->name('buyer-register');
+// Route::get('konfirmasi-pembayaran',App\Http\Livewire\KonfirmasiPembayaran::class)->name('konfirmasi-pembayaran');
+// Route::get('konfirmasi-pendaftaran',App\Http\Livewire\KonfirmasiPendaftaran::class)->name('konfirmasi-pendaftaran');
+// Route::get('transaksi/cetak-struk-kasir/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-kasir');
 Route::get('linksakti',function(){
 
     return event(new \App\Events\GeneralNotification('Synchronize Product Success'));
@@ -38,20 +39,20 @@ Route::get('linksakti',function(){
 
     return 'test';
 });
-Route::get('generate',function(){
-    $user_member = \App\Models\UserMember::whereNull('no_anggota_platinum')->get();
-    $num = 1;
-    foreach($user_member as $item){
-        $no_anggota = "NA".str_pad($num,5, '0', STR_PAD_LEFT);
-        $item->no_anggota_platinum = $no_anggota;
-        $item->save();
+// Route::get('generate',function(){
+//     $user_member = \App\Models\UserMember::whereNull('no_anggota_platinum')->get();
+//     $num = 1;
+//     foreach($user_member as $item){
+//         $no_anggota = "NA".str_pad($num,5, '0', STR_PAD_LEFT);
+//         $item->no_anggota_platinum = $no_anggota;
+//         $item->save();
 
-        $user = \App\Models\User::find($item->user_id);
-        $user->username = $no_anggota;
-        $user->save();
-        $num++;
-    }
-});
+//         $user = \App\Models\User::find($item->user_id);
+//         $user->username = $no_anggota;
+//         $user->save();
+//         $num++;
+//     }
+// });
 
 // All login
 Route::group(['middleware' => ['auth']], function(){    
@@ -70,9 +71,6 @@ Route::get('set-navbar-show',function(){
     }
 })->name('set-navbar-show');
 
-Route::get('refund-product',App\Http\Livewire\RefundProduct\Index::class)->name('refund-product.index');
-// Route::get('refund-product/insert',App\Http\Livewire\RefundProduct\Insert::class)->name('refund-product.insert');
-Route::get('refund-product/detail/{data}',App\Http\Livewire\RefundProduct\Detail::class)->name('refund-product.detail');
 
 // Administrator
 Route::group(['middleware' => ['auth','access:1']], function(){    
@@ -94,9 +92,7 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     Route::get('user-member/approval/{id}',App\Http\Livewire\UserMember\Approval::class)->name('user-member.approval');
     Route::get('user-member/proses/{id}',App\Http\Livewire\UserMember\Proses::class)->name('user-member.proses');
     Route::get('user-member/klaim/{id}',App\Http\Livewire\UserMember\Klaim::class)->name('user-member.klaim');
-    Route::get('bank-account',App\Http\Livewire\BankAccount\Index::class)->name('bank-account.index');
-    Route::get('bank-account/insert',App\Http\Livewire\BankAccount\Insert::class)->name('bank-account.insert');
-    Route::get('bank-account/edit/{id}',App\Http\Livewire\BankAccount\Edit::class)->name('bank-account.edit');
+  
     Route::get('migration',App\Http\Livewire\Migration\Index::class)->name('migration.index');
 
     Route::get('transaksi',App\Http\Livewire\Transaksi\Index::class)->name('transaksi.index');
@@ -107,89 +103,34 @@ Route::group(['middleware' => ['auth','access:1']], function(){
     // Produk
     Route::get('vendor/index',App\Http\Livewire\Vendor\Index::class)->name('vendor.index');
     // Route::get('purchase-request/index',App\Http\Livewire\PurchaseRequest\Index::class)->name('purchase-request.index');
-    Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-administration.index');
-    Route::get('purchase-order-administration/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order-administration.insert');
-    Route::get('purchase-order-administration/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-administration.detail');
-    Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
-    Route::get('purchase-order-administration/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order-administration.insert-delivery-order');
+    // Route::get('purchase-order-administration',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-administration.index');
+    // Route::get('purchase-order-administration/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order-administration.insert');
+    // Route::get('purchase-order-administration/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-administration.detail');
+    // Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
+    // Route::get('purchase-order-administration/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order-administration.insert-delivery-order');
     
-    Route::get('transaksi/cetak-struk-admin/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-admin');
+    // Route::get('transaksi/cetak-struk-admin/{data}',[\App\Http\Controllers\TransaksiController::class,'cetakStruk'])->name('transaksi.cetak-struk-admin');
 
-    Route::get('invoice-transaksi/detail/{data}',App\Http\Livewire\InvoiceTransaksi\Detail::class)->name('invoice-transaksi.detail');
-    Route::get('invoice-transaksi/index',App\Http\Livewire\InvoiceTransaksi\Index::class)->name('invoice-transaksi.index');
+    // Route::get('invoice-transaksi/detail/{data}',App\Http\Livewire\InvoiceTransaksi\Detail::class)->name('invoice-transaksi.detail');
+    // Route::get('invoice-transaksi/index',App\Http\Livewire\InvoiceTransaksi\Index::class)->name('invoice-transaksi.index');
 
-    Route::get('user-buyer', App\Http\Livewire\Koperasi\UserBuyer\Index::class)->name('user-buyer.index');
+    // Route::get('user-buyer', App\Http\Livewire\Koperasi\UserBuyer\Index::class)->name('user-buyer.index');
 
-    Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
-    Route::get('user-supplier/insert', App\Http\Livewire\UserSupplier\Insert::class)->name('user-supplier.insert');
-    Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
+    // Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
+    // Route::get('user-supplier/insert', App\Http\Livewire\UserSupplier\Insert::class)->name('user-supplier.insert');
+    // Route::get('user-supplier/listproduk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.listproduk');
 
 
-    Route::get('event',App\Http\Livewire\CreateEvent\Index::class)->name('event.index');
-    Route::get('add-event',App\Http\Livewire\CreateEvent\Insert::class)->name('event.add');
+    Route::get('event',App\Http\Livewire\Event\Index::class)->name('event.index');
+    Route::get('add-event',App\Http\Livewire\Event\Insert::class)->name('event.add');
+    Route::get('add-event',App\Http\Livewire\Event\Insert::class)->name('event.add');
     // Route::get('transaksi',App\Http\Livewire\Transaction\Index::class)->name('transaction.index');
 });
 
 // Administrator dan Kasir
 Route::group(['middleware' => ['auth','access:1,6']], function(){
-    Route::get('product/index',App\Http\Livewire\Product\Index::class)->name('product.index');
-    Route::get('product/insert',App\Http\Livewire\Product\Insert::class)->name('product.insert');
-    Route::get('product/detail/{data}',App\Http\Livewire\Product\Detail::class)->name('product.detail');
+    // Route::get('product/index',App\Http\Livewire\Product\Index::class)->name('product.index');
+    // Route::get('product/insert',App\Http\Livewire\Product\Insert::class)->name('product.insert');
+    // Route::get('product/detail/{data}',App\Http\Livewire\Product\Detail::class)->name('product.detail');
 });
 
-
-// Supplier
-Route::group(['middleware' => ['auth','access:7']], function(){
-    Route::get('supplier/index', App\Http\Livewire\Supplier\Dashboard\Index::class)->name('supplier.index');
-    Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order-supplier.index');
-    Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order-supplier.detail');
-    Route::get('purchase-order-supplier/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order-supplier.insert-delivery-order');
-
-    // Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
-
-
-    Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
-    Route::get('product-supplier/insert',App\Http\Livewire\ProductSupplier\Insert::class)->name('product-supplier.insert');
-    Route::get('product-supplier/detail/{data}',App\Http\Livewire\ProductSupplier\Detail::class)->name('product-supplier.detail');
-
-    // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
-    // Route::get('purchase-order-supplier/insert',App\Http\Livewire\PurchaseOrderSupplier\Insert::class)->name('purchase-order-supplier.insert');
-    // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
-    
-    Route::get('invoice-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('invoice-supplier.index');
-
-    // Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\Produk::class)->name('user-supplier.produk');
-    // Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
-    Route::get('user-supplier/produk',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
-});
-
-
-// Koperasi
-Route::group(['middleware' => ['auth','access:8']], function(){
-    Route::get('buyer/index', App\Http\Livewire\Koperasi\Dashboard\Index::class)->name('buyer.index');
-
-    Route::get('purchase-order',App\Http\Livewire\PurchaseOrder\Index::class)->name('purchase-order.index');
-    Route::get('purchase-order/insert',App\Http\Livewire\PurchaseOrder\Insert::class)->name('purchase-order.insert');
-    Route::get('purchase-order/detail/{data}',App\Http\Livewire\PurchaseOrder\Detail::class)->name('purchase-order.detail');
-    Route::get('purchase-order/insert-delivery-order/{data}',App\Http\Livewire\PurchaseOrder\InsertDeliveryOrder::class)->name('purchase-order.insert-delivery-order');
-
-    // Route::get('delivery-order',App\Http\Livewire\DeliveryOrder\Index::class)->name('delivery-order.index');
-
-    // Route::get('purchase-order-supplier',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
-    // Route::get('purchase-order-supplier/index',App\Http\Livewire\PurchaseOrderSupplier\Index::class)->name('purchase-order-supplier.index');
-    // Route::get('purchase-order-supplier/detail/{data}',App\Http\Livewire\PurchaseOrderSupplier\Detail::class)->name('purchase-order-supplier.detail');
-
-
-    // Route::get('product-supplier',App\Http\Livewire\ProductSupplier\Index::class)->name('product-supplier.index');
-    Route::get('user-supplier', App\Http\Livewire\UserSupplier\Index::class)->name('user-supplier.index');
-    
-
-    Route::get('catalog',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.index');
-    Route::get('catalog-detail',App\Http\Livewire\Koperasi\Catalog\Index::class)->name('catalog.detail');
-    Route::get('user-supplier/produk/{data}',App\Http\Livewire\UserSupplier\ListProduk::class)->name('user-supplier.produk');
-
-
-    Route::get('compare',App\Http\Livewire\Koperasi\Compare\Index::class)->name('compare.index');
-    
-});
- 
