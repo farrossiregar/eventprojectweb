@@ -15,6 +15,7 @@ use App\Http\Livewire\Home;
 
 // Route::get('/', Home::class)->name('home')->middleware('auth');
 Route::get('/', App\Http\Livewire\Home::class)->name('');
+Route::get('/{id}', App\Http\Livewire\Detail::class);
 Route::get('privacy', App\Http\Livewire\Privacy::class)->name('privacy');
 Route::get('login', App\Http\Livewire\Login::class)->name('login');
 Route::get('register', App\Http\Livewire\Register::class)->name('register');
@@ -123,7 +124,7 @@ Route::group(['middleware' => ['auth','access:1']], function(){
 
     Route::get('event',App\Http\Livewire\Event\Index::class)->name('event.index');
     Route::get('add-event',App\Http\Livewire\Event\Insert::class)->name('event.add');
-    Route::get('add-event',App\Http\Livewire\Event\Insert::class)->name('event.add');
+    
     // Route::get('transaksi',App\Http\Livewire\Transaction\Index::class)->name('transaction.index');
 });
 

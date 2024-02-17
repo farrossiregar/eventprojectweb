@@ -1,54 +1,97 @@
-@section('title', 'Dashboard Admin')
+@section('title', 'Event Project Stalavista')
 @section('sub-title', 'Index')
-<div class="clearfix row">
-<div class="col-lg-3 col-md-6">
-        <div class="card top_counter currency_state">
-            <div class="body">
-                <div class="icon">
-                    <i class="fa fa-shopping-cart text-info"></i>
-                </div>
-                <div class="content">
-                    <div class="text">Total Transaksi</div>
-                    <h5 class="number">Rp. </h5>
+<!-- ***** Main Banner Area Start ***** -->
+    <div class="main-banner">
+        <div class="counter-content">
+            <ul>
+                <li>Days<span id="days"></span></li>
+                <li>Hours<span id="hours"></span></li>
+                <li>Minutes<span id="minutes"></span></li>
+                <li>Seconds<span id="seconds"></span></li>
+            </ul>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-content">
+                        <div class="next-show">
+                            <i class="fa fa-arrow-up"></i>
+                            <span>Next Show</span>
+                        </div>
+                        <h6>Opening on Thursday, March 31st</h6>
+                        <h2>The Sunny Hill Festival 2022</h2>
+                        <div class="main-white-button">
+                            <a href="ticket-details.html">Purchase Tickets</a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="card top_counter currency_state">
-            <div class="body">
-                    <div class="icon text-warning">
-                        <i class="fa fa-database"></i>
+    <!-- ***** Main Banner Area End ***** -->
+
+
+    
+
+    <!-- *** Owl Carousel Items ***-->
+    <div class="show-events-carousel">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="owl-show-events owl-carousel">
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-01.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-02.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-03.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-04.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-01.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-02.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-03.jpg') }}" alt=""></a> 
+                        </div>
+                        <div class="item">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/show-events-04.jpg') }}" alt=""></a> 
+                        </div>
                     </div>
-                <div class="content">
-                    <div class="text">Supplier Active</div>
-                    <h5 class="number"></h5>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="card top_counter currency_state">
-            <div class="body">
-                    <div class="icon text-danger">
-                        <i class="fa fa-calendar"></i>
+
+    
+    <!-- *** Amazing Venus ***-->
+    <div class="amazing-venues">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="left-content">
+                        <h4>Three Amazing Venues for events</h4>
+                        <p>ArtXibition Event Template is brought to you by Tooplate website and it included total 7 HTML pages. 
+                        These are <a href="index.html">Homepage</a>, <a href="about.html">About</a>, 
+                        <a href="rent-venue.html">Rent a venue</a>, <a href="shows-events.html">shows &amp; events</a>, 
+                        <a href="event-details.html">event details</a>, <a href="tickets.html">tickets</a>, and <a href="ticket-details.html">ticket details</a>. 
+                        You can feel free to modify any page as you like. If you have any question, please visit our <a href="https://www.tooplate.com/contact" target="_blank">Contact page</a>.</p>
+                        <br>
+                        <p>You can use this event template for your commercial or business website. You are not permitted to redistribute this template ZIP file on any template download website. If you need the latest HTML templates, you may visit <a href="https://www.toocss.com/" target="_blank">Too CSS</a> website that features a great collection of templates in different categories.</p>
                     </div>
-                <div class="content">
-                    <div class="text">Buyer Active</div>
-                    <h5 class="number"></h5>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-12">
-        <div class="card top_counter currency_state">
-            <div class="body">
-                    <div class="icon">
-                        <i class="fa fa-database text-success"></i>
+                <div class="col-lg-3">
+                    <div class="right-content">
+                        <h5><i class="fa fa-map-marker"></i> Visit Us!!!</h5>
+                        <span>5 College St NW, <br>Norcross, GA 30071<br>United States</span>
+                        <div class="text-button"><a href="show-events-details.html">Need Directions? <i class="fa fa-arrow-right"></i></a></div>
                     </div>
-                <div class="content">
-                    <div class="text">Total QTY</div>
-                    <h5 class="number"></h5>
                 </div>
             </div>
         </div>
@@ -57,38 +100,95 @@
 
     
 
-    <div class="col-12 px-0 mx-0">
-        <div class="card mb-2">
-            <div class="body">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_transaksi">{{ __('Supplier Terbaru') }} </a></li>
-                </ul>
-                <div class="tab-content px-0">
-                    <div class="tab-pane active show" id="tab_transaksi">
-                        <div class="table-responsive">
-                            <table class="table table-hover m-b-0 c_list table-bordered">
-                                <thead style="background: #eee;">
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Status</th>
-                                        <th>Nama Supplier</th>
-                                        <th>Tanggal Join</th>
-                                        <th>Tipe Supplier</th>
-                                        <th>No Telp</th>
-                                        <th>Email</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    
-                                </tbody>
-                            </table>
+    <!-- *** Map ***-->
+    <div class="map-image">
+        <img src="{{ asset('assets/images/map-image.jpg') }}" alt="Maps of 3 Venues">
+    </div>
+
+
+    <!-- *** Venues & Tickets ***-->
+    <div class="venue-tickets">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="section-heading">
+                        <h2>Our Venues & Tickets</h2>
+                    </div>
+                </div>
+                @foreach($ongoing_event as $no => $item)
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-01.jpg') }}" alt="">
                         </div>
-                        <br>
-                        <div class="row">
-                            <div class="col-md-12" style="float: right;">
-                                <a href="{{ route('event.index') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets {{$no}}</a>
+                                </div>
                             </div>
+                            <div class="right-content">
+                                <h4>Radio City Musical Hall</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>250</li>
+                                    <li><i class="fa fa-user"></i>500</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$45</em></span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-02.jpg') }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <h4>Madison Square Garden</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>450</li>
+                                    <li><i class="fa fa-user"></i>650</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$55</em></span>
+                                </div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="venue-item">
+                        <div class="thumb">
+                            <img src="{{ asset('assets/images/venue-03.jpg') }}" alt="">
+                        </div>
+                        <div class="down-content">
+                            <div class="left-content">
+                                <div class="main-white-button">
+                                    <a href="ticket-details.html">Purchase Tickets</a>
+                                </div>
+                            </div>
+                            <div class="right-content">
+                                <h4>Royce Hall</h4>
+                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <ul>
+                                    <li><i class="fa fa-sitemap"></i>450</li>
+                                    <li><i class="fa fa-user"></i>750</li>
+                                </ul>
+                                <div class="price">
+                                    <span>1 ticket<br>from <em>$65</em></span>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -97,39 +197,84 @@
     </div>
 
 
-    <div class="col-12 px-0 mx-0">
-        <div class="card mb-2">
-            <div class="body">
-                <ul class="nav nav-tabs">
-                    <li class="nav-item"><a class="nav-link active show" data-toggle="tab" href="#tab_transaksi">{{ __('Buyer Terbaru') }} </a></li>
-                </ul>
-                <div class="tab-content px-0">
-                    <div class="tab-pane active show" id="tab_transaksi">
-                        <div class="table-responsive">
-                            <table class="table table-hover m-b-0 c_list table-bordered">
-                                <thead style="background: #eee;">
-                                    <tr>
-                                        <th class="text-center">No</th>
-                                        <th class="text-center">Status</th>
-                                        <th>Nama Buyer</th>
-                                        <th>Tanggal Join</th>
-                                        <th>No Telp</th>
-                                        <th>Email</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- foreach(App\Models\Buyer::orderBy('id','DESC')->take(5)->get() as $k => $item)
-                                    
-                                    endforeach -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <br>
+    
+    <!-- *** Subscribe *** -->
+    <div class="subscribe">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <h4>Subscribe Our Newsletter:</h4>
+                </div>
+                <div class="col-lg-8">
+                    <form id="subscribe" action="" method="get">
                         <div class="row">
-                            <div class="col-md-12" style="float: right;">
-                                <a href="{{ route('event.index') }}" class="btn btn-info"><i class="fa fa-eye"></i> Lihat Lebih Banyak</a> 
-                            </div>
+                          <div class="col-lg-9">
+                            <fieldset>
+                              <input name="email" type="text" id="email" pattern="[^ @]*@[^ @]*" placeholder="Your Email Address" required="">
+                            </fieldset>
+                          </div>
+                          <div class="col-lg-3">
+                            <fieldset>
+                              <button type="submit" id="form-submit" class="main-dark-button">Submit</button>
+                            </fieldset>
+                          </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- *** Coming Events ***-->
+    <div class="coming-events">
+        <div class="left-button">
+            <div class="main-white-button">
+                <a href="shows-events.html">Discover More</a>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                @foreach($ended_event as $no => $item)
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-01.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Radio City Musical Hall</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Tuesday: 15:30-19:30</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-02.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Madison Square Garden</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Wednesday: 08:00-14:00</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="event-item">
+                        <div class="thumb">
+                            <a href="event-details.html"><img src="{{ asset('assets/images/event-03.jpg') }}" alt=""></a>
+                        </div>
+                        <div class="down-content">
+                            <a href="event-details.html"><h4>Royce Hall</h4></a>
+                            <ul>
+                                <li><i class="fa fa-clock-o"></i> Thursday: 09:00-23:00</li>
+                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -139,76 +284,14 @@
 
 
 
-<div class="modal fade" id="modal_autologin" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <form method="POST" action="">
-                {{ csrf_field() }}
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-sign-in"></i> Autologin</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true close-btn">×</span>
-                    </button>
-                </div>
-                <div class="modal-body"></div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-                    <button type="submit" class="btn btn-danger close-modal">Yes</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
-<div class="modal fade" id="modal_upload" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <livewire:transaksi.upload />
-        </div>
-    </div>
-</div>
 
-<!-- Modal -->
-<div class="modal fade" id="confirm_delete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel"><i class="fa fa-warning"></i> Confirm Delete</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true close-btn">×</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <p>Are you want delete this data ?</p>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary close-btn" data-dismiss="modal">No</button>
-                <button type="button" wire:click="delete()" class="btn btn-danger close-modal">Yes</button>
-            </div>
-        </div>
-    </div>
-</div>
-@push('after-scripts')
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('assets/vendor/daterange/daterangepicker.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/daterange/daterangepicker.css') }}" />
-    <script>
-        Livewire.on('void',(id)=>{
-            $("#modal_void").modal('show');
-        });
-        $('.tanggal_transaksi').daterangepicker({
-            opens: 'left',
-            locale: {
-                cancelLabel: 'Clear'
-            },
-            autoUpdateInput: false,
-        }, function(start, end, label) {
-            @this.set("filter_created_start", start.format('YYYY-MM-DD'));
-            @this.set("filter_created_end", end.format('YYYY-MM-DD'));
-            $('.tanggal_transaksi').val(start.format('DD/MM/YYYY') + '-' + end.format('DD/MM/YYYY'));
-        });
-        
-</script>
-@endpush
+
+
+
+
+
+
+
+
+

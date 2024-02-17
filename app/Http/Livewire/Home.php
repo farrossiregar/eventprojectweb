@@ -5,7 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Auth;
 use App\Models\Supplier;
-use App\Models\Buyer;
+use App\Models\Event;
 
 class Home extends Component
 {
@@ -23,13 +23,16 @@ class Home extends Component
         // if(\Auth::user()->user_access_id==8){
         //     redirect()->route('buyer.index');
         // } 
+
+        $ongoing_event = Event::orderBy('id', 'desc');
+        $ended_event = Event::orderBy('id', 'desc');
         
         // if(\Auth::user()->user_access_id==1){
         //     $user = Auth::user();
             // $this->supplier = Supplier::orderBy('id','DESC')->take(5)->get();
             // $this->buyer = Buyer::orderBy('id','DESC')->take(5)->get();
-
-            return view('livewire.home');
+            // dd('dev');
+            return view('livewire.home')->with(['ongoing_event'=>$ongoing_event->get(), 'ended_event'=>$ended_event->get()]);
         // } 
         
     }
