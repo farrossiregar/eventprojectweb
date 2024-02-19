@@ -39,15 +39,23 @@
                 <div class="col-lg-4">
                     <div class="right-content">
                         <h4>{{$data->event_name}} Sunny Hill Festival</h4>
-                        <span>240 Tickets still available</span>
+                        <span>{{ $data->event_stock }} Tickets still available</span>
+                        
                         <ul>
-                            <li><i class="fa fa-clock-o"></i> Thursday 18:00 to 22:00</li>
-                            <li><i class="fa fa-map-marker"></i>Copacabana Beach, Rio de Janeiro</li>
+                            <li>
+                                <i class="fa fa-clock-o"></i> 
+                                @if(date_format(date_create($data->event_date_start), 'd M Y') == date_format(date_create($data->event_date_end), 'd M Y'))
+                                    {{ date_format(date_create($data->event_date_start), 'd M Y') }}, {{ date_format(date_create($data->event_date_start), 'H:i') }} to {{ date_format(date_create($data->event_date_end), 'H:i') }}
+                                @else
+                                    {{ date_format(date_create($data->event_date_start), 'd M Y H:i') }} to {{ date_format(date_create($data->event_date_end), 'd M Y H:i') }}
+                                @endif
+                            </li>
+                            <li><i class="fa fa-map-marker"></i>{{ $data->event_loc }}</li>
                         </ul>
                         <div class="quantity-content">
                             <div class="left-content">
                                 <h6>Standard Ticket</h6>
-                                <p>$65 per ticket</p>
+                                <p>IDR {{ format_idr($data->event_price) }} per ticket</p>
                             </div>
                             <div class="right-content">
                                 <div class="quantity buttons_added">
