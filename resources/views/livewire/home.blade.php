@@ -112,37 +112,40 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="section-heading">
-                        <h2>Our Venues & Tickets</h2>
+                        <!-- <h2>Our Venues & Tickets</h2> -->
+                        <h2>Event Berlangsung</h2>
                     </div>
                 </div>
                 @foreach($ongoing_event as $no => $item)
                 <div class="col-lg-4">
                     <div class="venue-item">
-                        <div class="thumb">
-                            <img src="{{ asset('assets/images/venue-01.jpg') }}" alt="">
+                        <div class="thumb"style="height: 320px; overflow: hidden;">
+                            <!-- <img src="{{ asset('assets/images/venue-01.jpg') }}" alt=""> -->
+                            <!-- <img src="http://dev-cms.eventproject.com/assets/images/product/gerychocolatosroll16gdark.jpg" alt=""> -->
+                            <img src="{{ env('APP_DOM_DEV') }}/assets/images/event/{{$item->event_image}}" alt="">
                         </div>
                         <div class="down-content">
                             <div class="left-content">
                                 <div class="main-white-button">
-                                    <a href="ticket-details.html">Purchase Tickets {{$no}}</a>
+                                    <a href="{{ route('/').'/'.$item->event_url }}">Beli Tiket</a>
                                 </div>
                             </div>
                             <div class="right-content">
-                                <h4>Radio City Musical Hall</h4>
-                                <p>Lorem ipsum dolor sit amet, consectetur vinzi iscing elit, sed doers kontra.</p>
+                                <h4>{{ $item->event_name }}</h4>
+                                <p>{{ $item->event_desc }}</p>
                                 <ul>
-                                    <li><i class="fa fa-sitemap"></i>250</li>
-                                    <li><i class="fa fa-user"></i>500</li>
+                                    <!-- <li><i class="fa fa-sitemap"></i>250</li> -->
+                                    <li><i class="fa fa-user"></i>{{ $item->event_stock }}</li>
                                 </ul>
                                 <div class="price">
-                                    <span>1 ticket<br>from <em>$45</em></span>
+                                    <span>1 ticket<br>from <em>IDR {{ format_idr($item->event_price) }}</em></span>
                                 </div>
                             </div> 
                         </div>
                     </div>
                 </div>
                 @endforeach
-                <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                     <div class="venue-item">
                         <div class="thumb">
                             <img src="{{ asset('assets/images/venue-02.jpg') }}" alt="">
@@ -191,7 +194,7 @@
                             </div> 
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
