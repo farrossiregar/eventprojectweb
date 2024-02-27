@@ -70,7 +70,7 @@
                             </div>
                         </div>
                         <div class="total">
-                            <h4>Total: IDR {{ format_idr($data->event_price) }}</h4>
+                            <!-- <h4>Total: IDR {{ format_idr($data->event_price) }}</h4> -->
                             <div class="main-dark-button"><a href="#">Beli Tiket</a></div>
                         </div>
                         <div class="warn">
