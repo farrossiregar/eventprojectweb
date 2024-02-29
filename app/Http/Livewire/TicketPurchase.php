@@ -40,7 +40,8 @@ class TicketPurchase extends Component
         $this->alias = $id;
     }
 
-    public function submit(){
+    public function purchase(){
+        dd('test submit');
         $checkBuyer = Buyer::where('nama_buyer', $this->buyer_name)->first();
         if(!$checkBuyer){
             $insertBuyer = new Buyer();

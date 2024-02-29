@@ -25,7 +25,7 @@ class Home extends Component
         // } 
 
         $ongoing_event = Event::orderBy('id', 'desc');
-        $ended_event = Event::orderBy('id', 'desc');
+        $ended_event = Event::where('event_date_end','<',date('Y-m-d H:i:s'))->orderBy('id', 'desc');
         
         // if(\Auth::user()->user_access_id==1){
         //     $user = Auth::user();

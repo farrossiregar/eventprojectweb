@@ -13,9 +13,9 @@ class Detail extends Component
 
     public function render()
     { 
-        $data = Event::where('event_url', $this->alias);
+        $data = Event::select('event.*', 'creator.creator_company', 'creator.creator_address')->where('event.event_url', $this->alias)->join('creator', 'creator.id', '=', 'event.user_id');
 
-        $creator_event = Event::where('user_id', $data->first()->user_id)->orderBy('id', 'desc');
+        $creator_event = Event::where('user_id', $data->first()->user_id)->orderBy('event.id', 'desc');
         // dd($creator_event->get());
         
         // if(\Auth::user()->user_access_id==1){

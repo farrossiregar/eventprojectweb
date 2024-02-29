@@ -101,9 +101,9 @@
     
 
     <!-- *** Map ***-->
-    <div class="map-image">
+    <!-- <div class="map-image">
         <img src="{{ asset('assets/images/map-image.jpg') }}" alt="Maps of 3 Venues">
-    </div>
+    </div> -->
 
 
     <!-- *** Venues & Tickets ***-->
@@ -132,7 +132,7 @@
                             </div>
                             <div class="right-content">
                                 <h4>{{ $item->event_name }}</h4>
-                                <p>{{ $item->event_desc }}</p>
+                                <!-- <p><?php echo html_entity_decode(substr(htmlentities($item->event_desc), 0, 100)); ?></p> -->
                                 <ul>
                                     <!-- <li><i class="fa fa-sitemap"></i>250</li> -->
                                     <li><i class="fa fa-user"></i>{{ $item->event_stock }}</li>
@@ -230,9 +230,14 @@
 
     <!-- *** Coming Events ***-->
     <div class="coming-events">
+        <div class="col-lg-12" style="margin-top: -90px;">
+            <div class="section-heading">
+                <h2 style="color: white;">Event Selesai</h2>
+            </div>
+        </div>
         <div class="left-button">
             <div class="main-white-button">
-                <a href="shows-events.html">Discover More</a>
+                <a href="shows-events.html">Lihat Lebih</a>
             </div>
         </div>
         <div class="container">
@@ -240,20 +245,23 @@
                 @foreach($ended_event as $no => $item)
                 <div class="col-lg-4">
                     <div class="event-item">
-                        <div class="thumb">
-                            <a href="event-details.html"><img src="{{ asset('assets/images/event-01.jpg') }}" alt=""></a>
+                        <div class="thumb" style="background-color: rgba(0,0,0,0.5)">
+                            <a href="event-details.html">
+                                <img src="{{ env('APP_DOM_DEV') }}/assets/images/event/{{$item->event_image}}" alt="{{ $item->event_name }}" style="height: 240px;vertical-align: middle;">
+                                <!-- <div style="background-image: url('{{ env('APP_DOM_DEV') }}/assets/images/event/{{$item->event_image}}');"></div> -->
+                            </a>
                         </div>
                         <div class="down-content">
-                            <a href="event-details.html"><h4>Radio City Musical Hall</h4></a>
+                            <a href="event-details.html"><h4>{{ $item->event_name }}</h4></a>
                             <ul>
-                                <li><i class="fa fa-clock-o"></i> Tuesday: 15:30-19:30</li>
-                                <li><i class="fa fa-map-marker"></i> Copacabana Beach, Rio de Janeiro</li>
+                                <li><i class="fa fa-clock-o"></i> {{ $item->event_date_end }}</li>
+                                <li><i class="fa fa-map-marker"></i> {{ $item->event_loc }}</li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 @endforeach
-                <div class="col-lg-4">
+                <!-- <div class="col-lg-4">
                     <div class="event-item">
                         <div class="thumb">
                             <a href="event-details.html"><img src="{{ asset('assets/images/event-02.jpg') }}" alt=""></a>
@@ -280,7 +288,7 @@
                             </ul>
                         </div>
                     </div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>

@@ -151,11 +151,16 @@
                             <div class="col-lg-6">
                                 <div class="menu">
                                     <ul>
-                                        <li><a href="index.html" class="active">Home</a></li>
+                                        <!-- <li><a href="index.html" class="active">Home</a></li>
                                         <li><a href="about.html">About Us</a></li>
                                         <li><a href="rent-venue.html">Rent Venue</a></li>
                                         <li><a href="shows-events.html">Shows & Events</a></li> 
-                                        <li><a href="tickets.html">Tickets</a></li> 
+                                        <li><a href="tickets.html">Tickets</a></li>  -->
+
+                                        <li><a href="index.html" class="active">Home</a></li>
+                                        <li><a href="index.html">Event</a></li>
+                                        <li><a href="index.html">Transaksi</a></li>
+                                        <li><a href="about.html">About Us</a></li>
                                     </ul>
                                 </div>
                             </div>
@@ -176,24 +181,8 @@
         </div>
     </footer>
 
-    <!-- jQuery -->
-    <script src="{{ asset('assets/js/jquery-2.1.0.min.js') }}"></script>
+   @include('layouts.custjs')
 
-    <!-- Bootstrap -->
-    <script src="{{ asset('assets/js/popper.js') }}"></script>
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-
-    <!-- Plugins -->
-    <script src="{{ asset('assets/js/scrollreveal.min.js') }}"></script>
-    <script src="{{ asset('assets/js/waypoints.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.counterup.min.js') }}"></script>
-    <script src="{{ asset('assets/js/imgfix.min.js') }}"></script> 
-    <script src="{{ asset('assets/js/mixitup.js') }}"></script> 
-    <script src="{{ asset('assets/js/accordions.js') }}"></script>
-    <script src="{{ asset('assets/js/owl-carousel.js') }}"></script>
-    
-    <!-- Global Init -->
-    <script src="{{ asset('assets/js/custom.js') }}"></script>
 
   </body>
 </html>

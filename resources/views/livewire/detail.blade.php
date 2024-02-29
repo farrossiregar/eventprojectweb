@@ -1,5 +1,5 @@
-@section('title', 'Detail Event Project Stalavista')
-@section('sub-title', 'Index')
+@section('title', $data->event_name)
+@section('sub-title', 'Detail Event')
 <!-- ***** Preloader Start ***** -->
 <!-- <div id="js-preloader" class="js-preloader">
       <div class="preloader-inner">
@@ -15,16 +15,16 @@
     
 
     <!-- ***** Main Banner Area Start ***** -->
-    <div class="main-banner" style="background-image:url({{ env('APP_DOM_DEV') }}/assets/images/event/{{$data->event_image}});">
+    <div class="main-banner" style="background-image:url({{ env('APP_DOM_DEV') }}/assets/images/event/{{$data->event_image}}); height: 420px; overflow: hidden; box-shadow: 10px 10px 5px #aaaaaa;">
         <div class="counter-content" style="background-color: rgba(0,0,0,0.5);">
             <ul>
-                <li>Days<span id="days"></span></li>
-                <li>Hours<span id="hours"></span></li>
-                <li>Minutes<span id="minutes"></span></li>
-                <li>Seconds<span id="seconds"></span></li>
+                <li>Days<span id="days_event"></span></li>
+                <li>Hours<span id="hours_event"></span></li>
+                <li>Minutes<span id="minutes_event"></span></li>
+                <li>Seconds<span id="seconds_event"></span></li>
             </ul>
         </div>
-        <div class="container" style="background-color: rgba(0,0,0,0.5);">
+        <div class="container" style="background-color: rgba(0,0,0,0.5); margin-top: -120px;">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="main-content">
@@ -154,65 +154,77 @@
         </div>
     </div>
 
-    
-    
 
+    
+    <!-- *** Amazing Venus ***-->
+    <div class="amazing-venues">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="left-content">
+                        <h4>{{ $data->creator_company }}</h4>
+                        <b>Tentang Kami:</b>
+                        <!-- <p>ArtXibition Event Template is brought to you by Tooplate website and it included total 7 HTML pages. 
+                        These are <a href="index.html">Homepage</a>, <a href="about.html">About</a>, 
+                        <a href="rent-venue.html">Rent a venue</a>, <a href="shows-events.html">shows &amp; events</a>, 
+                        <a href="event-details.html">event details</a>, <a href="tickets.html">tickets</a>, and <a href="ticket-details.html">ticket details</a>. 
+                        You can feel free to modify any page as you like. If you have any question, please visit our <a href="https://www.tooplate.com/contact" target="_blank">Contact page</a>.</p>
+                        <br>
+                        <p>You can use this event template for your commercial or business website. You are not permitted to redistribute this template ZIP file on any template download website. If you need the latest HTML templates, you may visit <a href="https://www.toocss.com/" target="_blank">Too CSS</a> website that features a great collection of templates in different categories.</p> -->
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="right-content">
+                        <h5><i class="fa fa-map-marker"></i> Kontak Kami !!!</h5>
+                        <span>{{ $data->creator_address }}</span>
+                        <!-- <div class="text-button"><a href="show-events-details.html">Need Directions? <i class="fa fa-arrow-right"></i></a></div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+    
 
     <script>
-        (function ($) {
-            // console.log('<?php echo date_format(date_create($data->event_date_start), 'M d, Y H:i:s'); ?>');
-            "use strict";
+// Set the date we're counting down to
+var countDownDate = new Date("<?php echo date_format(date_create($data->event_date_start), 'M d, Y H:i:s'); ?>").getTime();
 
-            $('.owl-show-events').owlCarousel({
-                items:4,
-                loop:true,
-                dots: true,
-                nav: true,
-                autoplay: true,
-                margin:30,
-                responsive:{
-                    0:{
-                        items:1
-                    },
-                    600:{
-                        items:2
-                    },
-                    1000:{
-                        items:4
-                    }
-                }
-            })
+// Update the count down every 1 second
+var x = setInterval(function() {
 
-            const second = 1000,
-            minute = second * 60,
-            hour = minute * 60,
-            day = hour * 24;
+  // Get today's date and time
+  var now = new Date().getTime();
+    
+  // Find the distance between now and the count down date
+  var distance = countDownDate - now;
+    
+  // Time calculations for days, hours, minutes and seconds
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    
+  // Output the result in an element with id="demo"
+//   document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+//   + minutes + "m " + seconds + "s ";
 
-            let countDown = new Date('Mar 31, 2024 09:30:00').getTime(),
-            
-            // let countDown = new Date('<?php echo date_format(date_create($data->event_date_start), 'M d, Y H:i:s'); ?>').getTime(),
-            x = setInterval(function() {    
+  document.getElementById("days_event").innerHTML = days;
+  document.getElementById("hours_event").innerHTML = hours;
+  document.getElementById("minutes_event").innerHTML = minutes;
+  document.getElementById("seconds_event").innerHTML = seconds;
+    
+  // If the count down is over, write some text 
+  if (distance < 0) {
+    clearInterval(x);
+    $(".counter-content").css('display','none');
+  }
+}, 1000);
+</script>
 
-            let now = new Date().getTime(),
-                distance = countDown - now;
 
-            document.getElementById('days').innerText = Math.floor(distance / (day)),
-            document.getElementById('hours').innerText = Math.floor((distance % (day)) / (hour)),
-            document.getElementById('minutes').innerText = Math.floor((distance % (hour)) / (minute)),
-            document.getElementById('seconds').innerText = Math.floor((distance % (minute)) / second);
 
-            //do something later when date is reached
-            //if (distance < 0) {
-            //  clearInterval(x);
-            //  'IT'S MY BIRTHDAY!;
-            //}
-
-            }, second)
-
-           
-
-        })(window.jQuery);
-    </script>
 
     
   
